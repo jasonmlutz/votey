@@ -9,5 +9,15 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-class User < ApplicationRecord
+FactoryBot.define do
+  factory :user, class: 'User' do
+    username {"fbot:user"}
+    password {"good_password"}
+    admin { "f" }
+  end
+  factory :admin, class: 'User' do
+    username {"fbot:admin"}
+    password {"great_password"}
+    admin { "t" }
+  end
 end
