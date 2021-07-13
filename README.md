@@ -5,7 +5,7 @@
 ### v0
 
 #### rails
-1. ~~build user model~~
+1. build user model
 1. build user registration pipeline
 1. build validations
    - username uniqueness, presence
