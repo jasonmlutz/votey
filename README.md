@@ -13,6 +13,7 @@
    - session token presence
 
 #### react
+1. build user index
 1. build user registration form
 1. build user login form
 
@@ -108,7 +109,7 @@
 1. anonymous/hidden poll responses?
 1. handle non-required poll questions?
 1. Poll > ++Section++ > Question > Answer_option
-1. add meaningful admin privileges 
+1. add meaningful admin privileges
 
 ## Initial Project Roadmap ###
 
