@@ -5,10 +5,8 @@
 ### v0
 
 #### rails
-1. build user model
-1. build session model
+1. ~~build user model~~
 1. build user registration pipeline
-1. build session management scheme (login)
 1. build validations
    - username uniqueness, presence
    - password length
@@ -19,6 +17,11 @@
 1. build user login form
 
 ### v0.5
+
+#### rails
+1. build session registration pipeline
+1. build session management scheme (login)
+    - current_user, logout, reset_session_token, etc.
 
 #### react
 1. build user show page
@@ -105,6 +108,7 @@
 1. anonymous/hidden poll responses?
 1. handle non-required poll questions?
 1. Poll > ++Section++ > Question > Answer_option
+1. add meaningful admin privileges 
 
 ## Initial Project Roadmap ###
 
