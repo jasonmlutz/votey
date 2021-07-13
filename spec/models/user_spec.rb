@@ -23,9 +23,6 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of(:username)}
     it { should validate_length_of(:password).is_at_least(6) }
 
-    it { should have_many(:facilities).with_foreign_key(:owner_id)}
-    it { should have_many(:reviews).with_foreign_key(:author_id)}
-
     describe '#is_password?' do
       it 'identifies a correct password' do
         expect(user.is_password?(user.password)).to be true
