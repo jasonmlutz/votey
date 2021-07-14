@@ -4,7 +4,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all.order(brand: :asc)
+    @users = User.all.order(username: :asc)
     render json: @users
   end
 
@@ -63,5 +63,4 @@ class Api::V1::UsersController < ApplicationController
     def user_params
       params.permit(:username, :password)
     end
-end
 end

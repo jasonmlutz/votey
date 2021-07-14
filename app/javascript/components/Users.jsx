@@ -1,4 +1,3 @@
-import { Table, message, Popconfirm} from "antd";
 import React from "react";
 import AddUserModal from "./AddUserModal";
 
@@ -91,14 +90,8 @@ class Users extends React.Component {
   render () {
     return (
       <>
-        <Table
-          className="table-striped-rows"
-          dataSource={this.state.users}
-          columns={this.columns}
-          pagination={{ pageSize: 5 }}
-        />
-
-        <AddUserModal reloadUsers={this.reloadUsers} />
+        Users table!
+        <AddUserModal/>
       </>
     );
   }
