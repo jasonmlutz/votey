@@ -47,18 +47,3 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
-/* TABLES */
-
-/* Styles go here */
-
-thead {color:green;}
-tbody {color:blue;}
-tfoot {color:red;}
-
-table, th, td {
-  border: 1px solid black;
-}
-td, th{
-  padding: 5px;
-}
