@@ -1,14 +1,16 @@
 import React from "react";
+import LeftNav from "./LeftNav"
+import RightNav from "./RightNav"
 
-export default () => (
-  <header>
-    <div className="logo">LOGO</div>
-    <div className="menu">
-      <ul>
-        <li>Home</li>
-        <li>Polls</li>
-        <li>About</li>
-      </ul>
-    </div>
-  </header>
-);
+class Header extends React.Component {
+  render () {
+    return (
+      <header className="main-nav">
+          <LeftNav/>
+          <RightNav/>
+      </header>
+    )
+  }
+}
+
+export default Header
