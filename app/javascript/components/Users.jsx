@@ -58,7 +58,7 @@ class Users extends React.Component {
 
   buildRow = (row, keys) => {
     return keys.map((key, index) => {
-      return <td key={index}> {row[key]} </td>
+      return <td key={index}>{row[key]}</td>
     });
   }
 
@@ -66,7 +66,7 @@ class Users extends React.Component {
     var keys = this.getKeys()
     var users = this.state.users
     return users.map((user, index) => {
-      return <tr key={index}> {this.buildRow(user, keys)} </tr>
+      return <tr key={index}>{this.buildRow(user, keys)}</tr>
     })
 
   }
