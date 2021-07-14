@@ -40,7 +40,7 @@ class AddUserModal extends React.Component {
   handleCancel = () => {
     this.setState({
       visible: false,
-    }),
+    })
   };
 
   render () {
@@ -60,30 +60,31 @@ class AddUserModal extends React.Component {
             layout="vertical"
             onFinish={this.onFinish}
           >
-          <Form.Item
-            name="username"
-            label="Username"
-            rules={[ required: true, message: 'Please input a username']}
-          >
-            <Input placeholder="username"/>
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="password"
-            rules= {[ required: true, message: 'Please input a password']}
-          >
-            <Input placeholder='password'/>
-          </Form.Item>
-
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
+            <Form.Item
+              name="username"
+              label="Username"
+              rules={[{ required: true, message: 'Please input a username' }]}
             >
-              Register
-            </Button>
-          </Form.Item>
+              <Input placeholder="username"/>
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="password"
+              rules= {[ {required: true, message: 'Please input a password' }]}
+            >
+              <Input placeholder='password'/>
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+              >
+                Register
+              </Button>
+            </Form.Item>
+          </Form>
         </Modal>
       </>
     );
