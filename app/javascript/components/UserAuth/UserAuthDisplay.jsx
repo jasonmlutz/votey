@@ -7,7 +7,7 @@ class AuthInputText extends React.Component {
   // receives props.name in ['username', 'password']
   constructor(props) {
     super(props);
-    this.state = {value = ''}
+    this.state = {value: ""}
 
     this.HandleChange = this.handleChange.bind(this);
   }
@@ -52,22 +52,18 @@ class SubmitButton extends React.Component {
 class ErrorDisplay extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {errors: []} // hoping to only display validation errors
+    this.state = {errors: ["no errors, yet!"]} // hoping to only display validation errors
   }
 
   render () {
-    errors = this.state.errors
+    const errors = this.state.errors
+    const listItems = errors.map((error, index) =>
+          <li key={index}>{error}</li>
+        );
+
     return (
-      if (errors.length) {
-        <ul>
-          errors.forEach((error, index) => {
-            return <li key={index}>error</li>
-          })
-        </ul>
-      } else {
-        <div>No errors (yet)!</div>
-      }
-    );
+      <ul>{listItems}</ul>
+    )
   }
 }
 
@@ -86,8 +82,8 @@ class AuthInputForm extends React.Component {
     auth_type = this.props.auth_type
     return (
       <form onSubmit={this.handleSubmit}>
-        <AuthInputText name = "username", auth_type = {auth_type} />
-        <AuthInputText name = "password", auth_type = {auth_type} />
+        <AuthInputText name = "username" auth_type = {auth_type} />
+        <AuthInputText name = "password" auth_type = {auth_type} />
         <SubmitButton value = {auth_type} />
         // consider passing auth_type to all children implicity
         // using <MyChildComponent {...this} />
