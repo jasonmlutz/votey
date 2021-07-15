@@ -7,9 +7,13 @@ import Register from "../components/UserAuth/Register"
 export default (
   <Router>
     <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/register" exact component={Register} />
+      <Route exact path="/" component={Home} />
+    </Switch>
+    <Switch>
+      <Route path="/session/new" exact component={Login} />
+    </Switch>
+    <Switch>
+      <Route path="/users/new" component={Register} />
     </Switch>
   </Router>
 );

@@ -5,6 +5,6 @@ import Header from "../Header"
 export default () => (
   <>
     <Header />
-    <UserAuthDisplay auth_type = "login" />
+    <UserAuthDisplay auth_type="login" />
   </>
 );

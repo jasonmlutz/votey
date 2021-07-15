@@ -39,11 +39,11 @@ class SubmitButton extends React.Component {
   }
 
   render() {
-    const value = this.props.value;
-    render (
+    const auth_type = this.props.auth_type;
+    return (
       <input
         type="submit"
-        value={value.toUpperCase()}
+        value={auth_type.toUpperCase()}
       />
     );
   }
@@ -52,7 +52,8 @@ class SubmitButton extends React.Component {
 class ErrorDisplay extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {errors: ["no errors, yet!"]} // hoping to only display validation errors
+    this.state = {errors: ["no errors, yet!"]}
+    // hoping to only display validation errors
   }
 
   render () {
@@ -79,28 +80,26 @@ class AuthInputForm extends React.Component {
   }
 
   render() {
-    auth_type = this.props.auth_type
+    const auth_type = this.props.auth_type
     return (
       <form onSubmit={this.handleSubmit}>
         <AuthInputText name = "username" auth_type = {auth_type} />
         <AuthInputText name = "password" auth_type = {auth_type} />
-        <SubmitButton value = {auth_type} />
-        // consider passing auth_type to all children implicity
-        // using <MyChildComponent {...this} />
-        // see https://stackoverflow.com/a/56815394/10067393
+        <SubmitButton auth_type = {auth_type} />
+
       </form>
     )
   }
 }
 
 class DisplayTitle extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
+  // constructor(props) {
+  //   super(props)
+  // }
+  // with this in place, auth_type is undefined
   render () {
-    auth_type = this.props.auth_type
-    message = auth_type == "login" ? "Welcome back!" : "Register!"
+    const auth_type = this.props.auth_type
+    const message = auth_type == "login" ? "Welcome back!" : "Register!"
 
     return (
       <div className="display-title">{message}</div>
@@ -108,19 +107,26 @@ class DisplayTitle extends React.Component {
   }
 }
 
-export class UserAuthDisplay extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+class UserAuthDisplay extends React.Component {
+  // constructor(props) {
+  //   super(props)
+  // }
+  // don't really know what this does ...
+  // seems to mess up passing of props parent -> child
   render() {
-    const auth_type = this.props.auth_type;
-    // auth_type is one of "login" or "register"
+    // props.auth_type is one of "login" or "register"
+    const auth_type = this.props.auth_type
     return (
       <div className="user-auth-display">
-        <DisplayTitle auth_type = {auth_type} />
-        <AuthInputForm auth_type = {auth_type} />
+        <DisplayTitle auth_type={auth_type} />
+        <AuthInputForm auth_type={auth_type} />
         <ErrorDisplay />
       </div>
     )
+    // consider passing auth_type to all children implicity
+    // see https://stackoverflow.com/a/56815394/10067393
   }
 }
+
+export default UserAuthDisplay;
+export { DisplayTitle, AuthInputText, AuthInputForm, ErrorDisplay }
