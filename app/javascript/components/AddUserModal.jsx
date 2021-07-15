@@ -40,14 +40,13 @@ class AddUserModal extends React.Component {
     })
   };
 
+  buttonClicked = () => {
+    console.log('button clicked!')
+  }
+
   render () {
     return (
-      <>
-        <button id="add-user-modal-btn">Add User +</button>
-        <section id="add-user-modal", className={this.state.visible ? "expand" : ""}>
-          <button id="modal-close-button">cancel</button>
-        </section>
-      </>
+      
     );
   }
 }
