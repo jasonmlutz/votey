@@ -112,7 +112,7 @@ class DisplayTitle extends React.Component {
   }
 }
 
-class UserAuthDisplay extends React.Component {
+export class UserAuthDisplay extends React.Component {
   constructor(props) {
     super(props)
   }
