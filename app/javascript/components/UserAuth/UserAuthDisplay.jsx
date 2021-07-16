@@ -36,7 +36,7 @@ class AuthInputText extends React.Component {
 }
 
 class SubmitButton extends React.Component {
-  // receives props.value; likely in ['login', 'register']
+  // receives props.value; in ['login', 'register']
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this)
@@ -124,10 +124,6 @@ class AuthInputForm extends React.Component {
 }
 
 class DisplayTitle extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-  // with this in place, auth_type is undefined
   render () {
     const auth_type = this.props.auth_type
     const message = auth_type == "login" ? "Welcome back!" : "Register!"
@@ -139,11 +135,6 @@ class DisplayTitle extends React.Component {
 }
 
 class UserAuthDisplay extends React.Component {
-  // constructor(props) {
-  //   super(props)
-  // }
-  // don't really know what this does ...
-  // seems to mess up passing of props parent -> child
   render() {
     // props.auth_type is one of "login" or "register"
     const auth_type = this.props.auth_type
@@ -154,8 +145,6 @@ class UserAuthDisplay extends React.Component {
         <ErrorDisplay />
       </div>
     )
-    // consider passing auth_type to all children implicity
-    // see https://stackoverflow.com/a/56815394/10067393
   }
 }
 
