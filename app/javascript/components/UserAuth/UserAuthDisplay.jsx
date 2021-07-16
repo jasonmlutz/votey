@@ -83,6 +83,7 @@ class AuthInputForm extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.databaseQuery = this.databaseQuery.bind(this);
 
     this.state = {password: "", username: ""};
   }
@@ -96,7 +97,34 @@ class AuthInputForm extends React.Component {
     console.log("Form submitted!")
     console.log(this.state.username)
     console.log(this.state.password)
+
+    const values = {username: this.state.username, password: this.state.password}
+    // console.log(values);
+    // console.log(JSON.stringify(values));
+    this.databaseQuery(values, this.props.auth_type)
   }
+
+
+
+  databaseQuery(values, auth_type) {
+    // for the moment, just implementing for 'register'
+    const url = "/api/v1/" + (auth_type == "register" ? "users/create" : "session/create")
+    fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+        throw new Error("network error")
+      })
+      .then((data) => console.log(data.json))
+      .catch((err) => console.error("Error: " + err));
+  };
 
   render() {
     const auth_type = this.props.auth_type
