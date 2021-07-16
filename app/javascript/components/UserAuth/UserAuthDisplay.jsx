@@ -9,21 +9,23 @@ class AuthInputText extends React.Component {
     super(props);
     this.state = {value: ""}
 
-    this.HandleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
+    this.props.onInputChange(this.props.name, event.target.value)
   }
 
   render() {
-    const name = this.props.name // 'username' or 'password'
-    const type = ( name == 'password' ? "password" : "text" )
-    const placeholder = name
+    const name = this.props.name; // 'username' or 'password'
+    const type = ( name == 'password' ? "password" : "text" );
+    const placeholder = name;
     return (
         <input
           className="auth-input-text"
           name={name}
+          ref={name}
           type={type}
           placeholder={placeholder}
           value={this.state.value}
@@ -37,16 +39,21 @@ class SubmitButton extends React.Component {
   // receives props.value; likely in ['login', 'register']
   constructor(props) {
     super(props);
+    this.onClick = this.onClick.bind(this)
+  }
+
+  onClick(event) {
   }
 
   render() {
     const auth_type = this.props.auth_type;
     return (
-      <input
+      <button
         className="auth-submit-btn"
+        form={`${auth_type}-form`}
         type="submit"
-        value={auth_type.toUpperCase()}
-      />
+        onClick={this.onClick}
+      >{auth_type.toUpperCase()}</button>
     );
   }
 }
@@ -74,22 +81,41 @@ class AuthInputForm extends React.Component {
   constructor(props) {
     super(props)
 
+    this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.state = {password: "", username: ""};
+  }
+
+  onInputChange(field, input) {
+    this.setState({[field]: input});
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log("Form submitted!")
+    console.log(this.state.username)
+    console.log(this.state.password)
   }
 
   render() {
     const auth_type = this.props.auth_type
     return (
       <form
+        id={`${auth_type}-form`}
         onSubmit={this.handleSubmit}
         className="auth-input-form flex-container"
       >
-        <AuthInputText name = "username" auth_type = {auth_type} />
-        <AuthInputText name = "password" auth_type = {auth_type} />
+        <AuthInputText
+          name = "username"
+          auth_type = {auth_type}
+          onInputChange = {this.onInputChange}
+        />
+        <AuthInputText
+          name = "password"
+          auth_type = {auth_type}
+          onInputChange = {this.onInputChange}
+        />
         <SubmitButton auth_type = {auth_type} />
 
       </form>
