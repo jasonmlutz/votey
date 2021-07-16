@@ -43,6 +43,7 @@ class SubmitButton extends React.Component {
   }
 
   onClick(event) {
+
   }
 
   render() {
@@ -61,12 +62,10 @@ class SubmitButton extends React.Component {
 class ErrorDisplay extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {errors: ["no errors, yet!"]}
-    // hoping to only display validation errors
   }
 
   render () {
-    const errors = this.state.errors
+    const errors = (this.props.errors.length < 1 ? ["no errors"] : this.props.errors);
     const listItems = errors.map((error, index) =>
           <li key={index}>{error}</li>
         );
@@ -80,13 +79,23 @@ class ErrorDisplay extends React.Component {
 class AuthInputForm extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {errors: [], password: "", username: ""};
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.databaseQuery = this.databaseQuery.bind(this);
-
-    this.state = {password: "", username: ""};
+    this.onValidationError = this.onValidationError.bind(this);
   }
+
+  onValidationError(errors) {
+    // this.setState(prevState => ({
+    //   errors: [...prevState.errors, error]
+    // }))
+    // errors.forEach((error) => {
+    //   console.log(error)
+    // })
+    console.log(errors)
+  };
 
   onInputChange(field, input) {
     this.setState({[field]: input});
@@ -94,17 +103,10 @@ class AuthInputForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("Form submitted!")
-    console.log(this.state.username)
-    console.log(this.state.password)
 
     const values = {username: this.state.username, password: this.state.password}
-    // console.log(values);
-    // console.log(JSON.stringify(values));
     this.databaseQuery(values, this.props.auth_type)
   }
-
-
 
   databaseQuery(values, auth_type) {
     // for the moment, just implementing for 'register'
@@ -118,17 +120,26 @@ class AuthInputForm extends React.Component {
     })
       .then((data) => {
         if (data.ok) {
+          console.log("data ok")
           return data.json();
+        } else if (data.status == "422" ) {
+          console.log("422 status detected")
+          return data.json();
+        } else {
+          throw new Error("unknown error ...")
         }
-        throw new Error("network error")
       })
-      .then((data) => console.log(data.json))
-      .catch((err) => console.error("Error: " + err));
-  };
+      .then(data => {
+        console.log('logging data');
+        console.log(data)
+      })
+      .catch((err) => console.error("Error" + err))
+    }
 
   render() {
     const auth_type = this.props.auth_type
     return (
+      <>
       <form
         id={`${auth_type}-form`}
         onSubmit={this.handleSubmit}
@@ -147,6 +158,8 @@ class AuthInputForm extends React.Component {
         <SubmitButton auth_type = {auth_type} />
 
       </form>
+      <ErrorDisplay errors = {this.state.errors}/>
+      </>
     )
   }
 }
@@ -163,6 +176,10 @@ class DisplayTitle extends React.Component {
 }
 
 class UserAuthDisplay extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     // props.auth_type is one of "login" or "register"
     const auth_type = this.props.auth_type
@@ -170,7 +187,6 @@ class UserAuthDisplay extends React.Component {
       <div className="auth-display flex-container">
         <DisplayTitle auth_type={auth_type} />
         <AuthInputForm auth_type={auth_type} />
-        <ErrorDisplay />
       </div>
     )
   }
