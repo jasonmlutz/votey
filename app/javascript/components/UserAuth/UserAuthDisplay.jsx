@@ -22,6 +22,7 @@ class AuthInputText extends React.Component {
     const placeholder = name
     return (
         <input
+          className="auth-input-text"
           name={name}
           type={type}
           placeholder={placeholder}
@@ -42,6 +43,7 @@ class SubmitButton extends React.Component {
     const auth_type = this.props.auth_type;
     return (
       <input
+        className="auth-submit-btn"
         type="submit"
         value={auth_type.toUpperCase()}
       />
@@ -63,7 +65,7 @@ class ErrorDisplay extends React.Component {
         );
 
     return (
-      <ul>{listItems}</ul>
+      <ul className="auth-error-ul">{listItems}</ul>
     )
   }
 }
@@ -82,7 +84,10 @@ class AuthInputForm extends React.Component {
   render() {
     const auth_type = this.props.auth_type
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form
+        onSubmit={this.handleSubmit}
+        className="auth-input-form flex-container"
+      >
         <AuthInputText name = "username" auth_type = {auth_type} />
         <AuthInputText name = "password" auth_type = {auth_type} />
         <SubmitButton auth_type = {auth_type} />
@@ -102,7 +107,7 @@ class DisplayTitle extends React.Component {
     const message = auth_type == "login" ? "Welcome back!" : "Register!"
 
     return (
-      <div className="display-title">{message}</div>
+      <div className="auth-display-title">{message}</div>
     )
   }
 }
@@ -117,7 +122,7 @@ class UserAuthDisplay extends React.Component {
     // props.auth_type is one of "login" or "register"
     const auth_type = this.props.auth_type
     return (
-      <div className="user-auth-display">
+      <div className="auth-display flex-container">
         <DisplayTitle auth_type={auth_type} />
         <AuthInputForm auth_type={auth_type} />
         <ErrorDisplay />

@@ -4,7 +4,6 @@ import Header from "../Header"
 
 export default () => (
   <>
-    <Header />
     <UserAuthDisplay auth_type="register" />
   </>
 );

@@ -1,0 +1,39 @@
+/* UserAuth */
+.auth-display {
+  // background-color: gray;
+  border: 3px green solid;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.auth-display ul {
+  border: 3px black solid;
+}
+
+.auth-input-text {
+  border: 3px red solid;
+}
+
+.auth-subit-btn {
+  border: 3px blue solid;
+}
+
+.auth-input-form {
+  border: 3px orange solid;
+}
+
+.auth-display-title {
+  border: 3px purple solid;
+}
+
+
+
+
+
+
+
+// @media all and (max-width: 400) {
+//   [class*='auth-'] {
+//     width: 100%;
+//   }
+// }

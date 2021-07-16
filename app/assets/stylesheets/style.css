@@ -1,0 +1,160 @@
+/* COLORS */
+/* CSS HEX */
+:root {
+  --red: #ad343eff; /* cardinal */
+  --gray: #474747ff; /* davys-grey */
+  --yellow: #f2af29ff; /*honey-yellow */
+  --black: #000000ff;
+  --light: #e0e0ceff; /* eggshell */
+}
+
+/* RESET */
+
+html, body, header, nav, h1, a,
+ul, li, strong, main, button, i,
+section, img, div, h2, p, form,
+fieldset, label, input, textarea,
+span, article, footer, time, small {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: inherit;
+  background: transparent;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+input[type="password"],
+input[type="email"],
+input[type="text"],
+input[type="submit"],
+textarea,
+button {
+  /*
+  Get rid of native styling. Read more here:
+  http://css-tricks.com/almanac/properties/a/appearance/
+  */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+button,
+input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Clearfix */
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+/* LAYOUT */
+
+body {
+  background-color: var(--light);
+  color: white;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PLACEHOLDER INPUT TEXT */
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 0.5; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}
+
+/* TABLES */
+
+thead {color:green;}
+tbody {color:blue;}
+tfoot {color:red;}
+
+table, th, td {
+  border: 1px solid black;
+}
+td, th{
+  padding: 5px;
+}
+
+/* USER AUTH */
+.auth-display {
+  border: none;
+  border-radius: 8px;
+  width: 275px;
+  margin: 20px auto;
+  background-color: var(--gray);
+}
+
+.auth-display > * {
+  padding: 5px;
+  margin: 5px;
+
+}
+
+.auth-input-text {
+  border: 2px var(--red) solid;
+  color: white;
+}
+
+.auth-submit-btn {
+  background-color: var(--red);
+  border: 2px solid var(--black);
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+
+}
+
+.auth-input-form {
+}
+
+.auth-input-form > * {
+  padding: 5px;
+  margin: 5px;
+}
+
+.auth-display-title {
+  border: none;
+  color: white;
+  font-size: 24px;
+}
+
+/* @media all and (max-width: 400) {
+ [class*='auth-'] {
+   width: 100%;
+ }
+} */
