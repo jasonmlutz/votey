@@ -2,6 +2,8 @@
 
 ## Goals/Todos
 
+Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) tutorial, visual elements are built first to be static and stateless. This is followed by adding state, then interacting with the database (as needed). 
+
 ### v0
 
 #### rails
@@ -110,6 +112,7 @@
 1. handle non-required poll questions?
 1. Poll > ++Section++ > Question > Answer_option
 1. add meaningful admin privileges
+1. media queries for page width, for example
 
 ## Initial Project Roadmap ###
 
