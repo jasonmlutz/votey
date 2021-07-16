@@ -35,3 +35,7 @@ yarn-debug.log*
 # Ignore DS_store created by Mac
 
 *.DS_Store
+
+# Ignore .lock package files
+Gemfile.lock
+yarn.lock
