@@ -6,7 +6,7 @@ class RightNav extends React.Component {
       <nav className='right-nav'>
         <ul>
           <li>
-            <button>Log In</button>
+            <a href="/session/new">Log In</a>
           </li>
         </ul>
       </nav>

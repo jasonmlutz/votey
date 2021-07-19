@@ -79,17 +79,17 @@ class Users extends React.Component {
         )
       }
       return (
-        <>
-        <h2>Users Table</h2>
-          <table>
-            <thead>
-              <tr>{this.buildHeader()}</tr>
-            </thead>
-            <tbody>
-              {this.compileRows()}
-            </tbody>
-          </table>
-        </>
+        <table>
+          <thead>
+            <tr>
+              <th colSpan="3">USERS TABLE</th>
+            </tr>
+            <tr>{this.buildHeader()}</tr>
+          </thead>
+          <tbody>
+            {this.compileRows()}
+          </tbody>
+        </table>
       )
     }
     return (

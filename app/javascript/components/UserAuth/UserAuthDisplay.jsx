@@ -101,7 +101,7 @@ class AuthInputForm extends React.Component {
     event.preventDefault();
 
     const values = {username: this.state.username, password: this.state.password}
-    this.databaseQuery(values, this.props.auth_type)
+    // this.databaseQuery(values, this.props.auth_type)
   }
 
   databaseQuery(values, auth_type) {
@@ -135,7 +135,7 @@ class AuthInputForm extends React.Component {
       <form
         id={`${auth_type}-form`}
         onSubmit={this.handleSubmit}
-        className="auth-input-form flex-container"
+        className="auth-input-form flex-container-column"
       >
         <AuthInputText
           name = "username"
@@ -176,7 +176,7 @@ class UserAuthDisplay extends React.Component {
     // props.auth_type is one of "login" or "register"
     const auth_type = this.props.auth_type
     return (
-      <div className="auth-display flex-container">
+      <div className="auth-display flex-container-column">
         <DisplayTitle auth_type={auth_type} />
         <AuthInputForm auth_type={auth_type} />
       </div>

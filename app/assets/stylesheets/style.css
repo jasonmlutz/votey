@@ -73,17 +73,53 @@ body {
   color: white;
 }
 
-.flex-container {
+.flex-container-column {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+}
+
+.flex-container-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 /* IMAGES */
 .logo {
+  height: 100px;
   width: 100px;
 }
+
+/* HEADER */
+.main-nav {
+  justify-content: space-between;
+}
+.left-nav-links ul {
+  height: 100px;
+  /* border: 2px solid var(--black); */
+  margin: 0 5px;
+}
+
+.right-nav a,
+.left-nav-links a {
+  background-color: var(--red);
+  border: 2px solid var(--black);
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.right-nav a:hover,
+.left-nav-links a:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
 
 /* PLACEHOLDER INPUT TEXT */
 
@@ -141,7 +177,11 @@ td, th{
   padding: 10px;
   cursor: pointer;
   border-radius: 8px;
+}
 
+.auth-submit-btn:hover {
+  background-color: var(--yellow);
+  color: var(--black);
 }
 
 .auth-input-form {

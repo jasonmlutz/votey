@@ -5,7 +5,7 @@ import RightNav from "./RightNav"
 class Header extends React.Component {
   render () {
     return (
-      <header className="main-nav">
+      <header className="main-nav flex-container-row">
           <LeftNav/>
           <RightNav/>
       </header>
