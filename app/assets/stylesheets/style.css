@@ -80,6 +80,11 @@ body {
   align-items: center;
 }
 
+/* IMAGES */
+.logo {
+  width: 100px;
+}
+
 /* PLACEHOLDER INPUT TEXT */
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

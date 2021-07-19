@@ -88,13 +88,9 @@ class AuthInputForm extends React.Component {
   }
 
   onValidationError(errors) {
-    // this.setState(prevState => ({
-    //   errors: [...prevState.errors, error]
-    // }))
-    // errors.forEach((error) => {
-    //   console.log(error)
-    // })
-    console.log(errors)
+    this.setState(prevState => ({
+      errors: [...prevState.errors, ...errors]
+    }))
   };
 
   onInputChange(field, input) {
@@ -124,14 +120,10 @@ class AuthInputForm extends React.Component {
           return data.json();
         } else if (data.status == "422" ) {
           console.log("422 status detected")
-          return data.json();
+          data.json().then(errors => this.onValidationError(errors))
         } else {
           throw new Error("unknown error ...")
         }
-      })
-      .then(data => {
-        console.log('logging data');
-        console.log(data)
       })
       .catch((err) => console.error("Error" + err))
     }
