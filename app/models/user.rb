@@ -17,7 +17,8 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
   validates :password, length: { minimum: 6 }, allow_nil: true
 
-  has_many :polls, foreign_key: :author_id
+  has_many :polls, foreign_key: :author_id, dependent: :destroy
+  has_many :responses, foreign_key: :respondent_id, dependent: :destroy
 
   after_initialize :ensure_session_token
 

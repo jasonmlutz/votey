@@ -16,4 +16,6 @@ RSpec.describe Poll, type: :model do
   it { should validate_presence_of(:author_id) }
 
   it { should belong_to(:author).class_name(:User)}
+  it { should have_many(:questions).with_foreign_key(:parent_poll_id) }
+  it { should have_many(:responses).with_foreign_key(:poll_id) }
 end

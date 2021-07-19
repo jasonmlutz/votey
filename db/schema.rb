@@ -10,15 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_185342) do
+ActiveRecord::Schema.define(version: 2021_07_19_193455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "response_id", null: false
+    t.integer "question_id", null: false
+    t.integer "response_option_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "polls", force: :cascade do |t|
     t.string "title", null: false
     t.integer "author_id", null: false
     t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.integer "parent_poll_id", null: false
+    t.string "title", null: false
+    t.string "question_type", default: ":RADIO", null: false
+    t.boolean "required", default: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "response_options", force: :cascade do |t|
+    t.integer "parent_question_id", null: false
+    t.string "text", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.integer "respondent_id", null: false
+    t.integer "poll_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

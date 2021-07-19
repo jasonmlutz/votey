@@ -23,7 +23,8 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of(:username)}
     it { should validate_length_of(:password).is_at_least(6) }
 
-    it {should have_many(:polls).with_foreign_key(:author_id)}
+    it { should have_many(:polls).with_foreign_key(:author_id) }
+    it { should have_many(:responses).with_foreign_key(:respondent_id)}
 
     describe '#is_password?' do
       it 'identifies a correct password' do

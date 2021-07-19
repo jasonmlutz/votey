@@ -2,7 +2,7 @@
 
 ## Goals/Todos
 
-Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) tutorial, visual elements are built first to be static and stateless. This is followed by adding state, then interacting with the database (as needed). 
+Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) tutorial, visual elements are built first to be static and stateless. This is followed by adding state, then interacting with the database (as needed).
 
 ### v0
 
@@ -113,6 +113,7 @@ Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) t
 1. Poll > ++Section++ > Question > Answer_option
 1. add meaningful admin privileges
 1. media queries for page width, for example
+1. add question number for questions < polls
 
 ## Initial Project Roadmap ###
 
