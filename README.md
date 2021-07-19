@@ -115,6 +115,7 @@ Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) t
 1. media queries for page width, for example
 1. add question number for questions < polls
 1. conditional questions: 'If yes, ....'
+1. session management ... react-session-api ?
 
 ## Initial Project Roadmap ###
 

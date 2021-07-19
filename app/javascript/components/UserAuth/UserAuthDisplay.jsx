@@ -43,7 +43,7 @@ class SubmitButton extends React.Component {
   }
 
   onClick(event) {
-
+    
   }
 
   render() {
@@ -101,7 +101,7 @@ class AuthInputForm extends React.Component {
     event.preventDefault();
 
     const values = {username: this.state.username, password: this.state.password}
-    // this.databaseQuery(values, this.props.auth_type)
+    this.databaseQuery(values, this.props.auth_type)
   }
 
   databaseQuery(values, auth_type) {

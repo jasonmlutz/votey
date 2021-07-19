@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 class RightNav extends React.Component {
   render () {
@@ -6,7 +7,7 @@ class RightNav extends React.Component {
       <nav className='right-nav'>
         <ul>
           <li>
-            <a href="/session/new">Log In</a>
+            <Link to="/session/new">Log In</Link>
           </li>
         </ul>
       </nav>

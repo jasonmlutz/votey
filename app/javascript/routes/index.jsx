@@ -8,11 +8,7 @@ export default (
   <Router>
     <Switch>
       <Route exact path="/" component={Home} />
-    </Switch>
-    <Switch>
-      <Route path="/session/new" exact component={Login} />
-    </Switch>
-    <Switch>
+      <Route path="/session/new" component={Login} />
       <Route path="/users/new" component={Register} />
     </Switch>
   </Router>

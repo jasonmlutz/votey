@@ -67,6 +67,9 @@ input[type="submit"] {
 }
 
 /* LAYOUT */
+.current_user_display {
+  color: var(--black);
+}
 
 body {
   background-color: var(--light);
@@ -97,7 +100,7 @@ body {
 .main-nav {
   justify-content: space-between;
 }
-.left-nav-links ul {
+.left-nav-links div {
   height: 100px;
   /* border: 2px solid var(--black); */
   margin: 0 5px;

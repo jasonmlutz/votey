@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 class LeftNav extends React.Component {
   render () {
@@ -9,11 +10,11 @@ class LeftNav extends React.Component {
              className="logo"
         />
         <nav className="left-nav-links">
-          <ul className="flex-container-row">
-            <li><a href="/">Home</a></li>
-            <li><a href="/">Polls</a></li>
-            <li><a href="/">About</a></li>
-          </ul>
+          <div className="flex-container-row">
+            <Link to="/">Home</Link>
+            <Link to="/">Polls</Link>
+            <Link to="/">About</Link>
+          </div>
         </nav>
       </nav>
     )

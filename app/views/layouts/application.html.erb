@@ -11,6 +11,15 @@
   </head>
 
   <body>
+    <% if current_user.nil? %>
+    <div class="current_user_display">
+      no current user
+      </div>
+    <% else %>
+    <div class="current_user_display">
+      current user: <%= current_user.username %>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
