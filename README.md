@@ -114,6 +114,7 @@ Following [Thinking In React](https://reactjs.org/docs/thinking-in-react.html) t
 1. add meaningful admin privileges
 1. media queries for page width, for example
 1. add question number for questions < polls
+1. conditional questions: 'If yes, ....'
 
 ## Initial Project Roadmap ###
 
