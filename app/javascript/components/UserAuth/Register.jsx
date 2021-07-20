@@ -2,7 +2,5 @@ import React from "react";
 import UserAuthDisplay from "./UserAuthDisplay"
 
 export default () => (
-  <>
-    <UserAuthDisplay auth_type="register" />
-  </>
+  <UserAuthDisplay auth_type="register" />
 );
