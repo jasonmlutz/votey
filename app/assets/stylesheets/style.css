@@ -210,5 +210,58 @@ td, th{
 /* POLL DISPLAY */
 
 .poll-display {
+  border: none;
+  border-radius: 8px;
+  width: 70%;
+  margin: 20px auto;
+  background-color: var(--gray);
+  color: var(--white);
+  padding: 10px;
+}
+
+.poll-display > * {
+  padding: 5px;
+  margin: 5px;
+}
+
+.response-options-container {
+  margin: 8px;
+  padding: 8px;
+  text-align: left;
+}
+
+.response-option-li {
+  margin: 4px 0;
+}
+
+.poll-header,
+.question-display-li {
+  background-color: var(--light);
   color: var(--black);
+  border-radius: 4px;
+}
+
+.question-title {
+  margin: 8px;
+  padding: 8px;
+}
+
+.question-display-li {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.poll-title {
+  border: none;
+  font-size: 24px;
+  text-align: center;
+}
+
+.poll-author {
+  text-align: center;
+  font-style: italic;
+}
+
+.poll-description {
+  margin: 8px;
 }
