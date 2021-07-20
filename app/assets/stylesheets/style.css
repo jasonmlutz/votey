@@ -206,3 +206,9 @@ td, th{
    width: 100%;
  }
 } */
+
+/* POLL DISPLAY */
+
+.poll-display {
+  color: var(--black);
+}
