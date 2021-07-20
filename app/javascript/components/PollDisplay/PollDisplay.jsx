@@ -3,37 +3,23 @@ import { Link } from "react-router-dom";
 
 class PollDisplay extends React.Component {
   // props: poll_id, data
-
-  // USERS will need filtered, don't fetch all the users for this
-  // similarly, data.questions will need to be filtered based on POLL;
-  // okay for now with test data
   render () {
     const poll_id = this.props.poll_id;
     const data = this.props.data;
 
     const poll = data.POLLS[poll_id];
     const users = data.USERS;
-    const questions = data.QUESTIONS;
+    const questions = poll.QUESTIONS // only questions for THIS poll
+
+
     let questionsArray = [];
     Object.keys(questions).map((key) => {
       questionsArray.push(questions[key])
     })
 
-    // const questionDisplayListItems = questionsArray.map((question) => {
-    //     <QuestionDisplay key = {question.id} question = {question} />
-    // })
-    // const questionDisplayListItems = questionsArray.forEach((question) => {
-    //   console.log('testing questionDisplayListItems:')
-    //   console.log(question)
-    // })
-
     return (
       <div className = "poll-display">
-      <PollHeader poll_id = {poll_id} poll = {poll} users = {users}/>
-      <ul className = "question-displays-ul">
-        <QuestionDisplay key={questionsArray[0].id} question={questionsArray[0]} />
-        <QuestionDisplay key={questionsArray[1].id} question={questionsArray[1]} />
-      </ul>
+      <PollHeader poll = {poll} users = {users} />
       </div>
     )
   }
