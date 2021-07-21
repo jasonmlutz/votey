@@ -220,7 +220,7 @@ td, th{
 }
 
 .poll-display > * {
-  padding: 5px;
+  /* padding: 5px; */
   margin: 5px;
 }
 
@@ -232,6 +232,12 @@ td, th{
 
 .response-option-li {
   margin: 4px 0;
+  padding: 2px;
+}
+
+.response-option-li:hover {
+  background-color: var(--gray);
+  color: var(--yellow);
 }
 
 .poll-header,
@@ -248,17 +254,20 @@ td, th{
 
 .question-display-li {
   text-align: center;
-  margin: 10px 0;
+  /* margin: 10px 0; */
+}
+
+.poll-header {
+  text-align: center;
+  padding: 5px 0;
 }
 
 .poll-title {
   border: none;
   font-size: 24px;
-  text-align: center;
 }
 
 .poll-author {
-  text-align: center;
   font-style: italic;
 }
 
