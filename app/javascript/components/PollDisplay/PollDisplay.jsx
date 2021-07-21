@@ -19,17 +19,30 @@ class PollDisplay extends React.Component {
 
   loadPoll() {
     const poll_id = this.props.poll_id;
-    const url = `api/v1/polls/${poll_id}`
-
-    return url
+    const url = `/api/v1/polls/${poll_id}`
+    fetch(url)
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+        throw new Error("network/server error!")
+      })
+      .then((data) => {
+        this.setState({
+          data: data
+        });
+      })
+      .catch((err) => console.error("Error: " + err));
   }
 
   render () {
     if (this.state.dataLoaded) {
+      const data = this.state.data
+      console.log(data)
       return (
         <div className = "poll-header">
           <h2>testing loadPoll function</h2>
-          <h2>url = {this.loadPoll()}</h2>
+          <h2>poll title: {data.title}</h2>
         </div>
       )
     }
