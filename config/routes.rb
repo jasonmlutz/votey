@@ -4,8 +4,12 @@ Rails.application.routes.draw do
       get 'users/index'
       post 'users/create'
       delete 'users/:id', to: 'users#destroy'
+
       post 'session/create', to: 'sessions#create'
       delete 'session/', to: 'sessions#destroy'
+
+      get 'polls/index'
+      get 'polls/:id', to: 'polls#show'
     end
   end
 
