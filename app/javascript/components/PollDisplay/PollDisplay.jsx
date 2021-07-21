@@ -3,21 +3,55 @@ import { Link } from "react-router-dom";
 
 class PollDisplay extends React.Component {
   // props: poll_id, data (> USERS, POLLS)
-  render () {
+  // reworking so that data is fetched, not given
+  constructor (props) {
+    super(props)
+    this.state = {
+      data: [],
+      dataLoaded: false,
+    }
+  }
+
+  componentDidMount() {
+    this.loadPoll();
+    this.setState({ dataLoaded: true })
+  }
+
+  loadPoll() {
     const poll_id = this.props.poll_id;
-    const data = this.props.data;
+    const url = `api/v1/polls/${poll_id}`
 
-    const poll = data.POLLS[poll_id];
-    const users = data.USERS; // ALL users, needed to fetch author from author_id
-    const questions = poll.QUESTIONS // only questions for THIS poll
+    return url
+  }
 
+  render () {
+    if (this.state.dataLoaded) {
+      return (
+        <div className = "poll-header">
+          <h2>testing loadPoll function</h2>
+          <h2>url = {this.loadPoll()}</h2>
+        </div>
+      )
+    }
     return (
-      <div className = "poll-display">
-        <PollHeader poll = {poll} users = {users} />
-        <QuestionsContainer questions = {questions} />
-        <PollSubmitBtn />
+      <div className = "poll-header">
+        <h2>testing loadPoll function</h2>
+        <h2>url loading!</h2>
       </div>
     )
+    // const data = this.props.data;
+    //
+    // const poll = data.POLLS[poll_id];
+    // const users = data.USERS; // ALL users, needed to fetch author from author_id
+    // const questions = poll.QUESTIONS // only questions for THIS poll
+
+    // return (
+    //   <div className = "poll-display">
+    //     <PollHeader poll = {poll} users = {users} />
+    //     <QuestionsContainer questions = {questions} />
+    //     <PollSubmitBtn />
+    //   </div>
+    // )
   }
 }
 
