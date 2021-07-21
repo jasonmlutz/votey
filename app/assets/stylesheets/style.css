@@ -274,3 +274,28 @@ td, th{
 .poll-description {
   margin: 8px;
 }
+
+.poll-submit-btn {
+  background-color: var(--red);
+  border: 2px solid var(--black);
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.poll-submit-btn:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.radio-container input[type="radio"] {
+  display: inline;
+  margin: 2px;
+}
+
+.radio-container label {
+  display: block;
+  padding: 2px;
+}

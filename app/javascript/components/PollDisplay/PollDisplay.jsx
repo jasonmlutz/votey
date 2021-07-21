@@ -15,6 +15,7 @@ class PollDisplay extends React.Component {
       <div className = "poll-display">
         <PollHeader poll = {poll} users = {users} />
         <QuestionsContainer questions = {questions} />
+        <PollSubmitBtn />
       </div>
     )
   }
@@ -125,9 +126,9 @@ class ResponseOptionsContainer extends React.Component {
     );
 
     return (
-      <ul className = "response-options-container">
+      <div className = "response-options-container radio-container">
         {responseOptionListItems}
-      </ul>
+      </div>
     )
   }
 }
@@ -137,9 +138,28 @@ class ResponseOptionDisplay extends React.Component {
   render () {
     const response_option = this.props.response_option
     return (
-      <li className = "response-option-li">
+      <label>
+        <input
+          type = "radio"
+          className = "response-option select-option"
+          name = {response_option.parent_question_id}
+          value = {response_option.id}
+          id = {response_option.id}
+        />
         {response_option.text}
-      </li>
+      </label>
+    )
+  }
+}
+
+class PollSubmitBtn extends React.Component {
+  // props: ??
+  render () {
+    //
+    return (
+      <button className = "poll-submit-btn">
+        Submit!
+      </button>
     )
   }
 }
