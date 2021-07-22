@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function loadData(url_suffix) {
-  // questions/:question_id/reponse_options
-  // polls/:poll_id/questions
   // polls/:id
   const url = "/api/v1/" + url_suffix
 
@@ -28,7 +26,7 @@ class PollDisplay extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: [], // will house poll (Poll)
+      data: [], // will house poll ( Poll object; poll.id = poll_id <- useParams() )
       dataLoaded: false,
     }
 
@@ -42,11 +40,11 @@ class PollDisplay extends React.Component {
 
   render () {
     if (this.state.dataLoaded) {
-      const poll = this.state.data
+      const data = this.state.data
       return (
         <div className = "poll-display">
-          <PollHeader poll = {poll} />
-          <QuestionsContainer poll_id = {poll.id} />
+          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+          <QuestionsContainer questions = {data.QUESTIONS} response_options = {data.RESPONSE_OPTIONS} />
           <PollSubmitBtn />
         </div>
       )
@@ -60,28 +58,13 @@ class PollDisplay extends React.Component {
 }
 
 class PollHeader extends React.Component {
-  // props: poll
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: [], // will house author (User)
-      dataLoaded: false,
-    }
-
-    loadData = loadData.bind(this)
-  }
-
-  componentDidMount() {
-    const author_id = this.props.poll.author_id
-    loadData(`users/${author_id}`);
-  }
-
   render () {
     const poll = this.props.poll
     const title = poll.title
     const description = poll.description
-    if (this.state.dataLoaded) {
-      const author_username = this.state.data.username
+
+    const author = this.props.author
+    const author_username = author.username
       return (
         <div className = "poll-header">
           <PollTitle title = {title} />
@@ -89,13 +72,6 @@ class PollHeader extends React.Component {
           <PollDescription description = {description} />
         </div>
       )
-    }
-    return (
-      <div className = "poll-header">
-        Loading ...
-      </div>
-    )
-
   }
 }
 
@@ -130,52 +106,36 @@ class PollDescription extends React.Component {
 }
 
 class QuestionsContainer extends React.Component {
-  // props: poll_id
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: [], // will house questions (Question)
-      dataLoaded: false,
-    }
-
-    loadData = loadData.bind(this)
-  }
-
-  componentDidMount() {
-    const poll_id = this.props.poll_id
-    loadData(`polls/${poll_id}/questions`);
-  }
-
+  // props: questions, response_options
   render () {
-    if (this.state.dataLoaded) {
-      const questions = this.state.data
-      const questionDisplayListItems = questions.map((question, index) =>
-        <QuestionDisplay key = {index} question = {question} />
-      )
-      return (
-        <ul className = "questions-container">
-          {questionDisplayListItems}
-        </ul>
-      )
-    }
+    const questions = this.props.questions
+    const response_options = this.props.response_options
+    const questionDisplayListItems = questions.map((question, index) =>
+      <QuestionDisplay
+        key = {index}
+        question = {question}
+        response_options = {response_options[question.id]}
+      />
+    )
     return (
       <ul className = "questions-container">
-        Loading ...
+        {questionDisplayListItems}
       </ul>
     )
   }
 }
 
 class QuestionDisplay extends React.Component {
-  // props: question
+  // props: key, question, response_options
   render () {
     const question = this.props.question
     const title = question.title
+    const response_options = this.props.response_options
 
     return (
       <li className = "question-display-li">
         <QuestionTitle title = {title} />
-        <ResponseOptionsContainer question_id = {question.id} />
+        <ResponseOptionsContainer response_options = {response_options} />
       </li>
     )
   }
@@ -190,37 +150,15 @@ class QuestionTitle extends React.Component {
 }
 
 class ResponseOptionsContainer extends React.Component {
-  // props: question_id
-  constructor (props) {
-    super(props)
-    this.state = {
-      data: [], // will house poll (Poll)
-      dataLoaded: false,
-    }
-
-    loadData = loadData.bind(this)
-  }
-
-  componentDidMount() {
-    const question_id = this.props.question_id
-    loadData(`polls/${question_id}/response_options`);
-  }
-
+  // props: response_options
   render () {
-    if (this.state.dataLoaded) {
-      const response_options = this.state.data
-      const responseOptionListItems = response_options.map((reponse_option, index) =>
-        <ResponseOptionDisplay key = {index} response_option = {response_option} />
-      )
-      return (
-        <div className = "response-options-container radio-container">
-          {responseOptionListItems}
-        </div>
-      )
-    }
+    const response_options = this.props.response_options
+    const responseOptionListItems = response_options.map((response_option, index) =>
+      <ResponseOptionDisplay key = {index} response_option = {response_option} />
+    )
     return (
       <div className = "response-options-container radio-container">
-        Loading ...
+        {responseOptionListItems}
       </div>
     )
   }

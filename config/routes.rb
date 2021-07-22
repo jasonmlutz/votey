@@ -9,13 +9,15 @@ Rails.application.routes.draw do
       post 'session/create', to: 'sessions#create'
       delete 'session/', to: 'sessions#destroy'
 
-      resources :polls do
-        resources :questions, shallow: true
-      end
+      resources :polls, only: [:show]
 
-      resources :questions, only: [] do
-        resources :response_options, shallow: true
-      end
+      # resources :polls do
+      #   resources :questions, shallow: true
+      # end
+      #
+      # resources :questions, only: [] do
+      #   resources :response_options, shallow: true
+      # end
     end
   end
 
