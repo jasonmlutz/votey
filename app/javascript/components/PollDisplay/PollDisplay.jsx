@@ -4,54 +4,40 @@ import { Link } from "react-router-dom";
 const RadioInputContext = React.createContext();
 // { Provider, Consumer }
 
-function loadData(url_suffix) {
-  // polls/:id
-  const url = "/api/v1/" + url_suffix
-
-  fetch(url)
-    .then((data) => {
-      if (data.ok) {
-        return data.json();
-      }
-      throw new Error("network/server error!")
-    })
-    .then((data) => {
-      this.setState({
-        data: data,
-        dataLoaded: true
-      });
-      this.setQuestionIds();
-    })
-    .catch((err) => console.error("Error: " + err));
-}
-
 class PollDisplay extends React.Component {
   // props: poll_id
   constructor (props) {
     super(props)
-    this.state = {
-      data: [], // will house poll ( Poll object; poll.id = poll_id <- useParams() )
-      dataLoaded: false,
-      response: {}, // will have elements question_id: response_option_id
-    }
+    this.state = { dataLoaded: false }
 
-    loadData = loadData.bind(this)
+    this.loadData = this.loadData.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.setQuestionIds = this.setQuestionIds.bind(this)
     this.onRadioChange = this.onRadioChange.bind(this)
+    this.onSelectChange = this.onSelectChange.bind(this)
+  }
+
+  loadData(poll_id) {
+    const url = "/api/v1/polls/" + poll_id
+
+    fetch(url)
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+        throw new Error("network/server error!")
+      })
+      .then((data) => {
+        this.setState({
+          data: data,
+          dataLoaded: true
+        });
+      })
+      .catch((err) => console.error("Error: " + err));
   }
 
   componentDidMount() {
     const poll_id = this.props.poll_id
-    loadData(`polls/${poll_id}`);
-  }
-
-  setQuestionIds() {
-    const data = this.state.data
-    const questions = data.QUESTIONS
-    questions.forEach((question, index) => {
-      this.setState( {[question.id]: ""} )
-    });
+    this.loadData(poll_id);
   }
 
   onRadioChange(question_id, response_id) {
@@ -63,31 +49,37 @@ class PollDisplay extends React.Component {
     }));
   }
 
+  onSelectChange(user_id) {
+    this.setState({ respondent_id: user_id })
+  }
+
   handleSubmit (event) {
     event.preventDefault();
 
     console.log('form submitted!')
     console.log(this.state.response)
+    console.log(this.state.respondent_id)
   }
 
   render () {
     if (this.state.dataLoaded) {
       const data = this.state.data
       return (
-        <RadioInputContext.Provider value = {this.onRadioChange} >
-          <form
-            className = "poll-display"
-            onSubmit = {this.handleSubmit}
-            id = "main-poll-form"
-          >
-            <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+        <form
+          className = "poll-display"
+          onSubmit = {this.handleSubmit}
+          id = "main-poll-form"
+        >
+          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+          <RespondentSelector onSelectChange = {this.onSelectChange} />
+          <RadioInputContext.Provider value = {this.onRadioChange} >
             <QuestionsContainer
               questions = {data.QUESTIONS}
               response_options = {data.RESPONSE_OPTIONS}
             />
-            <PollSubmitBtn />
-          </form>
-        </RadioInputContext.Provider>
+          </RadioInputContext.Provider>
+          <PollSubmitBtn />
+        </form>
       )
     }
     return (
@@ -98,7 +90,89 @@ class PollDisplay extends React.Component {
   }
 }
 
+class RespondentSelector extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state  = {
+      respondent_id: "",
+      dataLoaded: false,
+    }
+
+    this.loadData = this.loadData.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  loadData() {
+    const url = "/api/v1/users/index"
+
+    fetch(url)
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+        throw new Error("network/server error!")
+      })
+      .then((data) => {
+        this.setState({
+          users: data,
+          dataLoaded: true
+        });
+      })
+      .catch((err) => console.error("Error: " + err));
+  }
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  handleChange(event) {
+    this.setState( {respondent_id: event.target.value} )
+    console.log(this.state.respondent_id)
+    this.props.onSelectChange(this.state.respondent_id)
+  }
+
+  render () {
+    if (this.state.dataLoaded) {
+      const users = this.state.users;
+      const selectOptions = users.map((user, index) => {
+        return (
+          <option
+            key = {index}
+            value = {user.id}
+            onChange = {this.onChange}
+          >
+            {user.username.toUpperCase()}
+          </option>
+        )
+      });
+
+      return (
+        <div className = "respondent-selector">
+          <label>
+            Respondent:
+            <select
+              name="respondent"
+              id="respondent"
+              onChange = {this.handleChange}
+            >
+              <option value="default" selected disabled hidden>--SELECT--</option>
+              {selectOptions}
+            </select>
+          </label>
+        </div>
+      )
+    } else {
+      return (
+        <div className = "respondent-selector">
+          Loading ...
+        </div>
+      )
+    }
+  }
+}
+
 class PollHeader extends React.Component {
+  // props: poll, author
   render () {
     const poll = this.props.poll
     const title = poll.title
@@ -216,7 +290,7 @@ class ResponseOptionDisplay extends React.Component {
   // and, via context, onRadioChange
   constructor(props) {
     super(props)
-    this.state = {value: ""}
+    this.state = { value: "" }
 
     this.handleChange = this.handleChange.bind(this);
   }
