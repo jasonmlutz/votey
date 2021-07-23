@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       delete 'session/', to: 'sessions#destroy'
 
       resources :polls, only: [:show]
+      resources :responses, only: [:create] do
+        resources :answers, only: [:index, :create]
+      end
 
       # resources :polls do
       #   resources :questions, shallow: true

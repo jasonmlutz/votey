@@ -103,7 +103,7 @@ class RespondentSelector extends React.Component {
   }
 
   loadData() {
-    const url = "/api/v1/users/index"
+    const url = "/api/v1/users/"
 
     fetch(url)
       .then((data) => {
