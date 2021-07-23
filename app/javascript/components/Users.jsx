@@ -16,7 +16,7 @@ class Users extends React.Component {
   }
 
   loadUsers = () => {
-    const url = "api/v1/users/index";
+    const url = "api/v1/users/";
     fetch(url)
       .then((data) => {
         if (data.ok) {

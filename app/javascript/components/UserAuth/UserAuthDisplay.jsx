@@ -100,7 +100,7 @@ class AuthInputForm extends React.Component {
 
   databaseQuery(values, auth_type) {
     // for the moment, just implementing for 'register'
-    const url = "/api/v1/" + (auth_type == "register" ? "users/create" : "session/create")
+    const url = "/api/v1/" + (auth_type == "register" ? "users/" : "session/")
     fetch(url, {
       method: "post",
       headers: {
