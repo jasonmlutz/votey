@@ -94,7 +94,7 @@ class RespondentSelector extends React.Component {
   constructor(props) {
     super(props)
     this.state  = {
-      respondent_id: "",
+      value: "default",
       dataLoaded: false,
     }
 
@@ -126,25 +126,26 @@ class RespondentSelector extends React.Component {
   }
 
   handleChange(event) {
-    this.setState( {respondent_id: event.target.value} )
-    console.log(this.state.respondent_id)
-    this.props.onSelectChange(this.state.respondent_id)
+    this.setState( {value: event.target.value} )
+    console.log(this.state.value)
+    this.props.onSelectChange(this.state.value)
   }
 
   render () {
     if (this.state.dataLoaded) {
       const users = this.state.users;
-      const selectOptions = users.map((user, index) => {
+      var selectOptions = users.map((user, index) => {
         return (
           <option
             key = {index}
             value = {user.id}
-            onChange = {this.onChange}
           >
             {user.username.toUpperCase()}
           </option>
         )
       });
+
+
 
       return (
         <div className = "respondent-selector">
@@ -154,8 +155,9 @@ class RespondentSelector extends React.Component {
               name="respondent"
               id="respondent"
               onChange = {this.handleChange}
+              value = {this.state.value}
             >
-              <option value="default" selected disabled hidden>--SELECT--</option>
+              <option value="default" disabled hidden>--SELECT--</option>
               {selectOptions}
             </select>
           </label>
