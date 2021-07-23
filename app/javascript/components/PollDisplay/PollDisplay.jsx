@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+const RadioInputContext = React.createContext();
+// { Provider, Consumer }
+
 function loadData(url_suffix) {
   // polls/:id
   const url = "/api/v1/" + url_suffix
@@ -17,6 +20,7 @@ function loadData(url_suffix) {
         data: data,
         dataLoaded: true
       });
+      this.setQuestionIds();
     })
     .catch((err) => console.error("Error: " + err));
 }
@@ -28,9 +32,13 @@ class PollDisplay extends React.Component {
     this.state = {
       data: [], // will house poll ( Poll object; poll.id = poll_id <- useParams() )
       dataLoaded: false,
+      response: {}, // will have elements question_id: response_option_id
     }
 
     loadData = loadData.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.setQuestionIds = this.setQuestionIds.bind(this)
+    this.onRadioChange = this.onRadioChange.bind(this)
   }
 
   componentDidMount() {
@@ -38,15 +46,48 @@ class PollDisplay extends React.Component {
     loadData(`polls/${poll_id}`);
   }
 
+  setQuestionIds() {
+    const data = this.state.data
+    const questions = data.QUESTIONS
+    questions.forEach((question, index) => {
+      this.setState( {[question.id]: ""} )
+    });
+  }
+
+  onRadioChange(question_id, response_id) {
+    this.setState(prevState => ({
+      response: {
+        ...prevState.response,
+        [question_id]: response_id
+      }
+    }));
+  }
+
+  handleSubmit (event) {
+    event.preventDefault();
+
+    console.log('form submitted!')
+    console.log(this.state.response)
+  }
+
   render () {
     if (this.state.dataLoaded) {
       const data = this.state.data
       return (
-        <div className = "poll-display">
-          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
-          <QuestionsContainer questions = {data.QUESTIONS} response_options = {data.RESPONSE_OPTIONS} />
-          <PollSubmitBtn />
-        </div>
+        <RadioInputContext.Provider value = {this.onRadioChange} >
+          <form
+            className = "poll-display"
+            onSubmit = {this.handleSubmit}
+            id = "main-poll-form"
+          >
+            <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+            <QuestionsContainer
+              questions = {data.QUESTIONS}
+              response_options = {data.RESPONSE_OPTIONS}
+            />
+            <PollSubmitBtn />
+          </form>
+        </RadioInputContext.Provider>
       )
     }
     return (
@@ -89,7 +130,7 @@ class PollAuthor extends React.Component {
   render () {
     return (
       <div className = "poll-author" >
-        by {this.props.author_name}
+        by {this.props.author_username}
       </div>
     )
   }
@@ -151,10 +192,16 @@ class QuestionTitle extends React.Component {
 
 class ResponseOptionsContainer extends React.Component {
   // props: response_options
+  static contextType = RadioInputContext;
+
   render () {
     const response_options = this.props.response_options
     const responseOptionListItems = response_options.map((response_option, index) =>
-      <ResponseOptionDisplay key = {index} response_option = {response_option} />
+      <ResponseOptionDisplay
+        key = {index}
+        response_option = {response_option}
+        onRadioChange = {this.context}
+      />
     )
     return (
       <div className = "response-options-container radio-container">
@@ -165,7 +212,19 @@ class ResponseOptionsContainer extends React.Component {
 }
 
 class ResponseOptionDisplay extends React.Component {
-  // props: response_option
+  // props: response_option, parent_question_id
+  // and, via context, onRadioChange
+  constructor(props) {
+    super(props)
+    this.state = {value: ""}
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState( {value: event.target.value} )
+    this.props.onRadioChange(this.props.response_option.parent_question_id, event.target.value)
+  }
   render () {
     const response_option = this.props.response_option
     return (
@@ -176,6 +235,7 @@ class ResponseOptionDisplay extends React.Component {
           name = {response_option.parent_question_id}
           value = {response_option.id}
           id = {response_option.id}
+          onChange = {this.handleChange}
         />
         {response_option.text}
       </label>
@@ -188,7 +248,11 @@ class PollSubmitBtn extends React.Component {
   render () {
     //
     return (
-      <button className = "poll-submit-btn">
+      <button
+        className = "poll-submit-btn"
+        form = "main-poll-form"
+        type = "submit"
+      >
         Submit!
       </button>
     )

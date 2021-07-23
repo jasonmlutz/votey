@@ -39,11 +39,6 @@ class SubmitButton extends React.Component {
   // receives props.value; in ['login', 'register']
   constructor(props) {
     super(props);
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick(event) {
-    
   }
 
   render() {
@@ -53,7 +48,6 @@ class SubmitButton extends React.Component {
         className="auth-submit-btn"
         form={`${auth_type}-form`}
         type="submit"
-        onClick={this.onClick}
       >{auth_type.toUpperCase()}</button>
     );
   }
