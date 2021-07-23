@@ -14,6 +14,7 @@ class PollDisplay extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onRadioChange = this.onRadioChange.bind(this)
     this.onSelectChange = this.onSelectChange.bind(this)
+    this.pushResponse = this.pushResponse.bind(this)
   }
 
   loadData(poll_id) {
@@ -59,6 +60,77 @@ class PollDisplay extends React.Component {
     console.log('form submitted!')
     console.log(this.state.response)
     console.log(this.state.respondent_id)
+    this.pushResponse()
+  }
+
+  pushResponse () {
+    // create a response option, return the response_id
+    // need respodent_id and poll_id
+    const response_params = {
+      respondent_id: this.state.respondent_id,
+      poll_id: this.props.poll_id
+    }
+
+    var url = "/api/v1/responses"
+    fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(response_params),
+    })
+      .then((data) => {
+        if (data.ok) {
+          console.log("data 200 OK")
+          data.json().then(response => {
+            this.setState({
+              response_id: response.id
+            })
+          })
+          return data.json();
+        } else if ( data.status == "422" ){
+          console.log("422 status detected")
+          throw new Error("422 error")
+        } else {
+          throw new Error("unknown network/server error")
+        }
+      })
+      .catch((err) => console.error("Error caught: " + err))
+
+    // individually push answers w/ corresponding response_id
+    var url = `/api/v1/${this.state.response_id}/answers`
+    const response = this.state.response
+    Object.keys(response).forEach((question_id) => {
+      const answer_params = {
+        response_id: this.state.response_id,
+        question_id: question_id,
+        response_option_id: response[question_id],
+      }
+      fetch(url,{
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(answer_params),
+      })
+        .then((data) => {
+          if (data.ok) {
+            console.log("data 200 OK")
+            // data.json().then(response => {
+            //   this.setState({
+            //     response_id: response.id
+            //   })
+            // })
+            return data.json();
+          } else if ( data.status == "422" ){
+            console.log("422 status detected")
+            throw new Error("422 error")
+          } else {
+            throw new Error("unknown network/server error")
+          }
+        })
+        .catch((err) => console.error("Error caught: " + err))
+    })
   }
 
   render () {
