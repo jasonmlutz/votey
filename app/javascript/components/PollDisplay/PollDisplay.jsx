@@ -43,8 +43,8 @@ class PollDisplay extends React.Component {
 
   onRadioChange(question_id, response_id) {
     this.setState(prevState => ({
-      response: {
-        ...prevState.response,
+      answers: {
+        ...prevState.answers,
         [question_id]: response_id
       }
     }));
@@ -58,80 +58,74 @@ class PollDisplay extends React.Component {
     event.preventDefault();
 
     console.log('form submitted!')
-    console.log(this.state.response)
+    console.log(this.state.answers)
     console.log(this.state.respondent_id)
     this.pushResponse()
   }
 
   pushResponse () {
-    // create a response option, return the response_id
-    // need respodent_id and poll_id
-    const response_params = {
+    const response_url = "/api/v1/responses"
+    const response_values = {
+      poll_id: this.props.poll_id,
       respondent_id: this.state.respondent_id,
-      poll_id: this.props.poll_id
     }
-
-    var url = "/api/v1/responses"
-    fetch(url, {
+    fetch(response_url, {
       method: "post",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(response_params),
+      body: JSON.stringify(response_values)
     })
       .then((data) => {
         if (data.ok) {
-          console.log("data 200 OK")
-          data.json().then(response => {
-            this.setState({
-              response_id: response.id
-            })
-          })
-          return data.json();
-        } else if ( data.status == "422" ){
-          console.log("422 status detected")
-          throw new Error("422 error")
+          console.log('response data sent 200 OK')
+          return data.json()
+        } else if (data.status == "422") {
+          console.log('response data denied 422')
+          // data.json().then(errors => console.log(errors))
         } else {
-          throw new Error("unknown network/server error")
+          throw new Error("unknown server/network error at response level")
         }
       })
-      .catch((err) => console.error("Error caught: " + err))
-
-    // individually push answers w/ corresponding response_id
-    var url = `/api/v1/${this.state.response_id}/answers`
-    const response = this.state.response
-    Object.keys(response).forEach((question_id) => {
-      const answer_params = {
-        response_id: this.state.response_id,
-        question_id: question_id,
-        response_option_id: response[question_id],
-      }
-      fetch(url,{
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(answer_params),
-      })
-        .then((data) => {
-          if (data.ok) {
-            console.log("data 200 OK")
-            // data.json().then(response => {
-            //   this.setState({
-            //     response_id: response.id
-            //   })
-            // })
-            return data.json();
-          } else if ( data.status == "422" ){
-            console.log("422 status detected")
-            throw new Error("422 error")
-          } else {
-            throw new Error("unknown network/server error")
+      .then((data) => {
+        const response_id = data.id;
+        const answers = this.state.answers;
+        const answer_url = `/api/v1/responses/${response_id}/answers`
+        console.log(response_id, answers, answer_url)
+        for (const [question_id, response_option_id] of Object.entries(answers)) {
+          var answer_values = {
+            response_id: response_id,
+            question_id: question_id,
+            response_option_id: response_option_id,
+          }
+          fetch(answer_url, {
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(answer_values),
+          })
+            .then((data) => {
+              if (data.ok) {
+                console.log(`answer to question_id ${question_id} 200 OK`)
+                return data.json()
+              } else if (data.status == "422" ){
+                console.log(`answer to question_id ${question_id} 422 !!`)
+                // data.json().then(errors => console.log(errors))
+              } else {
+                throw new Error(`unknown server/network error at question_id ${question_id}`)
+              }
+            })
+            .then((data) => {
+              console.log(data)
+            })
+            .catch((err) => console.error(`error catch at question_id ${question_id}`))
           }
         })
-        .catch((err) => console.error("Error caught: " + err))
-    })
+        .catch((err) => console.error("error catch at response level: "+ err))
   }
+
+
 
   render () {
     if (this.state.dataLoaded) {

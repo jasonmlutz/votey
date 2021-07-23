@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
       resources :polls, only: [:show]
       resources :responses, only: [:create] do
-        resources :answers, only: [:index, :create]
+        resources :answers, only: [:create]
       end
 
       # resources :polls do
