@@ -192,9 +192,13 @@ class RespondentSelector extends React.Component {
   }
 
   handleChange(event) {
-    this.setState( {value: event.target.value} )
-    console.log(this.state.value)
-    this.props.onSelectChange(this.state.value)
+    const value = event.target.value;
+    this.setState( {value: value} )
+    console.log(value)
+    this.props.onSelectChange(value)
+    // this.setState( {value: event.target.value} )
+    // console.log(this.state.value)
+    // this.props.onSelectChange(this.state.value)
   }
 
   render () {
