@@ -11,9 +11,11 @@ Rails.application.routes.draw do
       delete 'session/', to: 'sessions#destroy'
 
       resources :polls, only: [:show]
-      resources :responses, only: [:create] do
+      resources :responses, only: [:create, :show] do
         resources :answers, only: [:create]
       end
+
+      resources :answers, only: [:show]
 
       # resources :polls do
       #   resources :questions, shallow: true
@@ -28,6 +30,7 @@ Rails.application.routes.draw do
   resources :users, only: [:new]
   resource :session, only: [:new]
   resources :polls, only: [:show]
+  resources :responses, only: [:show]
 
   root 'users#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
