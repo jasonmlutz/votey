@@ -214,9 +214,6 @@ class RespondentSelector extends React.Component {
           </option>
         )
       });
-
-
-
       return (
         <div className = "respondent-selector">
           <label>

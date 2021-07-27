@@ -208,6 +208,7 @@ td, th{
 } */
 
 /* POLL DISPLAY */
+/* RESPONSE DISPLAY */
 
 .poll-display,
 .response-display {
@@ -230,6 +231,10 @@ td, th{
   margin: 8px;
   padding: 8px;
   text-align: left;
+}
+
+.ol-lower-alpha {
+  list-style-type: lower-alpha;
 }
 
 .response-option-li {
@@ -300,4 +305,8 @@ td, th{
 .radio-container label {
   display: block;
   padding: 2px;
+}
+
+li.selected {
+  border: 2px solid green;
 }
