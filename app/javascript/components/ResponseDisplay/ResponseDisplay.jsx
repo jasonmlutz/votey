@@ -1,12 +1,27 @@
 import React from "react";
 import { useContext, createContext } from 'react';
 import { DATA } from "./ResponseFetchData.jsx"
-
+//
 const data = DATA;
 const AnswerContext = createContext();
 
+function fetchResponseData(response_id) {
+  const url = `/api/v1/responses/${response_id}`
+  fetch(url)
+    .then((data) => {
+      if (data.ok) {
+        return data.json;
+      } else {
+        throw new Error ("server and/or network error")
+      }
+    })
+    .catch((err) => console.error("unknown error" + err))
+}
 
 export default function ResponseDisplay(props) {
+  // props = response_id
+  // const data = fetchResponseData(props.response_id)
+  const data = props.DATA;
   return (
     <div className = "response-display">
       <PollHeader
