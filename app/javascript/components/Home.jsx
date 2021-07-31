@@ -1,5 +1,5 @@
 import React from "react";
-import Users from "./Users";
+import { Users } from "./UserIndex/Users";
 import Header from "./Header";
 
 export default () => (
