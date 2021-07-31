@@ -1,42 +1,74 @@
-import React from "react";
-import { useContext, createContext } from 'react';
-import { DATA } from "./ResponseFetchData.jsx"
+import React, { useContext,
+                createContext,
+                useState,
+                useEffect } from 'react';
 import { Link } from "react-router-dom";
-//
-const data = DATA;
 const AnswerContext = createContext();
-
-function fetchResponseData(response_id) {
-  const url = `/api/v1/responses/${response_id}`
-  fetch(url)
-    .then((data) => {
-      if (data.ok) {
-        return data.json;
-      } else {
-        throw new Error ("server and/or network error")
-      }
-    })
-    .catch((err) => console.error("unknown error" + err))
-}
 
 export default function ResponseDisplay(props) {
   // props = response_id
-  // const data = fetchResponseData(props.response_id)
-  return (
-    <div className = "response-display">
-      <PollHeader
-        poll = { data.POLL }
-        author = { data.AUTHOR }
-      />
-      <RespondentDisplay respondent = { data.RESPONDENT }/>
-      <AnswerContext.Provider value = { data.ANSWERS } >
-        <QuestionsContainer
-          questions = { data.QUESTIONS }
-          response_options = { data.RESPONSE_OPTIONS }
+  const response_id = props.response_id;
+  const [response_data, setResponseData] = useState({});
+  const [poll_data, setPollData] = useState({});
+  const [mounted, setMountStatus] = useState(false);
+
+  useEffect(() => {
+    if (mounted == false) {
+      const response_url = `/api/v1/responses/${response_id}`
+      fetch(response_url)
+        .then((data) => {
+              if (data.ok) {
+                return data.json();
+              }
+              throw new Error("network and/or server error")
+            })
+            .then((data) => {
+              setResponseData(data);
+              setMountStatus(true);
+              // response_data loaded
+              // fetch the associated poll data
+              const poll_id = response_data.RESPONSE.poll_id;
+              const poll_url = `/api/v1/polls/${poll_id}`
+              fetch(poll_url)
+                .then((data) => {
+                      if (data.ok) {
+                        return data.json();
+                      }
+                      throw new Error("network and/or server error")
+                    })
+                    .then((data) => {
+                      setPollData(data);
+                    })
+                    .catch((err) => console.error("unknown error: " + err));
+            })
+            .catch((err) => console.error("unknown error: " + err));
+    }
+  })
+
+  if (Object.keys(response_data).length > 0 && Object.keys(poll_data).length > 0) {
+    return (
+      <div className = "response-display">
+        <PollHeader
+          poll = { poll_data.POLL }
+          author = { poll_data.AUTHOR }
         />
-      </AnswerContext.Provider>
-    </div>
-  )
+        <RespondentDisplay respondent = { response_data.RESPONDENT }/>
+        <AnswerContext.Provider value = { response_data.ANSWERS } >
+          <QuestionsContainer
+            questions = { poll_data.QUESTIONS }
+            response_options = { poll_data.RESPONSE_OPTIONS }
+          />
+        </AnswerContext.Provider>
+      </div>
+    )
+  } else {
+    if (mounted) {
+      return (<h2>No data to display!</h2>)
+    } else {
+      return (<h2>Loading!</h2>)
+    }
+  }
+
 }
 
 function PollHeader(props) {
@@ -118,7 +150,9 @@ function QuestionDisplay(props) {
   const title = question.title;
   const response_options = props.response_options;
   const answers = useContext(AnswerContext);
-  const selected_response_option_id = answers[question.id].id
+  const question_id = question.id
+  const selected_response_option = answers[question_id] // not how the object works!
+  const selected_response_option_id = selected_response_option.id
   // answers = all answer objects
   // answers[question.id] = the answer object associated with that question
   // answer[question.id].id = the id of the associated response_option

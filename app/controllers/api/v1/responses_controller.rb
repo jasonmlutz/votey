@@ -1,7 +1,7 @@
 class Api::V1::ResponsesController < ApplicationController
   before_action :set_response, only: [:show]
-  # GET /responses
-  # GET /responses.json
+
+  # GET /responses/:id
   def show
     if @response
       # render json: @response
@@ -31,7 +31,7 @@ class Api::V1::ResponsesController < ApplicationController
       catalog[:ANSWERS] = {}
       response.answers.each do |answer|
         response_option = answer.response_option
-        catalog[:ANSWERS][answer.id] = response_option
+        catalog[:ANSWERS][answer.question_id] = response_option
       end
       return catalog
     end
