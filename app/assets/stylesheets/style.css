@@ -90,6 +90,12 @@ body {
   justify-content: center;
 }
 
+a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
 /* IMAGES */
 .logo {
   height: 100px;
