@@ -1,29 +1,55 @@
-import React from "react";
-import { DATA } from "./UsersFetchData.js";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const data = DATA; // an array of user objects
-
 export function UsersIndex(props) {
-  // props = empty?
-  // call to-be-written api fetch
-  const keys = ["id", "username", "admin"]
-  // console.log(data)
-  // return(
-  //   <h2>data logged!</h2>
-  // )
-  return (
-    <UsersTable keys = { keys } data = { data } />
-  )
+  // props: none
+  const [data, setData] = useState([]);
+  const [mounted, setMountStatus] = useState(false);
+  const keys = props.keys
+
+  useEffect(() => {
+    const url = '/api/v1/users'
+    if (mounted == false) {
+      fetch(url)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          }
+          throw new Error("network and/or server error")
+        })
+        .then((data) => {
+          setData(data);
+          setMountStatus(true);
+        })
+        .catch((err) => console.error("unknown error: " + err));
+    }
+  })
+
+  if (data.length > 0) {
+    return (
+      <UsersTable keys = { keys } data = { data } />
+    )
+  } else {
+    if (mounted) {
+      return (
+        <h2>
+          No users to display!
+        </h2>
+      )
+    } else {
+      return (
+        <h2>
+          Loading ...
+        </h2>
+      )
+    }
+  }
 }
 
 function UsersTable(props) {
+  // props: data, keys
   const data = props.data;
   const keys = props.keys;
-  // console.log(data, keys)
-  // return(
-  //   <h2>data logged!</h2>
-  // )
   return (
     <table>
       <thead>
@@ -70,6 +96,17 @@ function TableRows(props) {
   ))
 }
 
+function UserRow(props) {
+  // props: user, keys
+  const keys = props.keys;
+  const user = props.user;
+  return keys.map((key, index) => (
+    <td key = { index }>
+      {userTableDisplay(key, user)}
+    </td>
+  ))
+}
+
 function userTableDisplay(key, user) {
   var output;
   switch (key) {
@@ -84,15 +121,4 @@ function userTableDisplay(key, user) {
       output = user[key]
   }
   return output
-}
-
-function UserRow(props) {
-  // props: user, keys
-  const keys = props.keys;
-  const user = props.user;
-  return keys.map((key, index) => (
-    <td key = { index }>
-      {userTableDisplay(key, user)}
-    </td>
-  ))
 }
