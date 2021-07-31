@@ -1,6 +1,13 @@
 import React from "react";
+import { UsersIndex } from "./UsersIndex"
 
-class Users extends React.Component {
+export function Users(props) {
+  return (
+    <UsersIndex />
+  )
+}
+
+class UsersOld extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,5 +104,3 @@ class Users extends React.Component {
     )
   }
 }
-
-export default Users;
