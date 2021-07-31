@@ -5,6 +5,7 @@ import Login from "../components/UserAuth/Login"
 import Register from "../components/UserAuth/Register"
 import Poll from "../components/PollDisplay/Poll"
 import Response from "../components/ResponseDisplay/Response"
+import User from "../components/UserDisplay/User"
 
 export default (
   <Router>
@@ -14,6 +15,7 @@ export default (
       <Route path="/users/new" component={Register} />
       <Route path="/polls/:poll_id" component={Poll} />
       <Route path="/responses/:response_id" component={Response} />
+      <Route path="/users/:user_id" component={User} />
     </Switch>
   </Router>
 );

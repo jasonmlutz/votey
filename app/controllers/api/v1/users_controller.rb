@@ -12,7 +12,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users/1.json
   def show
     if @user
-      render json: @user
+      render json: user_catalog(@user)
     else
       render json: @user.errors
     end
@@ -48,5 +48,17 @@ class Api::V1::UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def user_params
       params.permit(:username, :password)
+    end
+
+    def user_catalog(user)
+      catalog = {}
+      catalog[:USER] = user
+      catalog[:POLLS] = user.polls
+      catalog[:RESPONSE_DATA] = []
+      user.responses.each do |response|
+        catalog[:RESPONSE_DATA].push([response, Poll.find(response.poll_id)])
+      end
+
+      return catalog
     end
 end
