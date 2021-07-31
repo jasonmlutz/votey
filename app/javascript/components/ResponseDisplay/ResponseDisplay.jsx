@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext, createContext } from 'react';
 import { DATA } from "./ResponseFetchData.jsx"
+import { Link } from "react-router-dom";
 //
 const data = DATA;
 const AnswerContext = createContext();
@@ -21,7 +22,6 @@ function fetchResponseData(response_id) {
 export default function ResponseDisplay(props) {
   // props = response_id
   // const data = fetchResponseData(props.response_id)
-  const data = props.DATA;
   return (
     <div className = "response-display">
       <PollHeader
@@ -82,9 +82,12 @@ function PollDescription(props) {
 
 function RespondentDisplay(props) {
   const respondent = props.respondent;
+  const respondent_id = respondent.id;
+  const path = `/users/${respondent_id}`;
+  const name = respondent.username;
   return (
     <div className = "respondent-display">
-      Respondent: {respondent.username}
+      Respondent: <Link to = { path }>{ name }</Link>
     </div>
   )
 }

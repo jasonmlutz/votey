@@ -248,11 +248,10 @@ class PollHeader extends React.Component {
     const description = poll.description
 
     const author = this.props.author
-    const author_username = author.username
       return (
         <div className = "poll-header">
           <PollTitle title = {title} />
-          <PollAuthor author_username = {author_username} />
+          <PollAuthor author = {author} />
           <PollDescription description = {description} />
         </div>
       )
@@ -269,14 +268,17 @@ class PollTitle extends React.Component {
   }
 }
 
-class PollAuthor extends React.Component {
-  render () {
-    return (
-      <div className = "poll-author" >
-        by {this.props.author_username}
-      </div>
-    )
-  }
+function PollAuthor(props) {
+  // props:
+  const author = props.author
+  const author_id = author.id
+  const name = author.username
+  const path = `/users/${author_id}`
+  return (
+    <div className = "poll-author" >
+      by <Link to = { path }>{ name }</Link>
+    </div>
+  )
 }
 
 class PollDescription extends React.Component {
