@@ -1,22 +1,51 @@
-import React from "react";
-import { DATA } from "./UserFetchData"
+import React, { useState, useEffect } from "react";
+// import { DATA } from "./UserFetchData"
 import { Link } from "react-router-dom";
 
-const data = DATA;
+// const data = DATA;
 
 export default function UserDisplay(props) {
   // props: user_id
-  // const user_id = props.user_id
+  const user_id = props.user_id
+  const url = `/api/v1/users/${user_id}`
 
-  return(
-    <div className = "user-display">
-      <UserHeader username = { data.USER.username } />
-      <Activities
-        polls = { data.POLLS}
-        responses = { data.RESPONSE_DATA }
-      />
-    </div>
-  )
+  const [data, setData] = useState({});
+  const [mounted, setMountStatus] = useState(false);
+
+  useEffect(() => {
+    if (mounted == false) {
+      fetch(url)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          }
+          throw new Error("network and/or server error")
+        })
+        .then((data) => {
+          setData(data);
+          setMountStatus(true);
+        })
+        .catch((err) => console.error("unknown error: " + err))
+    }
+  })
+
+  if (Object.keys(data).length) {
+    return(
+      <div className = "user-display">
+        <UserHeader username = { data.USER.username } />
+        <Activities
+          polls = { data.POLLS}
+          responses = { data.RESPONSE_DATA }
+        />
+      </div>
+    )
+  } else {
+    if (mounted) {
+      return <h2>No user info to display!</h2>
+    } else {
+      return <h2>Loading ...</h2>
+    }
+  }
 }
 
 function UserHeader(props) {
@@ -69,11 +98,15 @@ function ActivityList(props) {
     <ActivityListItem key = {index} item = {item} type = {type} />
   );
 
-  return (
-    <ol className = "activity-list">
-     {activityListItems}
-    </ol>
-  )
+  if (activityListItems.length) {
+    return (
+      <ol className = "activity-list">
+       {activityListItems}
+      </ol>
+    )
+  } else {
+    return <h2>none!</h2>
+  }
 }
 
 function ActivityListItem(props) {
