@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resource :session, only: [:create]
       delete 'session/', to: 'sessions#destroy'
 
-      resources :polls, only: [:show]
+      resources :polls, only: [:show, :index]
       resources :responses, only: [:create, :show] do
         resources :answers, only: [:create]
       end
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :show]
   resource :session, only: [:new]
-  resources :polls, only: [:show]
+  resources :polls, only: [:show, :index]
   resources :responses, only: [:show]
 
   root 'users#index'

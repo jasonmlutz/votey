@@ -12,7 +12,7 @@ class LeftNav extends React.Component {
         <nav className="left-nav-links">
           <div className="flex-container-row">
             <Link to="/">Home</Link>
-            <Link to="/">Polls</Link>
+            <Link to="/polls">Polls</Link>
             <Link to="/">About</Link>
           </div>
         </nav>
