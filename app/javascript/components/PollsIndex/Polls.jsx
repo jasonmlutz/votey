@@ -6,7 +6,7 @@ const data = DATA;
 
 export default function Polls(props) {
   // const keys = Object.keys(data[0]);
-  const keys = ["title", "description"]
+  const keys = ["title", "description", "author"]
 
   return (
     <PollsTable keys = { keys } data = { data } />
@@ -55,9 +55,9 @@ function TableRows(props) {
   const keys = props.keys;
   const data = props.data;
 
-  return data.map((poll, index) => (
+  return data.map((poll_data, index) => (
     <tr key = { index }>
-      <PollRow keys = { keys } poll = { poll } />
+      <PollRow keys = { keys } poll_data = { poll_data } />
     </tr>
   ))
 }
@@ -65,23 +65,36 @@ function TableRows(props) {
 function PollRow(props) {
   // props: user, keys
   const keys = props.keys;
-  const poll = props.poll;
+  const poll_data = props.poll_data;
   return keys.map((key, index) => (
     <td key = { index }>
-      {pollTableDisplay(key, poll)}
+      {pollTableDisplay(key, poll_data)}
     </td>
   ))
 }
 
-function pollTableDisplay(key, poll) {
+function pollTableDisplay(key, poll_data) {
   var output;
   switch (key) {
     case "title":
-      const path = `/polls/${poll.id}`
+      var poll = poll_data[0]
+      var title = poll.title
+      var path = `/polls/${poll.id}`
       output = <Link to = { path }>{poll.title}</Link>
       break;
+    case "description":
+      var poll = poll_data[0]
+      var description = poll.description;
+      output = description;
+      break;
+    case "author":
+      var author = poll_data[1]
+      var name = author.username;
+      var path = `users/${author.id}`
+      output = <Link to = { path }>{name}</Link>
+      break;
     default:
-      output = poll[key]
+      output = 'error'
   }
   return output
 }

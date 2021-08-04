@@ -4,15 +4,16 @@ class Api::V1::PollsController < ApplicationController
   # GET /polls
   # GET /polls.json
   def index
-    @polls = Poll.all.order(title: :asc)
-    render json: @polls
+    # @polls = Poll.all.order(title: :asc)
+    # render json: @polls
+    render json: build_index_catalog
   end
 
   # GET /polls/1
   # GET /polls/1.json
   def show
     if @poll
-      render json: build_catalog(@poll)
+      render json: build_show_catalog(@poll)
     else
       render json: @poll.errors
     end
@@ -23,7 +24,18 @@ class Api::V1::PollsController < ApplicationController
       @poll = Poll.find(params[:id])
     end
 
-    def build_catalog(poll)
+    def build_index_catalog
+      catalog = []
+      polls = Poll.all
+      polls.each do |poll|
+        author = poll.author
+        catalog << [poll, author]
+      end
+
+      return catalog
+    end
+
+    def build_show_catalog(poll)
       catalog = {}
       catalog[:POLL] = poll
       catalog[:AUTHOR] = poll.author
