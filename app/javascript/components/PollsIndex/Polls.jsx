@@ -6,7 +6,7 @@ const data = DATA;
 
 export default function Polls(props) {
   // const keys = Object.keys(data[0]);
-  const keys = ["title", "description", "author"]
+  const keys = ["title", "description", "author", "responses"]
 
   return (
     <PollsTable keys = { keys } data = { data } />
@@ -92,6 +92,10 @@ function pollTableDisplay(key, poll_data) {
       var name = author.username;
       var path = `users/${author.id}`
       output = <Link to = { path }>{name}</Link>
+      break;
+    case "responses":
+      var count = poll_data[2]
+      output = count;
       break;
     default:
       output = 'error'

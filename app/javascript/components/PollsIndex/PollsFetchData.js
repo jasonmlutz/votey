@@ -16,7 +16,8 @@ export const DATA = [
             "updated_at": "2021-08-02T22:40:00.685Z",
             "admin": true,
             "session_token": "L21M9ils0d2h8ZI1_eS-vQ"
-        }
+        },
+        1
     ],
     [
         {
@@ -35,6 +36,7 @@ export const DATA = [
             "updated_at": "2021-08-02T22:40:00.322Z",
             "admin": false,
             "session_token": "KJ0Zy9yk3l5f_ywY1n5x5g"
-        }
+        },
+        1
     ]
 ]

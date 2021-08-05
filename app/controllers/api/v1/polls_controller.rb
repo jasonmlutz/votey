@@ -29,7 +29,8 @@ class Api::V1::PollsController < ApplicationController
       polls = Poll.all
       polls.each do |poll|
         author = poll.author
-        catalog << [poll, author]
+        count = poll.responses.count
+        catalog << [poll, author, count]
       end
 
       return catalog
