@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const RadioInputContext = React.createContext();
 // { Provider, Consumer }
@@ -8,7 +8,12 @@ class PollDisplay extends React.Component {
   // props: poll_id
   constructor (props) {
     super(props)
-    this.state = { dataLoaded: false }
+    this.state = {
+      dataLoaded: false,
+      response: {
+        submitted: false
+      }
+     }
 
     this.loadData = this.loadData.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -56,10 +61,6 @@ class PollDisplay extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault();
-
-    console.log('form submitted!')
-    console.log(this.state.answers)
-    console.log(this.state.respondent_id)
     this.pushResponse()
   }
 
@@ -78,10 +79,10 @@ class PollDisplay extends React.Component {
     })
       .then((data) => {
         if (data.ok) {
-          console.log('response data sent 200 OK')
+          // console.log('response data sent 200 OK')
           return data.json()
         } else if (data.status == "422") {
-          console.log('response data denied 422')
+          // console.log('response data denied 422')
           // data.json().then(errors => console.log(errors))
         } else {
           throw new Error("unknown server/network error at response level")
@@ -91,7 +92,7 @@ class PollDisplay extends React.Component {
         const response_id = data.id;
         const answers = this.state.answers;
         const answer_url = `/api/v1/responses/${response_id}/answers`
-        console.log(response_id, answers, answer_url)
+        // console.log(response_id, answers, answer_url)
         for (const [question_id, response_option_id] of Object.entries(answers)) {
           var answer_values = {
             response_id: response_id,
@@ -107,20 +108,26 @@ class PollDisplay extends React.Component {
           })
             .then((data) => {
               if (data.ok) {
-                console.log(`answer to question_id ${question_id} 200 OK`)
                 return data.json()
-              } else if (data.status == "422" ){
-                console.log(`answer to question_id ${question_id} 422 !!`)
-                // data.json().then(errors => console.log(errors))
+              } else if (data.status == "422" ) {
               } else {
                 throw new Error(`unknown server/network error at question_id ${question_id}`)
               }
             })
-            .then((data) => {
-              console.log(data)
-            })
             .catch((err) => console.error(`error catch at question_id ${question_id}`))
           }
+        return data
+        })
+        .then((data) => {
+          // console.log('logging data for redirect test')
+          // console.log(data)
+          const response = {
+            submitted: true,
+            path: `/responses/${data.id}`
+          }
+          this.setState({
+            response: response
+          })
         })
         .catch((err) => console.error("error catch at response level: "+ err))
   }
@@ -128,6 +135,12 @@ class PollDisplay extends React.Component {
 
 
   render () {
+    const response = this.state.response;
+    if (response.submitted) {
+      return (
+        <Redirect to={ response.path } />
+      )
+    }
     if (this.state.dataLoaded) {
       const data = this.state.data
       return (
@@ -194,7 +207,7 @@ class RespondentSelector extends React.Component {
   handleChange(event) {
     const value = event.target.value;
     this.setState( {value: value} )
-    console.log(value)
+    // console.log(value)
     this.props.onSelectChange(value)
     // this.setState( {value: event.target.value} )
     // console.log(this.state.value)
