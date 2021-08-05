@@ -84,4 +84,71 @@ ApplicationRecord.transaction do
     question_id: 2,
     response_option_id: 6
   )
+
+  Poll.create(
+    title: 'Pets!',
+    author_id: 1,
+    description: 'What pets do you have?'
+  )
+
+  Question.create(
+    parent_poll_id: 2,
+    title: "How many pets do you own?"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 3,
+    text: "0"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 3,
+    text: "1"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 3,
+    text: "2"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 3,
+    text: "3"
+  )
+  ResponseOption.create(
+    parent_question_id: 3,
+    text: "4 or more"
+  )
+
+  Response.create(
+    respondent_id: 2,
+    poll_id: 2
+  )
+
+  Answer.create(
+    response_id: 2,
+    question_id: 3,
+    response_option_id: 8
+  )
+
+  Question.create(
+    parent_poll_id: 2,
+    title: "Are you open to getting a(nother) pet?"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 4,
+    text: "yes"
+  )
+
+  ResponseOption.create(
+    parent_question_id: 4,
+    text: "no"
+  )
+
+  Answer.create(
+    response_id: 2,
+    question_id: 4,
+    response_option_id: 12
+  )
 end
