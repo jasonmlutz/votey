@@ -1,16 +1,42 @@
-import React, { } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { DATA } from "./PollsFetchData";
-
-const data = DATA;
 
 export default function Polls(props) {
-  // const keys = Object.keys(data[0]);
   const keys = ["title", "description", "author", "responses"]
 
-  return (
-    <PollsTable keys = { keys } data = { data } />
-  )
+  const [data, setData] = useState([]);
+  const [mounted, setMountStatus] = useState(false);
+
+  const url = "api/v1/polls/"
+
+  useEffect(() => {
+    if (mounted == false) {
+      fetch(url)
+        .then((data) => {
+          if (data.ok) {
+            return data.json()
+          }
+          throw new Error("network and/or server error")
+        })
+        .then((data) => {
+          setData(data);
+          setMountStatus(true);
+        })
+        .catch((err) => console.error("unknown error ") + err)
+    }
+  })
+
+  if (data.length) {
+    return (
+      <PollsTable keys = { keys } data = { data } />
+    )
+  } else {
+    if (mounted) {
+      return <h2>No poll data to display!</h2>
+    } else {
+      return <h2>Loading ...</h2>
+    }
+  }
 }
 
 function PollsTable(props) {
