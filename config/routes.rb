@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :show]
   resource :session, only: [:new]
-  resources :polls, only: [:show, :index]
+  resources :polls, only: [:show, :index, :new]
   resources :responses, only: [:show]
 
   root 'users#index'

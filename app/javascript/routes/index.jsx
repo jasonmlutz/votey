@@ -7,6 +7,7 @@ import Poll from "../components/PollDisplay/Poll"
 import Response from "../components/ResponseDisplay/Response"
 import User from "../components/UserDisplay/User"
 import Polls from "../components/PollsIndex/Polls"
+import PollNew from "../components/PollNew/New"
 
 export default (
   <Router>
@@ -15,6 +16,7 @@ export default (
       <Route path="/session/new" component={Login} />
       <Route path="/users/new" component={Register} />
       <Route exact path="/polls" component={Polls} />
+      <Route exact path="/polls/new" component={PollNew} />
       <Route path="/polls/:poll_id" component={Poll} />
       <Route path="/responses/:response_id" component={Response} />
       <Route path="/users/:user_id" component={User} />
