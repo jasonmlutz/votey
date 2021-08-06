@@ -8,6 +8,10 @@
 #  poll_id       :integer          not null
 #  respondent_id :integer          not null
 #
+# Indexes
+#
+#  index_responses_on_poll_id_and_respondent_id  (poll_id,respondent_id) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Response, type: :model do
