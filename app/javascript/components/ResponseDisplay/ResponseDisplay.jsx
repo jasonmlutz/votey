@@ -75,32 +75,36 @@ export default function ResponseDisplay(props) {
 function PollHeader(props) {
   const poll = props.poll
   const title = poll.title
+  const poll_id = poll.id
   const description = poll.description
 
   const author = props.author
   const author_username = author.username
+  const author_id = author.id
 
   return (
     <div className = "poll-header">
-      <PollTitle title = { title } />
-      <PollAuthor author_username = { author_username }/>
+      <PollTitle title = { title } poll_id = { poll_id } />
+      <PollAuthor author_username = { author_username } author_id = { author_id }/>
       <PollDescription description = { description }/>
     </div>
   )
 }
 
 function PollTitle(props) {
+  const path = `/polls/${props.poll_id}`
   return (
     <div className = "poll-title" >
-      {props.title}
+      <Link to={ path }>{props.title}</Link>
     </div>
   )
 }
 
 function PollAuthor(props) {
+  const path = `/users/${props.author_id}`
   return (
     <div className = "poll-author" >
-      by {props.author_username}
+      by <Link to={ path }>{props.author_username}</Link>
     </div>
   )
 }
