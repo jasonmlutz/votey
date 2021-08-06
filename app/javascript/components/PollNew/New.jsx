@@ -1,17 +1,32 @@
 import React, {useState, useEffect} from "react";
+import { Redirect } from "react-router-dom";
+import PollDisplay from "../PollDisplay/PollDisplay"
 
 export default function PollNew(props) {
   // props: empty
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [author_id, setAuthorID] = useState("");
-  
-  return (
+  const [pollSubmitted, setPollSubmitStatus] = useState(false);
+  const [poll_id, setPollID] = useState(null);
+
+  if (pollSubmitted == false) {
+    return (
     <div className = "new-poll-display flex-container-column">
       <div className="new-poll-title">New Poll!</div>
       <form
         id="new-poll-form"
-        onSubmit = { e => onFormSubmit(e, [title, description, author_id]) }
+        onSubmit = {
+          e => {
+            const values = {
+              title: title,
+              description: description,
+              author_id: author_id
+            }
+            e.preventDefault()
+            onFormSubmit(values, setPollSubmitStatus, setPollID)
+          }
+        }
         className = "new-poll-form flex-container-column"
       >
         <PollFieldInput name = "title" passData = { setTitle }/>
@@ -20,14 +35,34 @@ export default function PollNew(props) {
         <NewPollSubmitBtn />
       </form>
     </div>
-  )
+  )} else {
+    return (
+      <PollDisplay poll_id = { poll_id } />
+    )
+  }
 }
 
-function onFormSubmit(e, values) {
-  e.preventDefault()
-  values.forEach((value, i) => {
-    console.log(value)
+function onFormSubmit(values, pollCallback, pollIDCallback) {
+  const url = "/api/v1/polls";
+
+  fetch(url, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
   })
+    .then((data) => {
+      if (data.ok) {
+        return data.json()
+      }
+      throw new Error("server and/or network error")
+    })
+    .then((data) => {
+      pollIDCallback(data.id);
+      pollCallback(true);
+    })
+    .catch(err => console.error("unknown error " + err))
 }
 
 function onChangeSetValue(e, callback) {

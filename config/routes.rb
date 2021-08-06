@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resource :session, only: [:create]
       delete 'session/', to: 'sessions#destroy'
 
-      resources :polls, only: [:show, :index]
+      resources :polls, only: [:show, :index, :create]
       resources :responses, only: [:create, :show] do
         resources :answers, only: [:create]
       end

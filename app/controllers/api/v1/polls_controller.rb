@@ -19,7 +19,22 @@ class Api::V1::PollsController < ApplicationController
     end
   end
 
+  # POST /polls
+  def create
+    @poll = Poll.new(poll_params)
+
+    if @poll.save
+      render json: @poll
+    else
+      render json: @poll.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
   private
+    def poll_params
+      params.permit(:title, :description, :author_id)
+    end
+
     def set_poll
       @poll = Poll.find(params[:id])
     end
