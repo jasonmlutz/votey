@@ -27,7 +27,8 @@ export default function ResponseDisplay(props) {
               setMountStatus(true);
               // response_data loaded
               // fetch the associated poll data
-              const poll_id = response_data.RESPONSE.poll_id;
+              // const poll_id = response_data.RESPONSE.poll_id;
+              const poll_id = data.RESPONSE.poll_id;
               const poll_url = `/api/v1/polls/${poll_id}`
               fetch(poll_url)
                 .then((data) => {
