@@ -11,8 +11,17 @@
 #
 class Answer < ApplicationRecord
   validates :question_id, :response_id, :response_option_id, presence: true
+  validates_with QuestionHasResponseOption
 
   belongs_to :question, foreign_key: :question_id # redundant?
   belongs_to :response, foreign_key: :response_id
   belongs_to :response_option, foreign_key: :response_option_id
+end
+
+class QuestionHasResponseOption < ActiveModel::Validator
+  def validate(record)
+    unless record.question == record.response_option.question
+      record.errors.add(:base, "Question does not have selected ResponseOption")
+    end
+  end
 end
