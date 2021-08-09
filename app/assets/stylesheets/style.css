@@ -159,7 +159,8 @@ td, th{
 }
 
 /* USER AUTH */
-.auth-display {
+.auth-display,
+.new-poll-display {
   border: none;
   border-radius: 8px;
   width: 275px;
@@ -167,18 +168,21 @@ td, th{
   background-color: var(--gray);
 }
 
-.auth-display > * {
+.auth-display > *,
+.new-poll-display > * {
   padding: 5px;
   margin: 5px;
 
 }
 
-.auth-input-text {
+.auth-input-text,
+.poll-field-input {
   border: 2px var(--red) solid;
   color: white;
 }
 
-.auth-submit-btn {
+.auth-submit-btn,
+.new-poll-create-btn {
   background-color: var(--red);
   border: 2px solid var(--black);
   text-align: center;
@@ -188,7 +192,8 @@ td, th{
   border-radius: 8px;
 }
 
-.auth-submit-btn:hover {
+.auth-submit-btn:hover,
+.new-poll-submit-btn:hover {
   background-color: var(--yellow);
   color: var(--black);
 }
@@ -196,12 +201,14 @@ td, th{
 .auth-input-form {
 }
 
-.auth-input-form > * {
+.auth-input-form > *,
+.new-poll-form > * {
   padding: 5px;
   margin: 5px;
 }
 
-.auth-display-title {
+.auth-display-title.
+.new-poll-title {
   border: none;
   color: white;
   font-size: 24px;
