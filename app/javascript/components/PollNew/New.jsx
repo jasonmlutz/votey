@@ -10,23 +10,43 @@ export default function PollNew(props) {
   const [pollSubmitted, setPollSubmitStatus] = useState(false);
   const [poll_id, setPollID] = useState(null);
 
+  function onFormSubmit(e) {
+    e.preventDefault();
+
+    const values = {
+      title: title,
+      description: description,
+      author_id: author_id,
+    }
+    const url = "/api/v1/polls";
+
+    fetch(url, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+      .then((data) => {
+        if (data.ok) {
+          return data.json()
+        }
+        throw new Error("server and/or network error")
+      })
+      .then((data) => {
+        setPollID(data.id);
+        setPollSubmitStatus(true);
+      })
+      .catch(err => console.error("unknown error ", err))
+  }
+
   if (pollSubmitted == false) {
     return (
     <div className = "new-poll-display flex-container-column">
       <div className="new-poll-title">New Poll!</div>
       <form
         id="new-poll-form"
-        onSubmit = {onFormSubmit
-          // e => {
-          //   const values = {
-          //     title: title,
-          //     description: description,
-          //     author_id: author_id
-          //   }
-          //   e.preventDefault()
-          //   onFormSubmit(values, setPollSubmitStatus, setPollID)
-          // }
-        }
+        onSubmit = {e => onFormSubmit(e)}
         className = "new-poll-form flex-container-column"
       >
         <PollFieldInput name = "title" passData = { setTitle }/>
@@ -45,43 +65,6 @@ export default function PollNew(props) {
   }
 }
 
-// function onFormSubmit(values, pollCallback, pollIDCallback) {
-function onFormSubmit(e) {
-  e.preventDefault;
-
-  // const values = {
-  //   title: title,
-  //   description: description,
-  //   author_id: author.id,
-  // }
-  const pollCallback = setPollSubmitStatus;
-  const pollIDCallback = setPollID;
-  const url = "/api/v1/polls";
-
-  fetch(url, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(values),
-  })
-    .then((data) => {
-      if (data.ok) {
-        return data.json()
-      }
-      throw new Error("server and/or network error")
-    })
-    .then((data) => {
-      pollIDCallback(data.id);
-      pollCallback(true);
-    })
-    .catch(err => console.error("unknown error " + err))
-}
-
-function onChangeSetValue(e, callback) {
-  callback(e.target.value)
-}
-
 function PollFieldInput(props) {
   // props: name ["title", "description"]
   const name = props.name
@@ -98,7 +81,7 @@ function PollFieldInput(props) {
       name = { name }
       placeholder = { name }
       value = { value }
-      onChange = { e => onChangeSetValue(e, setValue) }
+      onChange = { e => setValue(e.target.value) }
     />
   )
 }
@@ -124,7 +107,7 @@ function AuthorSelector(props) {
           setUsers(data)
           setLoadStatus(true)
         })
-        .catch((err) => console.error("unknown error " + err))
+        .catch((err) => console.error("unknown error ", err))
     }
   })
 
