@@ -16,16 +16,16 @@ export default function PollNew(props) {
       <div className="new-poll-title">New Poll!</div>
       <form
         id="new-poll-form"
-        onSubmit = {
-          e => {
-            const values = {
-              title: title,
-              description: description,
-              author_id: author_id
-            }
-            e.preventDefault()
-            onFormSubmit(values, setPollSubmitStatus, setPollID)
-          }
+        onSubmit = {onFormSubmit
+          // e => {
+          //   const values = {
+          //     title: title,
+          //     description: description,
+          //     author_id: author_id
+          //   }
+          //   e.preventDefault()
+          //   onFormSubmit(values, setPollSubmitStatus, setPollID)
+          // }
         }
         className = "new-poll-form flex-container-column"
       >
@@ -38,11 +38,24 @@ export default function PollNew(props) {
   )} else {
     return (
       <PollDisplay poll_id = { poll_id } />
+      // TODO: this is a temporary fix
+      // it serves to render the 'poll' created
+      // so that questions and response options can be added
     )
   }
 }
 
-function onFormSubmit(values, pollCallback, pollIDCallback) {
+// function onFormSubmit(values, pollCallback, pollIDCallback) {
+function onFormSubmit(e) {
+  e.preventDefault;
+
+  // const values = {
+  //   title: title,
+  //   description: description,
+  //   author_id: author.id,
+  // }
+  const pollCallback = setPollSubmitStatus;
+  const pollIDCallback = setPollID;
   const url = "/api/v1/polls";
 
   fetch(url, {
