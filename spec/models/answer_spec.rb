@@ -9,6 +9,10 @@
 #  response_id        :integer          not null
 #  response_option_id :integer          not null
 #
+# Indexes
+#
+#  index_answers_on_response_id_and_question_id  (response_id,question_id) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
