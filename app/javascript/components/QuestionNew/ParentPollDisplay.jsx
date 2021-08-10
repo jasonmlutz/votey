@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ParentPollHeader from "./ParentPollHeader"
-import QuestionsContainer from "./QuestionsContainer"
+import SiblingQuestionContainer from "./SiblingQuestionContainer"
+import NewQuestionForm from "./NewQuestionForm"
 
 export default function ParentPollDisplay(props) {
   // props: pollID
@@ -49,7 +50,8 @@ export default function ParentPollDisplay(props) {
     return (
       <div className = "parent-poll-display">
         <ParentPollHeader  {...headerProps}/>
-        <QuestionsContainer {...questionsContainerProps}/>
+        <SiblingQuestionContainer {...questionsContainerProps}/>
+        <NewQuestionForm parentPollID = {pollID}/>
       </div>
     )
   } else {
