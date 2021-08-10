@@ -40,27 +40,29 @@ export default function PollNew(props) {
       .catch(err => console.error("unknown error ", err))
   }
 
-  if (pollSubmitted == false) {
+  if (pollSubmitted) {
+    const redirectPath = `/polls/${poll_id}/questions/new`
     return (
-    <div className = "new-poll-display flex-container-column">
-      <div className="new-poll-title">New Poll!</div>
-      <form
-        id="new-poll-form"
-        onSubmit = {e => onFormSubmit(e)}
-        className = "new-poll-form flex-container-column"
-      >
-        <PollFieldInput name = "title" passData = { setTitle }/>
-        <PollFieldInput name = "description" passData = { setDescription }/>
-        <AuthorSelector passData = { setAuthorID }/>
-        <NewPollSubmitBtn />
-      </form>
-    </div>
-  )} else {
-    return (
-      <PollDisplay poll_id = { poll_id } />
-      // TODO: this is a temporary fix
-      // it serves to render the 'poll' created
-      // so that questions and response options can be added
+      <>
+        <h2>redirecting</h2>
+        <Redirect to={redirectPath} />
+      </>
+    )
+  } else {
+      return (
+      <div className = "new-poll-display flex-container-column">
+        <div className="new-poll-title">New Poll!</div>
+        <form
+          id="new-poll-form"
+          onSubmit = {e => onFormSubmit(e)}
+          className = "new-poll-form flex-container-column"
+        >
+          <PollFieldInput name = "title" passData = { setTitle }/>
+          <PollFieldInput name = "description" passData = { setDescription }/>
+          <AuthorSelector passData = { setAuthorID }/>
+          <NewPollSubmitBtn />
+        </form>
+      </div>
     )
   }
 }
@@ -89,7 +91,7 @@ function PollFieldInput(props) {
 function AuthorSelector(props) {
   const [users, setUsers] = useState([]);
   const [loaded, setLoadStatus] = useState(false);
-  const [selectValue, setSelectValue] = useState("default")
+  const [selectValue, setSelectValue] = useState(null)
 
   const passData = props.passData;
 
@@ -129,7 +131,7 @@ function AuthorSelector(props) {
             <select
               name = "author"
               id = "author"
-              value = { selectValue }
+              value = { selectValue || "default"}
               onChange = { e => {
                 const value = e.target.value
                 passData(value)
