@@ -11,19 +11,21 @@ import Polls from "../components/PollsIndex/Polls"
 import PollNew from "../components/PollNew/New"
 import QuestionNew from "../components/QuestionNew/QuestionNew"
 
-export default (
-  <Router>
-  <Header />
-    <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/session/new" component={Login} />
-      <Route path="/users/new" component={Register} />
-      <Route exact path="/polls" component={Polls} />
-      <Route exact path="/polls/new" component={PollNew} />
-      <Route exact path="/polls/:poll_id" component={Poll} />
-      <Route path="/polls/:poll_id/questions/new" component={QuestionNew} />
-      <Route path="/responses/:response_id" component={Response} />
-      <Route path="/users/:user_id" component={User} />
-    </Switch>
-  </Router>
-);
+export default function Routes(props) {
+  return (
+    <Router>
+    <Header />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/session/new" component={Login} />
+        <Route path="/users/new" component={Register} />
+        <Route exact path="/polls" component={Polls} />
+        <Route exact path="/polls/new" component={PollNew} />
+        <Route exact path="/polls/:poll_id" component={Poll} />
+        <Route path="/polls/:poll_id/questions/new" component={QuestionNew} />
+        <Route path="/responses/:response_id" component={Response} />
+        <Route path="/users/:user_id" component={User} />
+      </Switch>
+    </Router>
+  )
+}

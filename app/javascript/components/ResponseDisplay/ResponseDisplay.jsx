@@ -156,7 +156,7 @@ function QuestionDisplay(props) {
   const response_options = props.response_options;
   const answers = useContext(AnswerContext);
   const question_id = question.id
-  const selected_response_option = answers[question_id] // not how the object works!
+  const selected_response_option = answers[question_id] 
   const selected_response_option_id = selected_response_option.id
   // answers = all answer objects
   // answers[question.id] = the answer object associated with that question
