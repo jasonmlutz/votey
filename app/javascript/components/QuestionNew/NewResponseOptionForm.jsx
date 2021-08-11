@@ -3,6 +3,7 @@ import React, {useState, useEffect} from "react";
 export default function NewResponseOptionForm(props) {
   // props: parentQuestionID
   const parentQuestionID = props.parentQuestionID;
+  const formID = "new-response-option-form-"+parentQuestionID
   const [responseOptionText, setResponseOptionText] = useState("");
   const [responseOptionSubmitted, setSubmissionStatus] = useState(false);
 
@@ -40,7 +41,7 @@ export default function NewResponseOptionForm(props) {
   } else {
     return (
       <form
-        id = "new-response-option-form"
+        id = {formID}
         className = "new-response-option-form"
         onSubmit = {e => handleFormSubmit(e)}
       >
@@ -58,7 +59,7 @@ export default function NewResponseOptionForm(props) {
         <button
           className = "new-response-option-submit-btn submit-btn"
           type = "submit"
-          form = "new-question-form"
+          form = {formID}
         >
           Submit
         </button>
