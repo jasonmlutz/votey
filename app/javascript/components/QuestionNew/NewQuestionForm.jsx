@@ -36,10 +36,9 @@ export default function NewQuestionForm(props) {
   }
 
   if (questionSubmitted) {
-    const redirectPath = `/polls/${parentPollID}/questions/new`;
-    return (
-      <Redirect to={redirectPath} />
-    )
+    // const redirectPath = `/polls/${parentPollID}/questions/new`;
+    window.location.reload(true);
+    return null
   } else {
     return (
       <form
@@ -47,23 +46,23 @@ export default function NewQuestionForm(props) {
         onSubmit = {e => handleFormSubmit(e)}
         className = "new-question-form"
       >
-        <label className = "question-title">Question text:
+        <label className = "question-title">Add new question:
           <input
-            className = "new-question-title-input"
+            className = "new-question-title-input input-text"
             name = "title"
             type = "text"
-            placeholder = "..."
+            placeholder = "... enter question text ..."
             value = { questionTitle }
             onChange = {e => setQuestionText(e.target.value)}
           >
           </input>
         </label>
         <button
-          className = "new-question-submit-btn"
+          className = "new-question-submit-btn submit-btn"
           type = "submit"
           form = "new-question-form"
         >
-          Submit!
+          Submit
         </button>
       </form>
     )

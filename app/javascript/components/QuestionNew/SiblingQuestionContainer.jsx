@@ -1,4 +1,5 @@
 import React from "react";
+import ResponseOptionsContainer from "./ResponseOptionsContainer"
 
 export default function SiblingQuestionContainer(props) {
   // props: key, question, responseOptions
@@ -9,21 +10,7 @@ export default function SiblingQuestionContainer(props) {
   return (
     <li className = "question-display-li">
     <div className = "question-title">{question.title}</div>
+    <ResponseOptionsContainer responseOptions = {responseOptions} parentQuestionID = {question.id}/>
     </li>
   )
-  // if (responseOptions.length === 0) {
-  //   const message = "no response options, yet"
-  //   return (
-  //     <ol><li key={0}>{message}</li></ol>
-  //   )
-  // } else {
-  //   const resrponseOptionsList = responseOptions.forEach((option, index) =>
-  //    <li key={index}>{option.text}</li>
-  //   )
-  //   return (
-  //     <ol>
-  //       {responseOptionsList}
-  //     </ol>
-  //   )
-  // }
 }

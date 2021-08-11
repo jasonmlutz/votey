@@ -23,7 +23,7 @@ class AuthInputText extends React.Component {
     const placeholder = name;
     return (
         <input
-          className="auth-input-text"
+          className="auth-input-text input-text"
           name={name}
           ref={name}
           type={type}
@@ -45,7 +45,7 @@ class SubmitButton extends React.Component {
     const auth_type = this.props.auth_type;
     return (
       <button
-        className="auth-submit-btn"
+        className="auth-submit-btn submit-btn"
         form={`${auth_type}-form`}
         type="submit"
       >{auth_type.toUpperCase()}</button>

@@ -48,14 +48,14 @@ export default function ParentPollDisplay(props) {
       <SiblingQuestionContainer
         key = {index}
         question = {question}
-        response_options = {responseOptions[question.id]}
+        responseOptions = {responseOptions[question.id]}
       />
     );
 
     return (
       <div className = "parent-poll-display poll-display">
         <ParentPollHeader  {...headerProps}/>
-        <ul>
+        <ul className = "questions-container">
           {siblingQuestions}
         </ul>
         <NewQuestionForm parentPollID = {pollID}/>
