@@ -79,7 +79,7 @@ function PollFieldInput(props) {
 
   return (
     <input
-      className = "poll-field-input"
+      className = "poll-field-input input-text"
       name = { name }
       type = "text"
       placeholder = { name }
@@ -157,7 +157,7 @@ function AuthorSelector(props) {
 function NewPollSubmitBtn(props) {
   return (
     <button
-      className = "new-poll-create-btn"
+      className = "new-poll-create-btn submit-btn"
       form = "new-poll-form"
       type = "submit"
     >Create!</button>

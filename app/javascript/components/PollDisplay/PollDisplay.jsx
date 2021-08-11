@@ -407,7 +407,7 @@ class PollSubmitBtn extends React.Component {
     //
     return (
       <button
-        className = "poll-submit-btn"
+        className = "poll-submit-btn submit-btn"
         form = "main-poll-form"
         type = "submit"
       >

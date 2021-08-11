@@ -129,7 +129,6 @@ a {
   color: var(--black);
 }
 
-
 /* PLACEHOLDER INPUT TEXT */
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -158,6 +157,49 @@ td, th{
   padding: 5px;
 }
 
+/* BUTTONS */
+
+.submit-btn {
+  background-color: var(--red);
+  border: 2px solid var(--black);
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.submit-btn:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.new-response-option-submit-btn,
+.new-question-submit-btn {
+  padding: 5px;
+}
+
+/* INPUTS */
+
+.input-text {
+  border: 2px var(--red) solid;
+  color: white;
+}
+
+.new-response-option-input {
+  color: var(--black);
+}
+
+.new-response-option-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--black);
+  opacity: 0.5; /* Firefox */
+}
+
+.new-response-option-input,
+.new-question-title-input {
+  margin: 0 5px;
+}
+
 /* USER AUTH */
 .auth-display,
 .new-poll-display {
@@ -173,32 +215,6 @@ td, th{
   padding: 5px;
   margin: 5px;
 
-}
-
-.auth-input-text,
-.poll-field-input {
-  border: 2px var(--red) solid;
-  color: white;
-}
-
-.auth-submit-btn,
-.new-poll-create-btn {
-  background-color: var(--red);
-  border: 2px solid var(--black);
-  text-align: center;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.auth-submit-btn:hover,
-.new-poll-submit-btn:hover {
-  background-color: var(--yellow);
-  color: var(--black);
-}
-
-.auth-input-form {
 }
 
 .auth-input-form > *,
@@ -267,7 +283,8 @@ td, th{
   border-radius: 4px;
 }
 
-.question-title {
+.question-title,
+label.response-option {
   margin: 8px;
   padding: 8px;
 }
@@ -295,21 +312,6 @@ td, th{
   margin: 8px;
 }
 
-.poll-submit-btn {
-  background-color: var(--red);
-  border: 2px solid var(--black);
-  text-align: center;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.poll-submit-btn:hover {
-  background-color: var(--yellow);
-  color: var(--black);
-}
-
 .radio-container input[type="radio"] {
   display: inline;
   margin: 2px;
@@ -322,10 +324,4 @@ td, th{
 
 li.selected {
   border: 2px solid green;
-}
-
-/* NEW QUESTIONS PIPELINE */
-
-.parent-poll-display {
-  color: var(--black);
 }

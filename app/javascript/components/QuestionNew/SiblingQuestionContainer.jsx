@@ -1,37 +1,16 @@
 import React from "react";
+import ResponseOptionsContainer from "./ResponseOptionsContainer"
 
 export default function SiblingQuestionContainer(props) {
-  // props: questions, responseOptions
-  const questions = props.questions;
+  // props: key, question, responseOptions
+  const question = props.question;
   const responseOptions = props.responseOptions;
 
-  if (questions[0]) {
-    if (responseOptions[questions[0].id] && responseOptions[questions[0].id][0]){
-      return (
-      <div className = "questions-container">
-        <h2>rendering the component QuestionsContainer</h2>
-        <ol>
-          <li>Question 1: {questions[0].title}</li>
-          <li>ResponseOption 1: {responseOptions[questions[0].id][0].text}</li>
-        </ol>
-      </div>
-      )
-    } else {
-      return (
-      <div className = "questions-container">
-        <h2>rendering the component QuestionsContainer</h2>
-        <ol>
-          <li>Question 1: {questions[0].title}</li>
-          <li>no response options for this question, yet</li>
-        </ol>
-      </div>
-      )
-    }
-  } else {
-    return (
-      <div className = "questions-container">
-        <h2>no questions to display!</h2>
-      </div>
-    )
-  }
+  const title = question.title
+  return (
+    <li className = "question-display-li">
+    <div className = "question-title">{question.title}</div>
+    <ResponseOptionsContainer responseOptions = {responseOptions} parentQuestionID = {question.id}/>
+    </li>
+  )
 }
