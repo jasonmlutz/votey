@@ -176,9 +176,15 @@ td, th{
 }
 
 .auth-input-text,
-.poll-field-input {
+.poll-field-input,
+.new-question-title-input {
   border: 2px var(--red) solid;
   color: white;
+}
+
+.new-question-title-input {
+  margin: 5px;
+  width: 350px;
 }
 
 .auth-submit-btn,
@@ -295,7 +301,8 @@ td, th{
   margin: 8px;
 }
 
-.poll-submit-btn {
+.poll-submit-btn,
+.new-question-submit-btn {
   background-color: var(--red);
   border: 2px solid var(--black);
   text-align: center;
@@ -305,7 +312,8 @@ td, th{
   border-radius: 8px;
 }
 
-.poll-submit-btn:hover {
+.poll-submit-btn:hover,
+.new-question-submit-btn:hover {
   background-color: var(--yellow);
   color: var(--black);
 }
@@ -326,6 +334,6 @@ li.selected {
 
 /* NEW QUESTIONS PIPELINE */
 
-.parent-poll-display {
+/* .parent-poll-display {
   color: var(--black);
-}
+} */

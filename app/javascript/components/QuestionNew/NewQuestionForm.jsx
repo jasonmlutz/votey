@@ -47,15 +47,24 @@ export default function NewQuestionForm(props) {
         onSubmit = {e => handleFormSubmit(e)}
         className = "new-question-form"
       >
-        <input
-          className = "new-question-title-input"
-          name = "title"
-          type = "text"
-          placeholder = "Question text ..."
-          value = { questionTitle }
-          onChange = {e => setQuestionText(e.target.value)}
+        <label className = "question-title">Question text:
+          <input
+            className = "new-question-title-input"
+            name = "title"
+            type = "text"
+            placeholder = "..."
+            value = { questionTitle }
+            onChange = {e => setQuestionText(e.target.value)}
+          >
+          </input>
+        </label>
+        <button
+          className = "new-question-submit-btn"
+          type = "submit"
+          form = "new-question-form"
         >
-        </input>
+          Submit!
+        </button>
       </form>
     )
   }

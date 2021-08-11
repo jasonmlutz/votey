@@ -32,25 +32,32 @@ export default function ParentPollDisplay(props) {
     const title = data.POLL.title;
     const description = data.POLL.description;
     const authorUsername = data.AUTHOR.username;
+    const authorID = data.AUTHOR.id;
 
     const headerProps = {
       title,
       description,
-      authorUsername
+      authorUsername,
+      authorID
     }
 
     const questions = data.QUESTIONS;
     const responseOptions = data.RESPONSE_OPTIONS;
 
-    const questionsContainerProps = {
-      questions,
-      responseOptions
-    }
+    const siblingQuestions = questions.map((question, index) =>
+      <SiblingQuestionContainer
+        key = {index}
+        question = {question}
+        response_options = {responseOptions[question.id]}
+      />
+    );
 
     return (
-      <div className = "parent-poll-display">
+      <div className = "parent-poll-display poll-display">
         <ParentPollHeader  {...headerProps}/>
-        <SiblingQuestionContainer {...questionsContainerProps}/>
+        <ul>
+          {siblingQuestions}
+        </ul>
         <NewQuestionForm parentPollID = {pollID}/>
       </div>
     )
