@@ -10,6 +10,10 @@
 #  updated_at     :datetime         not null
 #  parent_poll_id :integer          not null
 #
+# Indexes
+#
+#  index_questions_on_title_and_parent_poll_id  (title,parent_poll_id) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do

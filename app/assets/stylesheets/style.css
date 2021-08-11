@@ -323,3 +323,9 @@ td, th{
 li.selected {
   border: 2px solid green;
 }
+
+/* NEW QUESTIONS PIPELINE */
+
+.parent-poll-display {
+  color: var(--black);
+}
