@@ -6,7 +6,7 @@ export default function SiblingQuestionContainer(props) {
   const responseOptions = props.responseOptions;
 
   if (questions[0]) {
-    if (responseOptions[questions[0].id]){
+    if (responseOptions[questions[0].id] && responseOptions[questions[0].id][0]){
       return (
       <div className = "questions-container">
         <h2>rendering the component QuestionsContainer</h2>

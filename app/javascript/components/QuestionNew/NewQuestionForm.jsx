@@ -50,6 +50,7 @@ export default function NewQuestionForm(props) {
         <input
           className = "new-question-title-input"
           name = "title"
+          type = "text"
           placeholder = "Question text ..."
           value = { questionTitle }
           onChange = {e => setQuestionText(e.target.value)}

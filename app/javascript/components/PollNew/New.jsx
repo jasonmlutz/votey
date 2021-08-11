@@ -81,6 +81,7 @@ function PollFieldInput(props) {
     <input
       className = "poll-field-input"
       name = { name }
+      type = "text"
       placeholder = { name }
       value = { value }
       onChange = { e => setValue(e.target.value) }
