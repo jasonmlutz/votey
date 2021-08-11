@@ -5,7 +5,7 @@ class LeftNav extends React.Component {
   render () {
     return (
       <nav className="left-nav flex-container-row">
-        <img src="assets/triangle.jpg"
+        <img src="/assets/triangle.jpg"
              alt="triangle logo"
              className="logo"
         />

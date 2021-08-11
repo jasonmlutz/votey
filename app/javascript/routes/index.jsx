@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
+import Header from "../components/Header";
 import Home from "../components/Home";
 import Login from "../components/UserAuth/Login"
 import Register from "../components/UserAuth/Register"
@@ -12,6 +13,7 @@ import QuestionNew from "../components/QuestionNew/QuestionNew"
 
 export default (
   <Router>
+  <Header />
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/session/new" component={Login} />
