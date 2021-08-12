@@ -4,8 +4,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all.order(username: :asc)
-    render json: @users
+    render json: filteredUsers
   end
 
   # GET /users/1
@@ -41,6 +40,10 @@ class Api::V1::UsersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def filteredUsers
+      User.all.map { |user| user.filter }
+    end
+
     def set_user
       @user = User.find(params[:id])
     end
@@ -52,7 +55,7 @@ class Api::V1::UsersController < ApplicationController
 
     def user_catalog(user)
       catalog = {}
-      catalog[:USER] = user
+      catalog[:USER] = user.filter
       catalog[:POLLS] = user.polls
       catalog[:RESPONSE_DATA] = []
       user.responses.each do |response|

@@ -27,7 +27,7 @@ class Api::V1::ResponsesController < ApplicationController
     def build_catalog(response)
       catalog = {}
       catalog[:RESPONSE] = response
-      catalog[:RESPONDENT] = response.respondent
+      catalog[:RESPONDENT] = response.respondent.filter
       catalog[:ANSWERS] = {}
       response.answers.each do |answer|
         response_option = answer.response_option

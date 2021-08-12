@@ -22,6 +22,14 @@ class User < ApplicationRecord
 
   after_initialize :ensure_session_token
 
+  def filter
+    output = {}
+    self.attributes.keys.map do |key|
+      output[key] = self[key] unless ["session_token", "password_digest"].include?(key)
+    end
+    output
+  end
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
