@@ -41,7 +41,7 @@ class Api::V1::UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def filteredUsers
-      User.all.map { |user| user.filter }
+      User.all.map { |user| user.protect }
     end
 
     def set_user
@@ -55,7 +55,7 @@ class Api::V1::UsersController < ApplicationController
 
     def user_catalog(user)
       catalog = {}
-      catalog[:USER] = user.filter
+      catalog[:USER] = user.protect
       catalog[:POLLS] = user.polls
       catalog[:RESPONSE_DATA] = []
       user.responses.each do |response|

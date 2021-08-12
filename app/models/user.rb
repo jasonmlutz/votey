@@ -22,10 +22,10 @@ class User < ApplicationRecord
 
   after_initialize :ensure_session_token
 
-  def filter
+  def protect(protectedKeys = ["session_token", "password_digest"])
     output = {}
     self.attributes.keys.map do |key|
-      output[key] = self[key] unless ["session_token", "password_digest"].include?(key)
+      output[key] = self[key] unless protectedKeys.include?(key)
     end
     output
   end
