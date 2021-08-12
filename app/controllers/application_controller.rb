@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user
   # before_action :bypass_login
-  
+
   protect_from_forgery with: :null_session
 
   def current_user
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logout!
-    current_user.reset_session_token!
+    current_user.reset_session_token! if current_user
     session[:session_token] = nil
   end
 end

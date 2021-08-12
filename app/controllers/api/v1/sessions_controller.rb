@@ -1,4 +1,13 @@
 class Api::V1::SessionsController < ApplicationController
+  def show
+    @user = User.find_by(session_token: params[:session_token])
+    if @user
+      render json: @user
+    else
+      render json: {}, status: :unprocessable_entity
+    end
+  end
+
   def create
     @user = User.find_by_credentials(
           params[:username],
@@ -17,7 +26,11 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def destroy
-    logout!
-    render text: 'logout completed!'
+    if current_user
+      logout!
+      render json: {message: 'logout completed!'}
+    else
+      render json: {message: 'no user to logout!'}, status: :unprocessable_entity
+    end
   end
 end
