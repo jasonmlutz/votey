@@ -6,7 +6,11 @@ class Api::V1::SessionsController < ApplicationController
         )
     if @user
       login!(@user)
-      render json: @user
+      @loginValues = {
+        session_token: @user.session_token,
+        id: @user.id
+      }
+      render json: @loginValues
     else
       render json: @user.errors
     end

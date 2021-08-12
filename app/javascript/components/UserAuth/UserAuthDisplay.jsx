@@ -2,6 +2,7 @@
 // based on app/assets/mocks/UserAuth.png
 
 import React from "react";
+import { Redirect, Link } from "react-router-dom"
 
 class AuthInputText extends React.Component {
   // receives props.name in ['username', 'password']
@@ -73,7 +74,7 @@ class ErrorDisplay extends React.Component {
 class AuthInputForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {errors: [], password: "", username: ""};
+    this.state = {errors: [], password: "", username: "", authSuccess: false};
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -110,43 +111,54 @@ class AuthInputForm extends React.Component {
     })
       .then((data) => {
         if (data.ok) {
-          console.log("data ok")
-          return data.json();
+          data.json().then(data => {
+            const session_token = data.session_token;
+            sessionStorage.setItem("currentUserToken", session_token)
+
+            const userID = data.id;
+            this.setState({userID: userID, authSuccess: true})
+          })
         } else if (data.status == "422" ) {
-          console.log("422 status detected")
           data.json().then(errors => this.onValidationError(errors))
+        } else if (data.status == "500") {
+          this.onValidationError(["password and/or username incorrect"])
         } else {
-          throw new Error("unknown error ...")
+          throw new Error("network and/or server error")
         }
       })
       .catch((err) => console.error("Error" + err))
     }
 
   render() {
-    const auth_type = this.props.auth_type
-    return (
-      <>
-      <form
-        id={`${auth_type}-form`}
-        onSubmit={this.handleSubmit}
-        className="auth-input-form flex-container-column"
-      >
-        <AuthInputText
-          name = "username"
-          auth_type = {auth_type}
-          onInputChange = {this.onInputChange}
-        />
-        <AuthInputText
-          name = "password"
-          auth_type = {auth_type}
-          onInputChange = {this.onInputChange}
-        />
-        <SubmitButton auth_type = {auth_type} />
+    if (this.state.authSuccess) {
+      const redirectPath = `/users/${this.state.userID}`
+      return <Redirect to={redirectPath} />
+    } else {
+      const auth_type = this.props.auth_type
+      return (
+        <>
+        <form
+          id={`${auth_type}-form`}
+          onSubmit={this.handleSubmit}
+          className="auth-input-form flex-container-column"
+        >
+          <AuthInputText
+            name = "username"
+            auth_type = {auth_type}
+            onInputChange = {this.onInputChange}
+          />
+          <AuthInputText
+            name = "password"
+            auth_type = {auth_type}
+            onInputChange = {this.onInputChange}
+          />
+          <SubmitButton auth_type = {auth_type} />
 
-      </form>
-      <ErrorDisplay errors = {this.state.errors}/>
-      </>
-    )
+        </form>
+        <ErrorDisplay errors = {this.state.errors}/>
+        </>
+      )
+    }
   }
 }
 
@@ -169,10 +181,25 @@ class UserAuthDisplay extends React.Component {
   render() {
     // props.auth_type is one of "login" or "register"
     const auth_type = this.props.auth_type
+    const redirectMessage = (
+      auth_type == "login" ? "New user? " : "Returning user? "
+    )
+    const linkMessage = (
+      auth_type == "login" ? "Register" : "Login"
+    )
+    const redirectPath = (
+      auth_type == "login" ? "/users/new" : "/session/new"
+    )
     return (
       <div className="auth-display flex-container-column">
         <DisplayTitle auth_type={auth_type} />
         <AuthInputForm auth_type={auth_type} />
+        <div className = "redirect-footer flex-container-row">
+          <div>{redirectMessage}</div>
+          <Link to={redirectPath}>
+            {linkMessage}
+          </Link>
+        </div>
       </div>
     )
   }
