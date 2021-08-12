@@ -10,21 +10,9 @@ export default function App(props) {
     const currentUserToken = sessionStorage.getItem('currentUserToken')
 
     if (currentUserToken && !currentUser) {
-      // const values = {session_token: currentUserToken};
       const url = `/api/v1/session?session_token=${currentUserToken}`;
 
-      // const formData = new FormData();
-      // formData.append("session-token", currentUserToken);
-
-      fetch(url
-        // {
-        //   method: "get",
-        //   headers: {
-        //     "Content-Type": "form-data",
-        //   },
-        //   body: formData,
-        // }
-      )
+      fetch(url)
         .then((data) => {
           if (data.ok) {
             return data.json()
