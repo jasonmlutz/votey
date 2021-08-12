@@ -1,21 +1,26 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { Link, Redirect } from "react-router-dom"
+import { CurrentUserContext } from "../contexts/CurrentUserContext"
 
 export default function RightNav(props) {
+  const [logoutSuccess, setLogoutSuccess] = useState(false);
+
+  const {setCurrentUser} = useContext(CurrentUserContext);
+
   const currentUserToken = sessionStorage.getItem('currentUserToken')
 
-  const [redirectPath, setRedirectPath] = useState(null);
-
-  function handleClick () {
+  const handleClick = () => {
     if (currentUserToken) {
       const url = `/api/v1/session?session_token=${currentUserToken}`
+      sessionStorage.removeItem('currentUserToken')
+      setCurrentUser({})
       fetch(url, {
         method: "DELETE",
       })
         .then((data) => {
           if (data.ok) {
             return data.json()
-            setRedirect("/")
+            setLogoutSuccess(true)
           } else {
             throw new Error("network and/or server error")
           }
@@ -26,15 +31,8 @@ export default function RightNav(props) {
     }
   }
 
-  if (redirectPath) {
-    return (
-      <Redirect
-        to={{
-          pathname: {redirectPath},
-          state: {redirectFromLogout: true}
-        }}
-      />
-    )
+  if (logoutSuccess) {
+    return null
   } else {
     return (
       <nav className='right-nav'>
