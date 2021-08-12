@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :create, :show]
       delete 'users/:id', to: 'users#destroy'
 
-      resource :session, only: [:create]
+      resource :session, only: [:create, :show]
       delete 'session/', to: 'sessions#destroy'
 
       resources :polls, only: [:show, :index, :create] do

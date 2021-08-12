@@ -23,8 +23,12 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user
       login!(@user)
+      @loginValues = {
+        session_token: @user.session_token,
+        id: @user.id
+      }
+      render json: @loginValues
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end

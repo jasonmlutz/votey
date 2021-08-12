@@ -325,3 +325,7 @@ label.response-option {
 li.selected {
   border: 2px solid green;
 }
+
+.redirect-footer > * {
+  margin: 4px;
+}
