@@ -54,7 +54,7 @@ class Api::V1::PollsController < ApplicationController
     def build_show_catalog(poll)
       catalog = {}
       catalog[:POLL] = poll
-      catalog[:AUTHOR] = poll.author
+      catalog[:AUTHOR] = poll.author.filter
       catalog[:QUESTIONS] = poll.questions
       catalog[:RESPONSE_OPTIONS] = {}
       poll.questions.each do |question|

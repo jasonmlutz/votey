@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import ExtractFields from "../../contexts/ExtractFields"
 
 export function UsersIndex(props) {
   // props: none
@@ -19,8 +18,7 @@ export function UsersIndex(props) {
           throw new Error("network and/or server error")
         })
         .then((data) => {
-          const extractedData = ExtractFields(data, keys)
-          setData(extractedData);
+          setData(data);
           setMountStatus(true);
         })
         .catch((err) => console.error("unknown error: " + err));
