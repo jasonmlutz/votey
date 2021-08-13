@@ -5,5 +5,5 @@ import PollDisplay from "./PollDisplay"
 export default function Poll() {
   const { poll_id } = useParams();
 
-  return <PollDisplay poll_id = {poll_id} />
+  return <PollDisplay pollID = {poll_id} />
 }

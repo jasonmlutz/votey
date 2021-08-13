@@ -15,7 +15,7 @@ class Api::V1::PollsController < ApplicationController
     if @poll
       render json: build_show_catalog(@poll)
     else
-      render json: @poll.errors
+      render json: {}
     end
   end
 
@@ -36,7 +36,7 @@ class Api::V1::PollsController < ApplicationController
     end
 
     def set_poll
-      @poll = Poll.find(params[:id])
+      @poll = Poll.find_by(id: params[:id])
     end
 
     def build_index_catalog
