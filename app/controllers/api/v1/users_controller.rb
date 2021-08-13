@@ -23,12 +23,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      login!(@user)
-      @loginValues = {
-        session_token: @user.session_token,
-        id: @user.id
-      }
-      render json: @loginValues
+      render json: @user.protect("password_digest")
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end

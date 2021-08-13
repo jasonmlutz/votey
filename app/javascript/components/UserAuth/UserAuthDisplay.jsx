@@ -3,6 +3,7 @@
 
 import React from "react";
 import { Redirect, Link } from "react-router-dom"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 class AuthInputText extends React.Component {
   // receives props.name in ['username', 'password']
@@ -82,6 +83,8 @@ class AuthInputForm extends React.Component {
     this.onValidationError = this.onValidationError.bind(this);
   }
 
+  static contextType = CurrentUserContext;
+
   onValidationError(errors) {
     this.setState(prevState => ({
       errors: [...prevState.errors, ...errors]
@@ -100,7 +103,6 @@ class AuthInputForm extends React.Component {
   }
 
   databaseQuery(values, auth_type) {
-    // for the moment, just implementing for 'register'
     const url = "/api/v1/" + (auth_type == "register" ? "users/" : "session/")
     fetch(url, {
       method: "post",
@@ -111,11 +113,12 @@ class AuthInputForm extends React.Component {
     })
       .then((data) => {
         if (data.ok) {
-          data.json().then(data => {
-            const session_token = data.session_token;
+          data.json().then(user => {
+            const session_token = user.session_token;
             sessionStorage.setItem("currentUserToken", session_token)
-
-            const userID = data.id;
+            const setCurrentUser = this.context.setCurrentUser
+            setCurrentUser(user);
+            const userID = user.id;
             this.setState({userID: userID, authSuccess: true})
           })
         } else if (data.status == "422" ) {

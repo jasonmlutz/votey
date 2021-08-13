@@ -15,11 +15,7 @@ class Api::V1::SessionsController < ApplicationController
           params[:password]
         )
     if @user
-      @loginValues = {
-        session_token: @user.session_token,
-        id: @user.id
-      }
-      render json: @loginValues
+      render json: @user.protect("password_digest")
     else
       render json: @user.errors
     end
