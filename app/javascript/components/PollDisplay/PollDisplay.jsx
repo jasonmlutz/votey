@@ -324,29 +324,24 @@ class QuestionsContainer extends React.Component {
   }
 }
 
-class QuestionDisplay extends React.Component {
-  // props: key, question, response_options
-  render () {
-    const question = this.props.question
-    const title = question.title
-    const response_options = this.props.response_options
+function QuestionDisplay({question, response_options}) {
+  const title = question.title;
+  const required = question.required;
 
-    return (
-      <li className = "question-display-li">
-        <QuestionTitle title = {title} />
-        <ResponseOptionsContainer response_options = {response_options} />
-      </li>
-    )
-  }
+  return (
+    <li className = "question-display-li">
+      <QuestionTitle title = {title} required = {required} />
+      <ResponseOptionsContainer response_options = {response_options} />
+    </li>
+  )
 }
 
-class QuestionTitle extends React.Component {
-  render () {
-    return (
-      <div className = "question-title">{this.props.title}</div>
-    )
-  }
+
+function QuestionTitle({title, required}) {
+  const displayTitle = title + (required ? " *required*": "")
+  return <div className = "question-title">{displayTitle}</div>
 }
+
 
 class ResponseOptionsContainer extends React.Component {
   // props: response_options
