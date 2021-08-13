@@ -6,7 +6,6 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext"
 
 export default function RightNav(props) {
   const {currentUser} = useContext(CurrentUserContext);
-  const [displayLogout, setDisplayLogout] = useState(currentUser && currentUser.username);
   // the initial state of currentUser is null, so the initial state
   // of displayLogout is also null. the context also has a setter setCurrentUser.
   //
@@ -20,7 +19,8 @@ export default function RightNav(props) {
     <nav className='right-nav'>
       <ul className = "flex-container-row">
         <li>
-          <AuthButton displayLogout = {displayLogout} setDisplayLogout = {setDisplayLogout}/>
+          <AuthButton
+            displayLogout = {currentUser && currentUser.username} />
         </li>
       </ul>
     </nav>
