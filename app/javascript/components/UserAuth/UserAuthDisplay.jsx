@@ -2,7 +2,7 @@
 // based on app/assets/mocks/UserAuth.png
 
 import React from "react";
-import { Redirect, Link } from "react-router-dom"
+import { Redirect, Link, useLocation } from "react-router-dom"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 class AuthInputText extends React.Component {
@@ -134,8 +134,8 @@ class AuthInputForm extends React.Component {
 
   render() {
     if (this.state.authSuccess) {
-      const redirectPath = `/users/${this.state.userID}`
-      return <Redirect to={redirectPath} />
+      // const redirectPath = `/users/${this.state.userID}`
+      return <Redirect to={this.props.source} />
     } else {
       const auth_type = this.props.auth_type
       return (
@@ -176,37 +176,31 @@ class DisplayTitle extends React.Component {
   }
 }
 
-class UserAuthDisplay extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+export default function UserAuthDisplay({auth_type}) {
+  // auth_type is one of "login" or "register"
+  const redirectMessage = (
+    auth_type == "login" ? "New user? " : "Returning user? "
+  )
+  const linkMessage = (
+    auth_type == "login" ? "Register" : "Login"
+  )
+  const redirectPath = (
+    auth_type == "login" ? "/users/new" : "/session/new"
+  )
 
-  render() {
-    // props.auth_type is one of "login" or "register"
-    const auth_type = this.props.auth_type
-    const redirectMessage = (
-      auth_type == "login" ? "New user? " : "Returning user? "
-    )
-    const linkMessage = (
-      auth_type == "login" ? "Register" : "Login"
-    )
-    const redirectPath = (
-      auth_type == "login" ? "/users/new" : "/session/new"
-    )
-    return (
-      <div className="auth-display flex-container-column">
-        <DisplayTitle auth_type={auth_type} />
-        <AuthInputForm auth_type={auth_type} />
-        <div className = "redirect-footer flex-container-row">
-          <div>{redirectMessage}</div>
-          <Link to={redirectPath}>
-            {linkMessage}
-          </Link>
-        </div>
+  const location = useLocation();
+  const {source} = (location.state ? location.state : {source: "/"})
+  
+  return (
+    <div className="auth-display flex-container-column">
+      <DisplayTitle auth_type={auth_type} />
+      <AuthInputForm auth_type={auth_type} source = {source} />
+      <div className = "redirect-footer flex-container-row">
+        <div>{redirectMessage}</div>
+        <Link to={redirectPath}>
+          {linkMessage}
+        </Link>
       </div>
-    )
-  }
+    </div>
+  )
 }
-
-export default UserAuthDisplay;
-export { DisplayTitle, AuthInputText, AuthInputForm, ErrorDisplay }

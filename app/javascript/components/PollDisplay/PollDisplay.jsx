@@ -1,9 +1,11 @@
 import React, {useState, useEffect, useContext} from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import PollHeader from "./PollHeader"
 import RespondentSelector from "./RespondentSelector"
 import QuestionsContainer from "./QuestionsContainer"
+
 import { RadioInputContext } from "./RadioInputContext"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 export default function PollDisplay({pollID}) {
   const [mounted, setMountStatus] = useState(false);
@@ -12,7 +14,9 @@ export default function PollDisplay({pollID}) {
   const [response, setResponse] = useState({});
   const [requiredQuestionIDs, setRequiredQuestionIDs] = useState([])
   const [requiredQuestionsComplete, setCompletionStatus] = useState(false);
+
   const {answers, setAnswers} = useContext(RadioInputContext)
+  const {currentUser} = useContext(CurrentUserContext);
 
   useEffect(() => {
     const newCompletionStatus = subsetChecker(Object.keys(answers), requiredQuestionIDs)
@@ -41,18 +45,9 @@ export default function PollDisplay({pollID}) {
     if (response.submitted) {
       return <Redirect to={response.path} />
     } else {
-      return (
-        <form
-          className = "poll-display"
-          id = "main-poll-form"
-          onSubmit = {handleSubmit}
-        >
-          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
-          <RespondentSelector handleSelectChange = {setRespondentID} />
-          <QuestionsContainer
-            questions = {data.QUESTIONS}
-            responseOptions = {data.RESPONSE_OPTIONS}
-          />
+      const respondentDisplay = (currentUser && currentUser.username ? "Respondent: " + currentUser.username : "login required")
+      if (currentUser && currentUser.username) {
+        var footerDisplay = (
           <button
             className = "poll-submit-btn submit-btn"
             form = "main-poll-form"
@@ -60,6 +55,35 @@ export default function PollDisplay({pollID}) {
           >
             Submit!
           </button>
+        )
+      } else {
+        var footerDisplay = (
+          <div>
+            <div>Login required to submit form!</div>
+            <Link
+              to={{
+                pathname: "/session/new",
+                state: {source: window.location.pathname}
+              }}
+            >Login</Link >
+          </div>
+        )
+      }
+      return (
+        <form
+          className = "poll-display"
+          id = "main-poll-form"
+          onSubmit = {handleSubmit}
+        >
+          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+          <div className = "respondent-display">
+            {respondentDisplay}
+          </div>
+          <QuestionsContainer
+            questions = {data.QUESTIONS}
+            responseOptions = {data.RESPONSE_OPTIONS}
+          />
+          {footerDisplay}
         </form>
       )
     }

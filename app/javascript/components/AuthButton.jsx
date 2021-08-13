@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext"
 
@@ -31,7 +31,15 @@ export default function AuthButton({displayLogout, setDisplayLogout}) {
     }
   }
 
-  const loginLink = <Link to="/session/new">Log In</Link>
+  const loginLink = (
+    <Link
+      to={{
+        pathname: "/session/new",
+        state: { source: "/" }
+      }}>
+        Log In
+    </Link>
+  )
   const logoutLink = <a onClick = {handleLogoutClick}>Log Out</a>
   const displayedButton = (displayLogout ? logoutLink : loginLink)
 
