@@ -5,6 +5,7 @@ import React, {useState, useEffect} from "react";
 // import { RadioInputContext } from "../../contexts/RadioInputContext"
 import PollHeader from "./PollHeader"
 import RespondentSelector from "./RespondentSelector"
+import QuestionsContainer from "./QuestionsContainer"
 
 export default function PollDisplay({pollID}) {
   const [mounted, setMountStatus] = useState(false);
@@ -36,8 +37,19 @@ export default function PollDisplay({pollID}) {
         className = "poll-display"
         id = "main-poll-form"
       >
-      <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
-      <RespondentSelector handleSelectChange = {setRespondentID} />
+        <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+        <RespondentSelector handleSelectChange = {setRespondentID} />
+        <QuestionsContainer
+          questions = {data.QUESTIONS}
+          responseOptions = {data.RESPONSE_OPTIONS}
+        />
+        <button
+          className = "poll-submit-btn submit-btn"
+          form = "main-poll-form"
+          type = "submit"
+        >
+          Submit!
+        </button>
       </form>
     )
   } else {
