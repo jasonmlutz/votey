@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
     if @user
       render json: user_catalog(@user)
     else
-      render json: @user.errors
+      render json: {}
     end
   end
 
@@ -44,7 +44,7 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
