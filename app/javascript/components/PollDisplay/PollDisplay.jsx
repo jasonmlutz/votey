@@ -1,16 +1,14 @@
-import React, {useState, useEffect} from "react";
-// import { Link, Redirect } from "react-router-dom";
-// import RespondentSelector from "./RespondentSelector"
-// import QuestionsContainer from "./QuestionsContainer"
-// import { RadioInputContext } from "../../contexts/RadioInputContext"
+import React, {useState, useEffect, useContext} from "react";
 import PollHeader from "./PollHeader"
 import RespondentSelector from "./RespondentSelector"
 import QuestionsContainer from "./QuestionsContainer"
+import { RadioInputContext } from "./RadioInputContext"
 
 export default function PollDisplay({pollID}) {
   const [mounted, setMountStatus] = useState(false);
   const [data, setData] = useState({});
   const [respondentID, setRespondentID] = useState(null);
+  const {answers, setAnswers} = useContext(RadioInputContext)
 
   useEffect(() => {
     if (!mounted) {
@@ -36,6 +34,7 @@ export default function PollDisplay({pollID}) {
       <form
         className = "poll-display"
         id = "main-poll-form"
+        onSubmit = {handleSubmit}
       >
         <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
         <RespondentSelector handleSelectChange = {setRespondentID} />
@@ -58,6 +57,12 @@ export default function PollDisplay({pollID}) {
     } else {
       return <h2>Loading ...</h2>
     }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(respondentID)
+    console.log(answers)
   }
 }
 
