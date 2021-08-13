@@ -10,9 +10,14 @@ export default function PollDisplay({pollID}) {
   const [data, setData] = useState({});
   const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
+  const [requiredQuestionIDs, setRequiredQuestionIDs] = useState([])
+  const [requiredQuestionsComplete, setCompletionStatus] = useState(false);
   const {answers, setAnswers} = useContext(RadioInputContext)
 
   useEffect(() => {
+    const newCompletionStatus = subsetChecker(Object.keys(answers), requiredQuestionIDs)
+    setCompletionStatus(newCompletionStatus)
+
     if (!mounted) {
       const url = "/api/v1/polls/" + pollID
 
@@ -26,6 +31,7 @@ export default function PollDisplay({pollID}) {
         .then((data) => {
           setMountStatus(true);
           setData(data);
+          if (data.QUESTIONS) buildRequiredQuestionsArray(data);
         })
         .catch((err) => console.error("unknown error " + err));
     }
@@ -65,9 +71,43 @@ export default function PollDisplay({pollID}) {
     }
   }
 
+  function buildRequiredQuestionsArray(data) {
+    const questions = data.QUESTIONS
+    var requiredQuestionsArray = [];
+    questions.forEach((question, index) => {
+      if (question.required) requiredQuestionsArray.push(`${question.id}`);
+    });
+    setRequiredQuestionIDs(requiredQuestionsArray)
+  }
+
+  function subsetChecker(potentialContainingSet, potentialSubset) {
+    return potentialSubset.every(v => potentialContainingSet.includes(v))
+  }
+
+  function highlightQuestions(idArray, color) {
+    idArray.forEach((id) => {
+      var elem = document.getElementById(`question-title-${id}`)
+      elem.style.color = color;
+    });
+  }
+
+  function unfinishedRequiredQuestionIDs() {
+    var output = []
+    requiredQuestionIDs.forEach((id) => {
+      if (!(Object.keys(answers).includes(id))) output.push(id)
+    });
+    return output
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    pushResponse()
+    if (requiredQuestionsComplete) {
+      pushResponse()
+    } else {
+      highlightQuestions(requiredQuestionIDs, "blue")
+      highlightQuestions(unfinishedRequiredQuestionIDs(), "red")
+      alert('at least one required question is not complete!')
+    }
   }
 
   function pushResponse () {

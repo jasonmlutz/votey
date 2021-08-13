@@ -152,19 +152,26 @@ function QuestionDisplay(props) {
   // props: key, question, response_option
   // pass the associated answer object
   const question = props.question;
+
   const title = question.title;
+  const required = question.required;
+  const displayTitle = title + (required ? " *required*": "")
+
   const response_options = props.response_options;
   const answers = useContext(AnswerContext);
   const question_id = question.id
-  const selected_response_option = answers[question_id] 
-  const selected_response_option_id = selected_response_option.id
+  const selected_response_option = answers[question_id]
+  //
+  // the above may not exist for non-required questions.
+  //
+  const selected_response_option_id = (selected_response_option ? selected_response_option.id : null)
   // answers = all answer objects
   // answers[question.id] = the answer object associated with that question
   // answer[question.id].id = the id of the associated response_option
 
   return (
     <li className = "question-display-li">
-      <QuestionTitle title = { title } />
+      <QuestionTitle title = { displayTitle } />
       <ResponseOptionsContainer
         response_options = { response_options }
         selected_response_option_id = { selected_response_option_id }
@@ -185,6 +192,8 @@ function ResponseOptionsContainer(props) {
   const response_options = props.response_options;
   const selected_id = props.selected_response_option_id
   const responseOptionListItems = response_options.map((response_option, index) => {
+    // if a question was unanswered, then selected_id is null, so all
+    // of these will be false; i.e., no responseOption will be highlighted!
     const selected = (response_option.id == selected_id)
     return (
       <ResponseOptionDisplay
