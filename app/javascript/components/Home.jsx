@@ -4,20 +4,19 @@ import { Users } from "./UserIndex/Users";
 import { CurrentUserContext } from "../contexts/CurrentUserContext"
 
 export default function Home(props) {
-  const [firstFetchCompleted, setFirstFetchCompleted] = useState(false);
+  // const [firstFetchCompleted, setFirstFetchCompleted] = useState(false);
   const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
   const userMessage = (currentUser && currentUser.username ? currentUser.username : "no current user");
 
   useEffect(() => {
     const currentUserToken = sessionStorage.getItem('currentUserToken')
 
-    if (currentUserToken && !firstFetchCompleted) {
+    if (currentUserToken && !currentUser) {
       const url = `/api/v1/session?session_token=${currentUserToken}`;
 
       fetch(url)
         .then((data) => {
           if (data.ok) {
-            setFirstFetchCompleted(true)
             return data.json()
           } else {
             throw Error("server and/or network error")

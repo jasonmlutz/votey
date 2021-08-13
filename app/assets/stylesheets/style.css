@@ -329,3 +329,7 @@ li.selected {
 .redirect-footer > * {
   margin: 4px;
 }
+
+#user-message {
+  color: var(--black);
+}
