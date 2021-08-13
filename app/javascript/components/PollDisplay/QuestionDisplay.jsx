@@ -8,7 +8,12 @@ export default function QuestionDisplay({question, responseOptions}) {
 
   return (
     <li className = "question-display-li">
-      <div className = "question-title">{displayTitle}</div>
+      <div
+        className = "question-title"
+        id = {"question-title-"+question.id}
+      >
+        {displayTitle}
+      </div>
       <ResponseOptionsContainer responseOptions = {responseOptions} />
     </li>
   )
