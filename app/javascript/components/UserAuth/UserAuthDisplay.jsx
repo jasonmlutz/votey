@@ -190,14 +190,19 @@ export default function UserAuthDisplay({auth_type}) {
 
   const location = useLocation();
   const {source} = (location.state ? location.state : {source: "/"})
-  
+
   return (
     <div className="auth-display flex-container-column">
       <DisplayTitle auth_type={auth_type} />
       <AuthInputForm auth_type={auth_type} source = {source} />
       <div className = "redirect-footer flex-container-row">
         <div>{redirectMessage}</div>
-        <Link to={redirectPath}>
+        <Link
+          to={{
+            pathname: redirectPath,
+            state: {source: source}
+          }}
+        >
           {linkMessage}
         </Link>
       </div>
