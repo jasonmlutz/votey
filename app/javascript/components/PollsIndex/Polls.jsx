@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"
 import PollsTable from "./PollsTable"
+import PollCreateLink from "./PollCreateLink"
 
 export default function Polls(props) {
   const keys = ["title", "description", "author", "responses"]
@@ -28,7 +30,10 @@ export default function Polls(props) {
 
   if (data.length) {
     return (
-      <PollsTable keys = { keys } data = { data } />
+      <div className = "polls-index">
+        <PollsTable keys = { keys } data = { data } />
+        <PollCreateLink />
+      </div>
     )
   } else {
     if (mounted) {

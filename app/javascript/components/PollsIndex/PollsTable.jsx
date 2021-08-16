@@ -7,7 +7,7 @@ export default function PollsTable({ data, keys }) {
   ))
 
   return (
-    <table>
+    <table className = "polls-table">
       <thead>
         <tr>
           <th colSpan = { keys.length }>POLLS TABLE</th>
