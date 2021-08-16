@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export function UsersIndex(props) {
-  // props: none
-  const [data, setData] = useState([]);
-  const [mounted, setMountStatus] = useState(false);
-  const keys = props.keys
+export function UsersIndex({keys}) {
+  const [users, setUsers] = useState({data: {}, mounted: false});
 
   useEffect(() => {
     const url = '/api/v1/users'
-    if (mounted == false) {
+    if (!users.mounted) {
       fetch(url)
         .then((data) => {
           if (data.ok) {
@@ -18,19 +15,18 @@ export function UsersIndex(props) {
           throw new Error("network and/or server error")
         })
         .then((data) => {
-          setData(data);
-          setMountStatus(true);
+          setUsers({data: data, mounted: true})
         })
-        .catch((err) => console.error("unknown error: " + err));
+        .catch((err) => console.error("unknown error: ", err));
     }
   })
 
-  if (data.length > 0) {
+  if (users.data.length > 0) {
     return (
-      <UsersTable keys = { keys } data = { data } />
+      <UsersTable keys = { keys } data = { users.data } />
     )
   } else {
-    if (mounted) {
+    if (users.mounted) {
       return (
         <h2>
           No users to display!

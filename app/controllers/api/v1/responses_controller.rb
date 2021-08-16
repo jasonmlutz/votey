@@ -7,7 +7,7 @@ class Api::V1::ResponsesController < ApplicationController
       # render json: @response
       render json: build_catalog(@response)
     else
-      render json: @response.errors
+      render json: {}
     end
   end
 
@@ -41,6 +41,6 @@ class Api::V1::ResponsesController < ApplicationController
     end
 
     def set_response
-      @response = Response.find(params[:id])
+      @response = Response.find_by(id: params[:id])
     end
 end

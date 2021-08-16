@@ -36,8 +36,16 @@ export default function UserDisplay({user_id}) {
       </div>
     )
   } else {
-    if (data.mounted) {
-      return <h2>No user info to display!</h2>
+    if (mounted) {
+      setTimeout(function() {
+        window.location.replace('/');
+      }, 5000);
+      return (
+        <div>
+          <div>{"Unable to locate user with id = " + user_id }</div>
+          Redirecting to <Link to = "/">Home</Link> in 5 seconds ...
+        </div>
+      )
     } else {
       return <h2>Loading ...</h2>
     }

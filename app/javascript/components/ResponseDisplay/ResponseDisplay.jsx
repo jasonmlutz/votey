@@ -5,15 +5,12 @@ import React, { useContext,
 import { Link } from "react-router-dom";
 const AnswerContext = createContext();
 
-export default function ResponseDisplay(props) {
-  // props = response_id
-  const response_id = props.response_id;
-  const [response_data, setResponseData] = useState({});
-  const [poll_data, setPollData] = useState({});
-  const [mounted, setMountStatus] = useState(false);
+export default function ResponseDisplay({response_id}) {
+  const [response, setResponse] = useState({data: {}, mounted: false});
+  const [poll, setPoll] = useState({data: {}, mounted: false});
 
   useEffect(() => {
-    if (mounted == false) {
+    if (!response.mounted) {
       const response_url = `/api/v1/responses/${response_id}`
       fetch(response_url)
         .then((data) => {
@@ -23,48 +20,53 @@ export default function ResponseDisplay(props) {
               throw new Error("network and/or server error")
             })
             .then((data) => {
-              setResponseData(data);
-              setMountStatus(true);
-              // response_data loaded
-              // fetch the associated poll data
-              // const poll_id = response_data.RESPONSE.poll_id;
-              const poll_id = data.RESPONSE.poll_id;
-              const poll_url = `/api/v1/polls/${poll_id}`
-              fetch(poll_url)
-                .then((data) => {
-                      if (data.ok) {
-                        return data.json();
-                      }
-                      throw new Error("network and/or server error")
-                    })
-                    .then((data) => {
-                      setPollData(data);
-                    })
-                    .catch((err) => console.error("unknown error: " + err));
+              setResponse({data: data, mounted: true})
             })
-            .catch((err) => console.error("unknown error: " + err));
+            .catch((err) => console.error("unknown error: ", err));
+    } else if (response.data && response.data.RESPONSE && response.data.RESPONSE.poll_id && !poll.mounted) {
+      const poll_id = response.data.RESPONSE.poll_id;
+      const poll_url = `/api/v1/polls/${poll_id}`
+      fetch(poll_url)
+        .then((data) => {
+              if (data.ok) {
+                return data.json();
+              }
+              throw new Error("network and/or server error")
+            })
+            .then((data) => {
+              setPoll({data: data, mounted: true})
+            })
+            .catch((err) => console.error("unknown error: ", err));
     }
   })
 
-  if (Object.keys(response_data).length > 0 && Object.keys(poll_data).length > 0) {
+  if (Object.keys(response.data).length && Object.keys(poll.data).length) {
     return (
       <div className = "response-display">
         <PollHeader
-          poll = { poll_data.POLL }
-          author = { poll_data.AUTHOR }
+          poll = { poll.data.POLL }
+          author = { poll.data.AUTHOR }
         />
-        <RespondentDisplay respondent = { response_data.RESPONDENT }/>
-        <AnswerContext.Provider value = { response_data.ANSWERS } >
+        <RespondentDisplay respondent = { response.data.RESPONDENT }/>
+        <AnswerContext.Provider value = { response.data.ANSWERS } >
           <QuestionsContainer
-            questions = { poll_data.QUESTIONS }
-            response_options = { poll_data.RESPONSE_OPTIONS }
+            questions = { poll.data.QUESTIONS }
+            response_options = { poll.data.RESPONSE_OPTIONS }
           />
         </AnswerContext.Provider>
       </div>
     )
   } else {
-    if (mounted) {
-      return (<h2>No data to display!</h2>)
+    if (response.mounted && Object.keys(response.data).length == 0) {
+    setTimeout(function() {
+      window.location.replace('/polls');
+    }, 5000);
+    return (
+      <div>
+        <div>{"Unable to locate response with id = " + response_id }</div>
+        Redirecting to <Link to = "/polls">Poll Index</Link> in 5 seconds ...
+      </div>
+    )
     } else {
       return (<h2>Loading!</h2>)
     }
