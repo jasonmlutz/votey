@@ -33,8 +33,8 @@ export default function PollDisplay({pollID}) {
           throw new Error("network and/or server error")
         })
         .then((data) => {
-          setMountStatus(true);
           setData(data);
+          setMountStatus(true);
           if (data.QUESTIONS) buildRequiredQuestionsArray(data);
         })
         .catch((err) => console.error("unknown error " + err));
@@ -89,7 +89,16 @@ export default function PollDisplay({pollID}) {
     }
   } else {
     if (mounted) {
-      return <h2>No such poll with id {pollID}</h2>
+      console.log("mounted!", data.POLL.title)
+      setTimeout(function() {
+        window.location.replace('/');
+      }, 5000);
+      return (
+        <div>
+          <div>{"Unable to locate poll with id = " + pollID }</div>
+          Redirecting to <Link to = "/polls">Poll Index</Link> in 5 seconds ...
+        </div>
+      )
     } else {
       return <h2>Loading ...</h2>
     }
