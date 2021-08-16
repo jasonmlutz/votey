@@ -37,7 +37,7 @@ export default function PollDisplay({pollID}) {
           setMountStatus(true);
           if (data.QUESTIONS) buildRequiredQuestionsArray(data);
         })
-        .catch((err) => console.error("unknown error " + err));
+        .catch((err) => console.error("unknown error ", err));
     }
   })
 
@@ -89,7 +89,6 @@ export default function PollDisplay({pollID}) {
     }
   } else {
     if (mounted) {
-      console.log("mounted!", data.POLL.title)
       setTimeout(function() {
         window.location.replace('/');
       }, 5000);
