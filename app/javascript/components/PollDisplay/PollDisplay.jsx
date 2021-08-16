@@ -11,16 +11,11 @@ export default function PollDisplay({pollID}) {
   const [data, setData] = useState({data: {}, mounted: false});
   const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
-  const [requiredQuestionIDs, setRequiredQuestionIDs] = useState([])
-  const [requiredQuestionsComplete, setCompletionStatus] = useState(false);
 
   const {answers, setAnswers} = useContext(RadioInputContext)
   const {currentUser} = useContext(CurrentUserContext);
 
   useEffect(() => {
-    const newCompletionStatus = subsetChecker(Object.keys(answers), requiredQuestionIDs)
-    setCompletionStatus(newCompletionStatus)
-
     if (!data.mounted) {
       const url = "/api/v1/polls/" + pollID
 
@@ -33,7 +28,6 @@ export default function PollDisplay({pollID}) {
         })
         .then((data) => {
           setData({data: data, mounted: true});
-          if (data.QUESTIONS) buildRequiredQuestionsArray(data);
         })
         .catch((err) => console.error("unknown error ", err));
     }
@@ -86,7 +80,7 @@ export default function PollDisplay({pollID}) {
       )
     }
   } else {
-    if (mounted) {
+    if (data.mounted) {
       setTimeout(function() {
         window.location.replace('/');
       }, 5000);
@@ -101,13 +95,22 @@ export default function PollDisplay({pollID}) {
     }
   }
 
-  function buildRequiredQuestionsArray(data) {
-    const questions = data.QUESTIONS
+  function buildRequiredQuestionsArray() {
+    const questions = data.data.QUESTIONS
     var requiredQuestionsArray = [];
     questions.forEach((question, index) => {
       if (question.required) requiredQuestionsArray.push(`${question.id}`);
     });
-    setRequiredQuestionIDs(requiredQuestionsArray)
+    return requiredQuestionsArray
+  }
+
+  function buildUnfinishedRequiredQuestionArray() {
+    const requiredQuestionsArray = buildRequiredQuestionsArray()
+    var unfinishedRequiredQuestionArray = []
+    requiredQuestionsArray.forEach((id) => {
+      if (!(Object.keys(answers).includes(id))) unfinishedRequiredQuestionArray.push(id)
+    });
+    return unfinishedRequiredQuestionArray
   }
 
   function subsetChecker(potentialContainingSet, potentialSubset) {
@@ -121,21 +124,16 @@ export default function PollDisplay({pollID}) {
     });
   }
 
-  function unfinishedRequiredQuestionIDs() {
-    var output = []
-    requiredQuestionIDs.forEach((id) => {
-      if (!(Object.keys(answers).includes(id))) output.push(id)
-    });
-    return output
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
-    if (requiredQuestionsComplete) {
+    const requiredQuestionsArray = buildRequiredQuestionsArray()
+    const completionStatus = subsetChecker(Object.keys(answers), requiredQuestionsArray)
+    if (completionStatus) {
       pushResponse()
     } else {
-      highlightQuestions(requiredQuestionIDs, "blue")
-      highlightQuestions(unfinishedRequiredQuestionIDs(), "red")
+      const unfinishedRequiredQuestionArray = buildUnfinishedRequiredQuestionArray()
+      highlightQuestions(requiredQuestionsArray, "blue")
+      highlightQuestions(unfinishedRequiredQuestionArray, "red")
       alert('at least one required question is not complete!')
     }
   }
