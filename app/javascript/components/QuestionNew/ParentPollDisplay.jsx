@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ParentPollHeader from "./ParentPollHeader"
 import SiblingQuestionContainer from "./SiblingQuestionContainer"
 import NewQuestionForm from "./NewQuestionForm"
+import Modal from "../LoginModal/Modal"
 
-export default function ParentPollDisplay(props) {
-  // props: pollID
-  const pollID = props.pollID
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+
+
+export default function ParentPollDisplay({pollID}) {
   const url = `/api/v1/polls/${pollID}`
 
   const [data, setData] = useState({});
   const [mounted, setMountStatus] = useState(false);
+
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
     if (!mounted) {
@@ -51,14 +55,22 @@ export default function ParentPollDisplay(props) {
         responseOptions = {responseOptions[question.id]}
       />
     );
+    const showModal = !(currentUser && currentUser.username) || !(currentUser.username === authorUsername)
 
     return (
-      <div className = "parent-poll-display poll-display">
-        <ParentPollHeader  {...headerProps}/>
-        <ul className = "questions-container">
-          {siblingQuestions}
-        </ul>
-        <NewQuestionForm parentPollID = {pollID}/>
+      <div>
+        <Modal
+          show = {showModal}
+          message = "You must be logged in as the author of this form to make changes."
+          source = {`/polls/${pollID}/questions/new`}
+        />
+        <div className = "parent-poll-display poll-display">
+          <ParentPollHeader  {...headerProps}/>
+          <ul className = "questions-container">
+            {siblingQuestions}
+          </ul>
+          <NewQuestionForm parentPollID = {pollID}/>
+        </div>
       </div>
     )
   } else {
