@@ -57,7 +57,11 @@ export default function PollNew(props) {
   } else {
       return (
       <div>
-        <Modal show = {!(currentUser && currentUser.username)} />
+        <Modal
+          show = {!(currentUser && currentUser.username)}
+          message = "Login required to create form."
+          source = "/polls/new"
+        />
         <div className = "new-poll-display flex-container-column">
           <div className="new-poll-title">New Poll!</div>
           <form
