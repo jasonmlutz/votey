@@ -67,8 +67,9 @@ input[type="submit"] {
 }
 
 /* LAYOUT */
-.current_user_display {
+.current-user-display {
   color: var(--black);
+  margin: 5px;
 }
 
 body {

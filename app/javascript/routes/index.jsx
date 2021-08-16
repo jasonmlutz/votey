@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import Header from "../components/Header";
 import Home from "../components/Home";
 import Login from "../components/UserAuth/Login"
@@ -11,7 +12,32 @@ import Polls from "../components/PollsIndex/Polls"
 import PollNew from "../components/PollNew/New"
 import QuestionNew from "../components/QuestionNew/QuestionNew"
 
+import {CurrentUserContext} from "../contexts/CurrentUserContext"
+
 export default function Routes(props) {
+  const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    const currentUserToken = sessionStorage.getItem('currentUserToken')
+
+    if (currentUserToken && !currentUser) {
+      const url = `/api/v1/session?session_token=${currentUserToken}`;
+
+      fetch(url)
+        .then((data) => {
+          if (data.ok) {
+            return data.json()
+          } else {
+            throw Error("server and/or network error")
+          }
+        })
+        .then((user) => {
+         setCurrentUser(user);
+        })
+        .catch(err => console.error("unkonwn error " + err))
+    }
+  })
+
   return (
     <Router>
     <Header />
