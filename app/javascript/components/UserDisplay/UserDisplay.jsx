@@ -4,16 +4,13 @@ import { Link } from "react-router-dom";
 
 // const data = DATA;
 
-export default function UserDisplay(props) {
-  // props: user_id
-  const user_id = props.user_id
+export default function UserDisplay({user_id}) {
   const url = `/api/v1/users/${user_id}`
 
-  const [data, setData] = useState({});
-  const [mounted, setMountStatus] = useState(false);
+  const [data, setData] = useState({data: {}, mounted: false});
 
   useEffect(() => {
-    if (mounted == false) {
+    if (!data.mounted) {
       fetch(url)
         .then((data) => {
           if (data.ok) {
@@ -22,25 +19,24 @@ export default function UserDisplay(props) {
           throw new Error("network and/or server error")
         })
         .then((data) => {
-          setData(data);
-          setMountStatus(true);
+          setData({data: data, mounted: true});
         })
         .catch((err) => console.error("unknown error: " + err))
     }
   })
 
-  if (Object.keys(data).length) {
+  if (Object.keys(data.data).length) {
     return(
       <div className = "user-display">
-        <UserHeader username = { data.USER.username } />
+        <UserHeader username = { data.data.USER.username } />
         <Activities
-          polls = { data.POLLS}
-          responses = { data.RESPONSE_DATA }
+          polls = { data.data.POLLS}
+          responses = { data.data.RESPONSE_DATA }
         />
       </div>
     )
   } else {
-    if (mounted) {
+    if (data.mounted) {
       return <h2>No user info to display!</h2>
     } else {
       return <h2>Loading ...</h2>
