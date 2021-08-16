@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import { Redirect } from "react-router-dom";
 
+import PollFieldInput from "./PollFieldInput"
 import Modal from "../LoginModal/Modal"
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
@@ -16,34 +17,42 @@ export default function PollNew(props) {
 
   const {currentUser} = useContext(CurrentUserContext);
 
+  const authorDisplayName = (currentUser && currentUser.username) ? currentUser.username : "none"
+
   function onFormSubmit(e) {
     e.preventDefault();
 
-    const values = {
-      title: title,
-      description: description,
-      author_id: author_id,
-    }
-    const url = "/api/v1/polls";
+    setAuthorID((currentUser && currentUser.username) ? currentUser.id : null)
 
-    fetch(url, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    })
-      .then((data) => {
-        if (data.ok) {
-          return data.json()
-        }
-        throw new Error("server and/or network error")
+    if (title && author_id) {
+      const values = {
+        title: title,
+        description: description,
+        author_id: author_id,
+      }
+      const url = "/api/v1/polls";
+
+      fetch(url, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
       })
-      .then((data) => {
-        setPollID(data.id);
-        setPollSubmitStatus(true);
-      })
-      .catch(err => console.error("unknown error ", err))
+        .then((data) => {
+          if (data.ok) {
+            return data.json()
+          }
+          throw new Error("server and/or network error")
+        })
+        .then((data) => {
+          setPollID(data.id);
+          setPollSubmitStatus(true);
+        })
+        .catch(err => console.error("unknown error ", err))
+    } else {
+      alert("title and/or description missing")
+    }
   }
 
   if (pollSubmitted) {
@@ -71,108 +80,15 @@ export default function PollNew(props) {
           >
             <PollFieldInput name = "title" passData = { setTitle }/>
             <PollFieldInput name = "description" passData = { setDescription }/>
-            <AuthorSelector passData = { setAuthorID }/>
-            <NewPollSubmitBtn />
+            <div>Author: {authorDisplayName}</div>
+            <button
+              className = "new-poll-create-btn submit-btn"
+              form = "new-poll-form"
+              type = "submit"
+            >Create!</button>
           </form>
         </div>
       </div>
     )
   }
-}
-
-function PollFieldInput(props) {
-  // props: name ["title", "description"]
-  const name = props.name
-  const passData = props.passData
-  const [value, setValue] = useState("")
-
-  useEffect(() => {
-    props.passData(value)
-  })
-
-  return (
-    <input
-      className = "poll-field-input input-text"
-      name = { name }
-      type = "text"
-      placeholder = { name }
-      value = { value }
-      onChange = { e => setValue(e.target.value) }
-    />
-  )
-}
-
-function AuthorSelector(props) {
-  const [users, setUsers] = useState([]);
-  const [loaded, setLoadStatus] = useState(false);
-  const [selectValue, setSelectValue] = useState(null)
-
-  const passData = props.passData;
-
-  useEffect(() => {
-    const url = "/api/v1/users";
-    if (loaded == false) {
-      fetch(url)
-        .then((data) => {
-          if (data.ok) {
-            return data.json()
-          }
-          throw new Error("network and/or server error")
-        })
-        .then((data) => {
-          setUsers(data)
-          setLoadStatus(true)
-        })
-        .catch((err) => console.error("unknown error ", err))
-    }
-  })
-
-  if (users.length) {
-    const selectOptions = users.map((user, index) => {
-      return (
-        <option
-          key = {index}
-          value = {user.id}
-          >
-            {user.username.toUpperCase()}
-        </option>
-      )
-    })
-    return (
-      <div className = "author-selector">
-        <label>
-          Author:
-            <select
-              name = "author"
-              id = "author"
-              value = { selectValue || "default"}
-              onChange = { e => {
-                const value = e.target.value
-                passData(value)
-                setSelectValue(value)
-              } }
-            >
-              <option value="default" disabled hidden>--SELECT--</option>
-              {selectOptions}
-            </select>
-        </label>
-      </div>
-    )
-  } else {
-    if (loaded) {
-      return <h2>no users to display!</h2>
-    } else {
-      return <h2>Loading ...</h2>
-    }
-  }
-}
-
-function NewPollSubmitBtn(props) {
-  return (
-    <button
-      className = "new-poll-create-btn submit-btn"
-      form = "new-poll-form"
-      type = "submit"
-    >Create!</button>
-  )
 }
