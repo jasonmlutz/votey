@@ -8,8 +8,7 @@ import { RadioInputContext } from "./RadioInputContext"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 export default function PollDisplay({pollID}) {
-  const [mounted, setMountStatus] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({data: {}, mounted: false});
   const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
   const [requiredQuestionIDs, setRequiredQuestionIDs] = useState([])
@@ -22,7 +21,7 @@ export default function PollDisplay({pollID}) {
     const newCompletionStatus = subsetChecker(Object.keys(answers), requiredQuestionIDs)
     setCompletionStatus(newCompletionStatus)
 
-    if (!mounted) {
+    if (!data.mounted) {
       const url = "/api/v1/polls/" + pollID
 
       fetch(url)
@@ -33,15 +32,14 @@ export default function PollDisplay({pollID}) {
           throw new Error("network and/or server error")
         })
         .then((data) => {
-          setMountStatus(true);
-          setData(data);
+          setData({data: data, mounted: true});
           if (data.QUESTIONS) buildRequiredQuestionsArray(data);
         })
         .catch((err) => console.error("unknown error " + err));
     }
   })
 
-  if (data.POLL && data.AUTHOR) {
+  if (data.data.POLL && data.data.AUTHOR) {
     if (response.submitted) {
       return <Redirect to={response.path} />
     } else {
@@ -75,20 +73,20 @@ export default function PollDisplay({pollID}) {
           id = "main-poll-form"
           onSubmit = {handleSubmit}
         >
-          <PollHeader poll = {data.POLL} author = {data.AUTHOR} />
+          <PollHeader poll = {data.data.POLL} author = {data.data.AUTHOR} />
           <div className = "respondent-display">
             {respondentDisplay}
           </div>
           <QuestionsContainer
-            questions = {data.QUESTIONS}
-            responseOptions = {data.RESPONSE_OPTIONS}
+            questions = {data.data.QUESTIONS}
+            responseOptions = {data.data.RESPONSE_OPTIONS}
           />
           {footerDisplay}
         </form>
       )
     }
   } else {
-    if (mounted) {
+    if (data.mounted) {
       return <h2>No such poll with id {pollID}</h2>
     } else {
       return <h2>Loading ...</h2>
