@@ -1,6 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { Redirect } from "react-router-dom";
-import PollDisplay from "../PollDisplay/PollDisplay"
+
+import Modal from "../LoginModal/Modal"
+
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+
 
 export default function PollNew(props) {
   // props: empty
@@ -9,6 +13,8 @@ export default function PollNew(props) {
   const [author_id, setAuthorID] = useState("");
   const [pollSubmitted, setPollSubmitStatus] = useState(false);
   const [poll_id, setPollID] = useState(null);
+
+  const {currentUser} = useContext(CurrentUserContext);
 
   function onFormSubmit(e) {
     e.preventDefault();
@@ -50,18 +56,21 @@ export default function PollNew(props) {
     )
   } else {
       return (
-      <div className = "new-poll-display flex-container-column">
-        <div className="new-poll-title">New Poll!</div>
-        <form
-          id="new-poll-form"
-          onSubmit = {e => onFormSubmit(e)}
-          className = "new-poll-form flex-container-column"
-        >
-          <PollFieldInput name = "title" passData = { setTitle }/>
-          <PollFieldInput name = "description" passData = { setDescription }/>
-          <AuthorSelector passData = { setAuthorID }/>
-          <NewPollSubmitBtn />
-        </form>
+      <div>
+        <Modal show = {!(currentUser && currentUser.username)} />
+        <div className = "new-poll-display flex-container-column">
+          <div className="new-poll-title">New Poll!</div>
+          <form
+            id="new-poll-form"
+            onSubmit = {e => onFormSubmit(e)}
+            className = "new-poll-form flex-container-column"
+          >
+            <PollFieldInput name = "title" passData = { setTitle }/>
+            <PollFieldInput name = "description" passData = { setDescription }/>
+            <AuthorSelector passData = { setAuthorID }/>
+            <NewPollSubmitBtn />
+          </form>
+        </div>
       </div>
     )
   }
