@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function UserDisplay({ user_id }) {
   const url = `/api/v1/users/${user_id}`;
 
-  const [data, setData] = useState({ data: {}, mounted: false });
+  const [data, setData] = useState({ catalog: {}, mounted: false });
 
   useEffect(() => {
     if (!data.mounted) {
@@ -18,25 +18,25 @@ export default function UserDisplay({ user_id }) {
           }
           throw new Error("network and/or server error");
         })
-        .then((data) => {
-          setData({ data: data, mounted: true });
+        .then((catalog) => {
+          setData({ catalog: catalog, mounted: true });
         })
         .catch((err) => console.error("unknown error: " + err));
     }
   });
 
-  if (Object.keys(data.data).length) {
+  if (Object.keys(data.catalog).length) {
     return (
       <div className="user-display">
-        <UserHeader username={data.data.USER.username} />
+        <UserHeader username={data.catalog.USER.username} />
         <Activities
-          polls={data.data.POLLS}
-          responses={data.data.RESPONSE_DATA}
+          polls={data.catalog.POLLS}
+          responses={data.catalog.RESPONSE_DATA}
         />
       </div>
     );
   } else {
-    if (mounted) {
+    if (data.mounted) {
       setTimeout(function () {
         window.location.replace("/");
       }, 5000);
