@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
+    namespace :v2 do
+      resources :polls, only: [:show]
+    end
+    
     namespace :v1 do
       resources :users, only: [:index, :create, :show]
       delete 'users/:id', to: 'users#destroy'

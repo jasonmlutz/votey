@@ -139,7 +139,6 @@ a {
 }
 .left-nav-links div {
   height: 100px;
-  /* border: 2px solid var(--black); */
   margin: 0 5px;
 }
 
@@ -381,4 +380,9 @@ li.selected {
 
 #user-message {
   color: var(--black);
+}
+
+.respondent-display,
+.footer-display {
+  color: white;
 }

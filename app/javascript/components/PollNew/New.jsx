@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import { Redirect } from "react-router-dom";
 
 import PollFieldInput from "./PollFieldInput"
-import Modal from "../LoginModal/Modal"
+import Modal from "../Modals/Modal"
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 

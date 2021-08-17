@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import ParentPollHeader from "./ParentPollHeader"
 import SiblingQuestionContainer from "./SiblingQuestionContainer"
 import NewQuestionForm from "./NewQuestionForm"
-import Modal from "../LoginModal/Modal"
+import Modal from "../Modals/Modal"
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 

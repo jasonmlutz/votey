@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"
 
-export default function Modal({show, message, source}) {
+export default function Modal({show, message, source, options = {path: "/session/new", linkText: "Login"}}) {
   const showHideClassName = show ? "modal display-block" : "modal display-none";
 
   return (
@@ -11,10 +11,10 @@ export default function Modal({show, message, source}) {
         <Link
           to =
             {{
-              pathname: "/session/new",
+              pathname: options.path,
               state: {source: source}
             }}>
-          Login
+          {options.linkText}
         </Link>
       </div>
     </div>

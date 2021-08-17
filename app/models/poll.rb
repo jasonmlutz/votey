@@ -15,4 +15,6 @@ class Poll < ApplicationRecord
   belongs_to :author, class_name: :User, foreign_key: :author_id
   has_many :questions, foreign_key: :parent_poll_id, dependent: :destroy
   has_many :responses, foreign_key: :poll_id, dependent: :destroy
+
+  has_many :respondents, through: :responses, foreign_key: :respondent_id, class_name: :User
 end

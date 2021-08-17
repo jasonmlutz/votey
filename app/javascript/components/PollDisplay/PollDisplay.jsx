@@ -4,11 +4,13 @@ import PollHeader from "./PollHeader"
 import RespondentSelector from "./RespondentSelector"
 import QuestionsContainer from "./QuestionsContainer"
 
+import Modal from "../Modals/Modal"
+
 import { RadioInputContext } from "./RadioInputContext"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
 export default function PollDisplay({pollID}) {
-  const [data, setData] = useState({data: {}, mounted: false});
+  const [data, setData] = useState({catalog: {}, mounted: false});
   const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
 
@@ -17,7 +19,7 @@ export default function PollDisplay({pollID}) {
 
   useEffect(() => {
     if (!data.mounted) {
-      const url = "/api/v1/polls/" + pollID
+      const url = "/api/v2/polls/" + pollID
 
       fetch(url)
         .then((data) => {
@@ -26,57 +28,46 @@ export default function PollDisplay({pollID}) {
           }
           throw new Error("network and/or server error")
         })
-        .then((data) => {
-          setData({data: data, mounted: true});
+        .then((catalog) => {
+          setData({catalog: catalog, mounted: true});
         })
         .catch((err) => console.error("unknown error ", err));
     }
   })
 
-  if (data.data.POLL && data.data.AUTHOR) {
+  if (data.catalog.POLL && data.catalog.AUTHOR) {
     if (response.submitted) {
       return <Redirect to={response.path} />
     } else {
-      const respondentDisplay = (currentUser && currentUser.username ? "Respondent: " + currentUser.username : "login required")
-      if (currentUser && currentUser.username) {
-        var footerDisplay = (
-          <button
-            className = "poll-submit-btn submit-btn"
-            form = "main-poll-form"
-            type = "submit"
-          >
-            Submit!
-          </button>
-        )
-      } else {
-        var footerDisplay = (
-          <div>
-            <div>Login required to submit form!</div>
-            <Link
-              to={{
-                pathname: "/session/new",
-                state: {source: window.location.pathname}
-              }}
-            >Login</Link >
-          </div>
-        )
+      const {modalShow, modalPath} = setModalProps()
+      const modalProps = {
+        show: modalShow,
+        message: "You have already completed this form!",
+        source: "/",
+        options : {
+          path: modalPath,
+          linkText: "View your response"
+        }
       }
       return (
-        <form
-          className = "poll-display"
-          id = "main-poll-form"
-          onSubmit = {handleSubmit}
-        >
-          <PollHeader poll = {data.data.POLL} author = {data.data.AUTHOR} />
-          <div className = "respondent-display">
-            {respondentDisplay}
-          </div>
-          <QuestionsContainer
-            questions = {data.data.QUESTIONS}
-            responseOptions = {data.data.RESPONSE_OPTIONS}
-          />
-          {footerDisplay}
-        </form>
+        <>
+          <Modal {...modalProps}/>
+          <form
+            className = "poll-display"
+            id = "main-poll-form"
+            onSubmit = {handleSubmit}
+          >
+            <PollHeader poll = {data.catalog.POLL} author = {data.catalog.AUTHOR} />
+            <div className = "respondent-display">
+              {setRespondentDisplay()}
+            </div>
+            <QuestionsContainer
+              questions = {data.catalog.QUESTIONS}
+              responseOptions = {data.catalog.RESPONSE_OPTIONS}
+            />
+            {setFooterDisplay()}
+          </form>
+        </>
       )
     }
   } else {
@@ -95,8 +86,59 @@ export default function PollDisplay({pollID}) {
     }
   }
 
+  function setModalProps() {
+    var modalShow = false;
+    var modalPath = "/";
+    if (currentUser && currentUser.username) {
+      const respondentIDs = Object.keys(data.catalog.RESPONDENTS)
+      if (respondentIDs.includes(currentUser.id.toString())) {
+        modalShow = true;
+        const responseID = data.catalog.RESPONDENTS[currentUser.id]
+        modalPath = "/responses/" + responseID
+      }
+    }
+
+    return {modalShow: modalShow, modalPath: modalPath}
+  }
+
+  function setRespondentDisplay() {
+    if (currentUser && currentUser.username) {
+      var respondentDisplay= "Respondent: " + currentUser.username
+    } else {
+      var respondentDisplay = "login required"
+    }
+    return respondentDisplay
+  }
+
+  function setFooterDisplay() {
+    if (currentUser && currentUser.username) {
+      var footerDisplay = (
+        <button
+          className = "poll-submit-btn submit-btn"
+          form = "main-poll-form"
+          type = "submit"
+        >
+          Submit!
+        </button>
+      )
+    } else {
+      var footerDisplay = (
+        <div>
+          <div className = "footer-display">Login required to submit form!</div>
+          <Link
+            to={{
+              pathname: "/session/new",
+              state: {source: window.location.pathname}
+            }}
+          >Login</Link >
+        </div>
+      )
+    }
+    return footerDisplay
+  }
+
   function buildRequiredQuestionsArray() {
-    const questions = data.data.QUESTIONS
+    const questions = data.catalog.QUESTIONS
     var requiredQuestionsArray = [];
     questions.forEach((question, index) => {
       if (question.required) requiredQuestionsArray.push(`${question.id}`);
@@ -132,7 +174,7 @@ export default function PollDisplay({pollID}) {
       pushResponse()
     } else {
       const unfinishedRequiredQuestionArray = buildUnfinishedRequiredQuestionArray()
-      highlightQuestions(requiredQuestionsArray, "blue")
+      highlightQuestions(requiredQuestionsArray, "black")
       highlightQuestions(unfinishedRequiredQuestionArray, "red")
       alert('at least one required question is not complete!')
     }
