@@ -1,14 +1,14 @@
-import React, {useState} from "react"
-import PropTypes from "prop-types"
-import { Redirect, Link, useLocation } from "react-router-dom"
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+import React, { useState, useContext } from "react";
+import PropTypes from "prop-types";
+import { Redirect, Link, useLocation } from "react-router-dom";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function AuthInputText({name, onInputChange}) {
-  const [value, setValue] = useState("")
+function AuthInputText({ name, onInputChange }) {
+  const [value, setValue] = useState("");
 
   function handleChange(event) {
-    setValue(event.target.value)
-    onInputChange(name, event.target.value);
+    setValue(event.target.value);
+    onInputChange(event.target.value);
   }
 
   const type = name == "password" ? "password" : "text";
@@ -22,84 +22,56 @@ function AuthInputText({name, onInputChange}) {
       value={value}
       onChange={handleChange}
     />
-  )
+  );
 }
 
 AuthInputText.propTypes = {
   name: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
+};
+
+function SubmitButton({ auth_type }) {
+  return (
+    <button
+      className="auth-submit-btn submit-btn"
+      form={`${auth_type}-form`}
+      type="submit"
+    >
+      {auth_type.toUpperCase()}
+    </button>
+  );
 }
 
-class SubmitButton extends React.Component {
-  // receives props.value; in ['login', 'register']
-  constructor(props) {
-    super(props);
-  }
+SubmitButton.propTypes = { auth_type: PropTypes.oneOf(["register", "login"]) };
 
-  render() {
-    const auth_type = this.props.auth_type;
-    return (
-      <button
-        className="auth-submit-btn submit-btn"
-        form={`${auth_type}-form`}
-        type="submit"
-      >
-        {auth_type.toUpperCase()}
-      </button>
-    );
-  }
+function ErrorDisplay({ errors }) {
+  const listItems = errors.map((error, index) => <li key={index}>{error}</li>);
+
+  return <ul className="auth-error-ul">{listItems}</ul>;
 }
 
-class ErrorDisplay extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+ErrorDisplay.propTypes = {
+  errors: PropTypes.arrayOf(PropTypes.string),
+};
 
-  render() {
-    const errors =
-      this.props.errors.length < 1 ? ["no errors"] : this.props.errors;
-    const listItems = errors.map((error, index) => (
-      <li key={index}>{error}</li>
-    ));
+function AuthInputForm({ auth_type, source }) {
+  const [errors, setErrors] = useState([]);
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [authSuccess, setAuthSuccess] = useState(false);
 
-    return <ul className="auth-error-ul">{listItems}</ul>;
-  }
-}
+  const { setCurrentUser } = useContext(CurrentUserContext);
 
-class AuthInputForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { errors: [], password: "", username: "", authSuccess: false };
-
-    this.onInputChange = this.onInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.databaseQuery = this.databaseQuery.bind(this);
-    this.onValidationError = this.onValidationError.bind(this);
-  }
-
-  static contextType = CurrentUserContext;
-
-  onValidationError(errors) {
-    this.setState((prevState) => ({
-      errors: [...prevState.errors, ...errors],
-    }));
-  }
-
-  onInputChange(field, input) {
-    this.setState({ [field]: input });
-  }
-
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-
-    const values = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    this.databaseQuery(values, this.props.auth_type);
+    databaseQuery();
   }
 
-  databaseQuery(values, auth_type) {
+  function databaseQuery() {
+    const values = {
+      username: username,
+      password: password,
+    };
     const url = "/api/v1/" + (auth_type == "register" ? "users/" : "session/");
     fetch(url, {
       method: "post",
@@ -113,63 +85,41 @@ class AuthInputForm extends React.Component {
           data.json().then((user) => {
             const session_token = user.session_token;
             sessionStorage.setItem("currentUserToken", session_token);
-            const setCurrentUser = this.context.setCurrentUser;
             setCurrentUser(user);
-            const userID = user.id;
-            this.setState({ userID: userID, authSuccess: true });
+            setAuthSuccess(true);
           });
         } else if (data.status == "422") {
-          data.json().then((errors) => this.onValidationError(errors));
+          data.json().then((errors) => setErrors(errors));
         } else if (data.status == "500") {
           this.onValidationError(["password and/or username incorrect"]);
         } else {
           throw new Error("network and/or server error");
         }
       })
-      .catch((err) => console.error("Error" + err));
+      .catch((err) => console.error("unknown error", err));
   }
 
-  render() {
-    if (this.state.authSuccess) {
-      // const redirectPath = `/users/${this.state.userID}`
-      return <Redirect to={this.props.source} />;
-    } else {
-      const auth_type = this.props.auth_type;
-      return (
-        <>
-          <form
-            id={`${auth_type}-form`}
-            onSubmit={this.handleSubmit}
-            className="auth-input-form flex-container-column"
-          >
-            <AuthInputText
-              name="username"
-              onInputChange={this.onInputChange}
-            />
-            <AuthInputText
-              name="password"
-              onInputChange={this.onInputChange}
-            />
-            <SubmitButton auth_type={auth_type} />
-          </form>
-          <ErrorDisplay errors={this.state.errors} />
-        </>
-      );
-    }
-  }
-}
-
-class DisplayTitle extends React.Component {
-  render() {
-    const auth_type = this.props.auth_type;
-    const message = auth_type == "login" ? "Welcome back!" : "Register!";
-
-    return <div className="auth-display-title">{message}</div>;
+  if (authSuccess) {
+    return <Redirect to={source} />;
+  } else {
+    return (
+      <>
+        <form
+          id={`${auth_type}-form`}
+          onSubmit={handleSubmit}
+          className="auth-input-form flex-container-column"
+        >
+          <AuthInputText name="username" onInputChange={setUsername} />
+          <AuthInputText name="password" onInputChange={setPassword} />
+          <SubmitButton auth_type={auth_type} />
+        </form>
+        <ErrorDisplay errors={errors} />
+      </>
+    );
   }
 }
 
 export default function UserAuthDisplay({ auth_type }) {
-  // auth_type is one of "login" or "register"
   const redirectMessage =
     auth_type == "login" ? "New user? " : "Returning user? ";
   const linkMessage = auth_type == "login" ? "Register" : "Login";
@@ -177,10 +127,11 @@ export default function UserAuthDisplay({ auth_type }) {
 
   const location = useLocation();
   const { source } = location.state ? location.state : { source: "/" };
+  const welcomeMessage = auth_type == "login" ? "Welcome back!" : "Register!";
 
   return (
     <div className="auth-display flex-container-column">
-      <DisplayTitle auth_type={auth_type} />
+      <div className="auth-display-title">{welcomeMessage}</div>;
       <AuthInputForm auth_type={auth_type} source={source} />
       <div className="redirect-footer flex-container-row">
         <div>{redirectMessage}</div>
@@ -196,3 +147,7 @@ export default function UserAuthDisplay({ auth_type }) {
     </div>
   );
 }
+
+UserAuthDisplay.propTypes = {
+  auth_type: PropTypes.oneOf(["register", "login"]),
+};
