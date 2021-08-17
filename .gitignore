@@ -37,5 +37,6 @@ yarn-debug.log*
 *.DS_Store
 
 # Ignore .lock package files
-Gemfile.lock
-yarn.lock
+/Gemfile.lock
+/yarn.lock
+/package-lock.json
