@@ -1,40 +1,33 @@
-// app/javascript/components/UserAuth/UserAuthDisplay.jsx
-// based on app/assets/mocks/UserAuth.png
+import React, {useState} from "react"
+import PropTypes from "prop-types"
+import { Redirect, Link, useLocation } from "react-router-dom"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 
-import React from "react";
-import { Redirect, Link, useLocation } from "react-router-dom";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+function AuthInputText({name, onInputChange}) {
+  const [value, setValue] = useState("")
 
-class AuthInputText extends React.Component {
-  // receives props.name in ['username', 'password']
-  constructor(props) {
-    super(props);
-    this.state = { value: "" };
-
-    this.handleChange = this.handleChange.bind(this);
+  function handleChange(event) {
+    setValue(event.target.value)
+    onInputChange(name, event.target.value);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-    this.props.onInputChange(this.props.name, event.target.value);
-  }
+  const type = name == "password" ? "password" : "text";
+  const placeholder = name;
+  return (
+    <input
+      className="auth-input-text input-text"
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={handleChange}
+    />
+  )
+}
 
-  render() {
-    const name = this.props.name; // 'username' or 'password'
-    const type = name == "password" ? "password" : "text";
-    const placeholder = name;
-    return (
-      <input
-        className="auth-input-text input-text"
-        name={name}
-        ref={name}
-        type={type}
-        placeholder={placeholder}
-        value={this.state.value}
-        onChange={this.handleChange}
-      />
-    );
-  }
+AuthInputText.propTypes = {
+  name: PropTypes.string.isRequired,
+  onInputChange: PropTypes.func.isRequired
 }
 
 class SubmitButton extends React.Component {
@@ -151,12 +144,10 @@ class AuthInputForm extends React.Component {
           >
             <AuthInputText
               name="username"
-              auth_type={auth_type}
               onInputChange={this.onInputChange}
             />
             <AuthInputText
               name="password"
-              auth_type={auth_type}
               onInputChange={this.onInputChange}
             />
             <SubmitButton auth_type={auth_type} />
