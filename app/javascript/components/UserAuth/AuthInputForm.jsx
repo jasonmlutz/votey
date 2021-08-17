@@ -8,6 +8,7 @@ import AuthInputText from "./AuthInputText";
 export default function AuthInputForm({ auth_type, source }) {
   const [errors, setErrors] = useState([]);
   const [password, setPassword] = useState("");
+  const [passwordVerify, setPasswordVerify] = useState("");
   const [username, setUsername] = useState("");
   const [authSuccess, setAuthSuccess] = useState(false);
 
@@ -16,6 +17,13 @@ export default function AuthInputForm({ auth_type, source }) {
   const errorListItems = errors.map((error, index) => (
     <li key={index}>{error}</li>
   ));
+
+  var verifyPasswordInput = null;
+  if (auth_type === "register") {
+    var verifyPasswordInput = (
+      <AuthInputText name="passwordVerify" onInputChange={setPasswordVerify} />
+    );
+  }
 
   if (authSuccess) {
     return <Redirect to={source} />;
@@ -29,6 +37,7 @@ export default function AuthInputForm({ auth_type, source }) {
         >
           <AuthInputText name="username" onInputChange={setUsername} />
           <AuthInputText name="password" onInputChange={setPassword} />
+          {verifyPasswordInput}
           <button
             className="auth-submit-btn submit-btn"
             form={`${auth_type}-form`}
@@ -46,7 +55,9 @@ export default function AuthInputForm({ auth_type, source }) {
     event.preventDefault();
     if (!username || !password) {
       alert("username and/or password missing");
-    } else if (password.length < 6 && auth_type === "register") {
+    } else if (auth_type === "register" && password !== passwordVerify) {
+      alert("passwords do not match");
+    } else if (auth_type === "register" && password.length < 6) {
       alert("password must be at least six characters");
     } else {
       databaseQuery();

@@ -9,7 +9,9 @@ export default function AuthInputText({ name, onInputChange }) {
     onInputChange(event.target.value);
   }
 
-  const type = name == "password" ? "password" : "text";
+  const type = ["password", "passwordVerify"].includes(name)
+    ? "password"
+    : "text";
   const placeholder = name;
   return (
     <input
