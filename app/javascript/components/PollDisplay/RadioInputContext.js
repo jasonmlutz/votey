@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import PropTypes from "prop-types";
 
 export const RadioInputContext = createContext();
 
@@ -10,3 +11,5 @@ export const RadioInputProvider = ({ children }) => {
     </RadioInputContext.Provider>
   );
 };
+
+RadioInputProvider.propTypes = { children: PropTypes.object.isRequired };
