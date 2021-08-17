@@ -4,7 +4,7 @@ import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
-import UserAuthDisplay from "./UserAuthDisplay"
+import UserAuthDisplay from "./UserAuthDisplay";
 
 let container = null;
 beforeEach(() => {
@@ -18,7 +18,7 @@ afterEach(() => {
   unmountComponentAtNode(container);
   container.remove();
   container = null;
-})
+});
 
 it("renders with correct DisplayTitle", () => {
   act(() => {

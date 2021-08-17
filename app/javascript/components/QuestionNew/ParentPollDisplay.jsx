@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import ParentPollHeader from "./ParentPollHeader"
-import SiblingQuestionContainer from "./SiblingQuestionContainer"
-import NewQuestionForm from "./NewQuestionForm"
-import Modal from "../Modals/Modal"
+import ParentPollHeader from "./ParentPollHeader";
+import SiblingQuestionContainer from "./SiblingQuestionContainer";
+import NewQuestionForm from "./NewQuestionForm";
+import Modal from "../Modals/Modal";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-
-export default function ParentPollDisplay({pollID}) {
-  const url = `/api/v1/polls/${pollID}`
+export default function ParentPollDisplay({ pollID }) {
+  const url = `/api/v1/polls/${pollID}`;
 
   const [data, setData] = useState({});
   const [mounted, setMountStatus] = useState(false);
@@ -22,15 +21,15 @@ export default function ParentPollDisplay({pollID}) {
           if (data.ok) {
             return data.json();
           }
-          throw new Error("network and/or server error")
+          throw new Error("network and/or server error");
         })
         .then((data) => {
           setData(data);
           setMountStatus(true);
         })
-        .catch((err) => console.error("unkonwn error" + err))
+        .catch((err) => console.error("unkonwn error" + err));
     }
-  })
+  });
 
   if (Object.keys(data).length) {
     const title = data.POLL.title;
@@ -42,42 +41,42 @@ export default function ParentPollDisplay({pollID}) {
       title,
       description,
       authorUsername,
-      authorID
-    }
+      authorID,
+    };
 
     const questions = data.QUESTIONS;
     const responseOptions = data.RESPONSE_OPTIONS;
 
-    const siblingQuestions = questions.map((question, index) =>
+    const siblingQuestions = questions.map((question, index) => (
       <SiblingQuestionContainer
-        key = {index}
-        question = {question}
-        responseOptions = {responseOptions[question.id]}
+        key={index}
+        question={question}
+        responseOptions={responseOptions[question.id]}
       />
-    );
-    const showModal = !(currentUser && currentUser.username) || !(currentUser.username === authorUsername)
+    ));
+    const showModal =
+      !(currentUser && currentUser.username) ||
+      !(currentUser.username === authorUsername);
 
     return (
       <div>
         <Modal
-          show = {showModal}
-          message = "You must be logged in as the author of this form to make changes."
-          source = {`/polls/${pollID}/questions/new`}
+          show={showModal}
+          message="You must be logged in as the author of this form to make changes."
+          source={`/polls/${pollID}/questions/new`}
         />
-        <div className = "parent-poll-display poll-display">
-          <ParentPollHeader  {...headerProps}/>
-          <ul className = "questions-container">
-            {siblingQuestions}
-          </ul>
-          <NewQuestionForm parentPollID = {pollID}/>
+        <div className="parent-poll-display poll-display">
+          <ParentPollHeader {...headerProps} />
+          <ul className="questions-container">{siblingQuestions}</ul>
+          <NewQuestionForm parentPollID={pollID} />
         </div>
       </div>
-    )
+    );
   } else {
     if (mounted) {
-      return <h2>No poll data to display!</h2>
+      return <h2>No poll data to display!</h2>;
     } else {
-      return <h2>Loading ...</h2>
+      return <h2>Loading ...</h2>;
     }
   }
 }

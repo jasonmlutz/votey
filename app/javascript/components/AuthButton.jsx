@@ -1,14 +1,14 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { CurrentUserContext } from "../contexts/CurrentUserContext"
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default function AuthButton({displayLogout, setDisplayLogout}) {
-  const {setCurrentUser} = useContext(CurrentUserContext);
+export default function AuthButton({ displayLogout, setDisplayLogout }) {
+  const { setCurrentUser } = useContext(CurrentUserContext);
 
   const handleLogoutClick = () => {
-    const currentUserToken = sessionStorage.getItem('currentUserToken')
+    const currentUserToken = sessionStorage.getItem("currentUserToken");
     if (currentUserToken) {
-      const url = `/api/v1/session?session_token=${currentUserToken}`
+      const url = `/api/v1/session?session_token=${currentUserToken}`;
       // sessionStorage.removeItem('currentUserToken')
       // setCurrentUser({})
       fetch(url, {
@@ -16,32 +16,33 @@ export default function AuthButton({displayLogout, setDisplayLogout}) {
       })
         .then((data) => {
           if (data.ok) {
-            sessionStorage.removeItem('currentUserToken')
-            setCurrentUser({})
+            sessionStorage.removeItem("currentUserToken");
+            setCurrentUser({});
             // setDisplayLogout(false);
-            alert("logout completed")
-            return data.json()
+            alert("logout completed");
+            return data.json();
           } else {
-            throw new Error("network and/or server error")
+            throw new Error("network and/or server error");
           }
         })
-        .catch(err => console.error("unkonwn error " + err))
+        .catch((err) => console.error("unkonwn error " + err));
     } else {
-      alert('no currentSessionToken; no user to logout!')
+      alert("no currentSessionToken; no user to logout!");
     }
-  }
+  };
 
   const loginLink = (
     <Link
       to={{
         pathname: "/session/new",
-        state: { source: "/" }
-      }}>
-        Log In
+        state: { source: "/" },
+      }}
+    >
+      Log In
     </Link>
-  )
-  const logoutLink = <a onClick = {handleLogoutClick}>Log Out</a>
-  const displayedButton = (displayLogout ? logoutLink : loginLink)
+  );
+  const logoutLink = <a onClick={handleLogoutClick}>Log Out</a>;
+  const displayedButton = displayLogout ? logoutLink : loginLink;
 
-  return displayedButton
+  return displayedButton;
 }

@@ -1,16 +1,16 @@
 import React from "react";
-import LeftNav from "./LeftNav"
-import RightNav from "./RightNav"
+import LeftNav from "./LeftNav";
+import RightNav from "./RightNav";
 
 class Header extends React.Component {
-  render () {
+  render() {
     return (
       <header className="main-nav flex-container-row">
-          <LeftNav/>
-          <RightNav/>
+        <LeftNav />
+        <RightNav />
       </header>
-    )
+    );
   }
 }
 
-export default Header
+export default Header;

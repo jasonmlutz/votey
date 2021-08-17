@@ -1,8 +1,10 @@
 {
   "name": "votey",
-  "jest" : {
+  "jest": {
     "testEnvironment": "jsdom",
-    "testPathIgnorePatterns": ["/config/webpack/test.js"]
+    "testPathIgnorePatterns": [
+      "/config/webpack/test.js"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -27,7 +29,10 @@
   "version": "0.1.0",
   "devDependencies": {
     "babel-jest": "^27.0.6",
+    "eslint": "^7.32.0",
+    "eslint-plugin-react": "^7.24.0",
     "jest": "^27.0.6",
+    "prettier": "2.3.2",
     "react-test-renderer": "^17.0.2",
     "webpack-dev-server": "^3.11.2"
   },

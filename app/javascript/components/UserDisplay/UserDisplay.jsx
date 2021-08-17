@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 // const data = DATA;
 
-export default function UserDisplay({user_id}) {
-  const url = `/api/v1/users/${user_id}`
+export default function UserDisplay({ user_id }) {
+  const url = `/api/v1/users/${user_id}`;
 
-  const [data, setData] = useState({data: {}, mounted: false});
+  const [data, setData] = useState({ data: {}, mounted: false });
 
   useEffect(() => {
     if (!data.mounted) {
@@ -16,79 +16,69 @@ export default function UserDisplay({user_id}) {
           if (data.ok) {
             return data.json();
           }
-          throw new Error("network and/or server error")
+          throw new Error("network and/or server error");
         })
         .then((data) => {
-          setData({data: data, mounted: true});
+          setData({ data: data, mounted: true });
         })
-        .catch((err) => console.error("unknown error: " + err))
+        .catch((err) => console.error("unknown error: " + err));
     }
-  })
+  });
 
   if (Object.keys(data.data).length) {
-    return(
-      <div className = "user-display">
-        <UserHeader username = { data.data.USER.username } />
+    return (
+      <div className="user-display">
+        <UserHeader username={data.data.USER.username} />
         <Activities
-          polls = { data.data.POLLS}
-          responses = { data.data.RESPONSE_DATA }
+          polls={data.data.POLLS}
+          responses={data.data.RESPONSE_DATA}
         />
       </div>
-    )
+    );
   } else {
     if (mounted) {
-      setTimeout(function() {
-        window.location.replace('/');
+      setTimeout(function () {
+        window.location.replace("/");
       }, 5000);
       return (
         <div>
-          <div>{"Unable to locate user with id = " + user_id }</div>
-          Redirecting to <Link to = "/">Home</Link> in 5 seconds ...
+          <div>{"Unable to locate user with id = " + user_id}</div>
+          Redirecting to <Link to="/">Home</Link> in 5 seconds ...
         </div>
-      )
+      );
     } else {
-      return <h2>Loading ...</h2>
+      return <h2>Loading ...</h2>;
     }
   }
 }
 
 function UserHeader(props) {
-  return (
-    <div className = "user-header">All about {props.username}!</div>
-  )
+  return <div className="user-header">All about {props.username}!</div>;
 }
 
 function Activities(props) {
   // props: polls, responses
   return (
     <>
-      <ActivityContainer
-        type = "polls"
-        data = { props.polls }
-      />
-      <ActivityContainer
-        type = "responses"
-        data = { props.responses }
-      />
+      <ActivityContainer type="polls" data={props.polls} />
+      <ActivityContainer type="responses" data={props.responses} />
     </>
-  )
+  );
 }
 
 function ActivityContainer(props) {
   return (
-    <div className = "activity-container">
-      <ActivityHeader type = { props.type }/>
-      <ActivityList type = { props.type } data = { props.data }/>
+    <div className="activity-container">
+      <ActivityHeader type={props.type} />
+      <ActivityList type={props.type} data={props.data} />
     </div>
-  )
+  );
 }
 
 function ActivityHeader(props) {
   const type = props.type;
-  const message = (type == "polls" ? "Polls Authored" : "Responses Submitted")
-  return (
-    <div className = "activity-header">{message}</div>
-  )
+  const message = type == "polls" ? "Polls Authored" : "Responses Submitted";
+  return <div className="activity-header">{message}</div>;
 }
 
 function ActivityList(props) {
@@ -98,18 +88,14 @@ function ActivityList(props) {
   // return (
   //   <h2>testing ActivityList for type = {type}</h2>
   // )
-  const activityListItems = data.map((item, index) =>
-    <ActivityListItem key = {index} item = {item} type = {type} />
-  );
+  const activityListItems = data.map((item, index) => (
+    <ActivityListItem key={index} item={item} type={type} />
+  ));
 
   if (activityListItems.length) {
-    return (
-      <ol className = "activity-list">
-       {activityListItems}
-      </ol>
-    )
+    return <ol className="activity-list">{activityListItems}</ol>;
   } else {
-    return <h2>none!</h2>
+    return <h2>none!</h2>;
   }
 }
 
@@ -119,11 +105,12 @@ function ActivityListItem(props) {
   // polls -> item is a Poll object
   // responses -> item is an array [response object, associated poll object]
   const type = props.type;
-  const path = (type == "polls" ? `/polls/${item.id}` : `/responses/${item[0].id}`);
-  const text = (type == "polls" ? `${item.title}` : `${item[1].title}` );
+  const path =
+    type == "polls" ? `/polls/${item.id}` : `/responses/${item[0].id}`;
+  const text = type == "polls" ? `${item.title}` : `${item[1].title}`;
   return (
     <li>
-      <Link to = {path}>{text}</Link>
+      <Link to={path}>{text}</Link>
     </li>
-  )
+  );
 }

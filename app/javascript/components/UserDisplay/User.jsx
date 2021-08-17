@@ -5,5 +5,5 @@ import UserDisplay from "./UserDisplay";
 export default function User() {
   const { user_id } = useParams();
 
-  return <UserDisplay user_id = { user_id }/>
+  return <UserDisplay user_id={user_id} />;
 }

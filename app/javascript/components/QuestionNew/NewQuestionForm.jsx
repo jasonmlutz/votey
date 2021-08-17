@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Redirect} from "react-router-dom";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 export default function NewQuestionForm(props) {
   // props: pollID
@@ -12,9 +12,9 @@ export default function NewQuestionForm(props) {
 
     const values = {
       title: questionTitle,
-    }
+    };
 
-    const url = `/api/v1/polls/${parentPollID}/questions/`
+    const url = `/api/v1/polls/${parentPollID}/questions/`;
 
     fetch(url, {
       method: "post",
@@ -27,44 +27,44 @@ export default function NewQuestionForm(props) {
         if (data.ok) {
           return data.json();
         }
-        throw new Error("server and/or network error")
+        throw new Error("server and/or network error");
       })
       .then((data) => {
         setSubmissionStatus(true);
       })
-      .catch(err => console.error("unkonwn error" + err))
+      .catch((err) => console.error("unkonwn error" + err));
   }
 
   if (questionSubmitted) {
     // const redirectPath = `/polls/${parentPollID}/questions/new`;
     window.location.reload(true);
-    return null
+    return null;
   } else {
     return (
       <form
-        id = "new-question-form"
-        onSubmit = {e => handleFormSubmit(e)}
-        className = "new-question-form"
+        id="new-question-form"
+        onSubmit={(e) => handleFormSubmit(e)}
+        className="new-question-form"
       >
-        <label className = "question-title">Add new question:
+        <label className="question-title">
+          Add new question:
           <input
-            className = "new-question-title-input input-text"
-            name = "title"
-            type = "text"
-            placeholder = "... enter question text ..."
-            value = { questionTitle }
-            onChange = {e => setQuestionText(e.target.value)}
-          >
-          </input>
+            className="new-question-title-input input-text"
+            name="title"
+            type="text"
+            placeholder="... enter question text ..."
+            value={questionTitle}
+            onChange={(e) => setQuestionText(e.target.value)}
+          ></input>
         </label>
         <button
-          className = "new-question-submit-btn submit-btn"
-          type = "submit"
-          form = "new-question-form"
+          className="new-question-submit-btn submit-btn"
+          type="submit"
+          form="new-question-form"
         >
           Submit
         </button>
       </form>
-    )
+    );
   }
 }

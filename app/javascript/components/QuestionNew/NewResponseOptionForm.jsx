@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 export default function NewResponseOptionForm(props) {
   // props: parentQuestionID
   const parentQuestionID = props.parentQuestionID;
-  const formID = "new-response-option-form-"+parentQuestionID
+  const formID = "new-response-option-form-" + parentQuestionID;
   const [responseOptionText, setResponseOptionText] = useState("");
   const [responseOptionSubmitted, setSubmissionStatus] = useState(false);
 
@@ -12,9 +12,9 @@ export default function NewResponseOptionForm(props) {
 
     const values = {
       text: responseOptionText,
-    }
+    };
 
-    const url = `/api/v1/questions/${parentQuestionID}/response_options`
+    const url = `/api/v1/questions/${parentQuestionID}/response_options`;
 
     fetch(url, {
       method: "post",
@@ -27,44 +27,43 @@ export default function NewResponseOptionForm(props) {
         if (data.ok) {
           return data.json();
         }
-        throw new Error("server and/or network error")
+        throw new Error("server and/or network error");
       })
       .then((data) => {
         setSubmissionStatus(true);
       })
-      .catch(err => console.error("unkonwn error" + err))
+      .catch((err) => console.error("unkonwn error" + err));
   }
 
   if (responseOptionSubmitted) {
     window.location.reload(true);
-    return null
+    return null;
   } else {
     return (
       <form
-        id = {formID}
-        className = "new-response-option-form"
-        onSubmit = {e => handleFormSubmit(e)}
+        id={formID}
+        className="new-response-option-form"
+        onSubmit={(e) => handleFormSubmit(e)}
       >
-        <label className = "response-option">Add new response option:
+        <label className="response-option">
+          Add new response option:
           <input
-            className = "new-response-option-input input-text"
-            name = "text"
-            type = "text"
-            placeholder = "... enter response option text ..."
-            value = { responseOptionText }
-            onChange = {e => setResponseOptionText(e.target.value)}
-          >
-          </input>
+            className="new-response-option-input input-text"
+            name="text"
+            type="text"
+            placeholder="... enter response option text ..."
+            value={responseOptionText}
+            onChange={(e) => setResponseOptionText(e.target.value)}
+          ></input>
         </label>
         <button
-          className = "new-response-option-submit-btn submit-btn"
-          type = "submit"
-          form = {formID}
+          className="new-response-option-submit-btn submit-btn"
+          type="submit"
+          form={formID}
         >
           Submit
         </button>
       </form>
-    )
+    );
   }
-
 }

@@ -5,8 +5,8 @@ export const RadioInputContext = createContext();
 export const RadioInputProvider = ({ children }) => {
   const [answers, setAnswers] = useState({});
   return (
-    <RadioInputContext.Provider value={{answers, setAnswers}}>
+    <RadioInputContext.Provider value={{ answers, setAnswers }}>
       {children}
     </RadioInputContext.Provider>
-  )
-}
+  );
+};

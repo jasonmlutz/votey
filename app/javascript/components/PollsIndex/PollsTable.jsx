@@ -1,24 +1,20 @@
 import React from "react";
-import TableRows from "./TableRows"
+import TableRows from "./TableRows";
 
 export default function PollsTable({ data, keys }) {
-  const tableHeader = keys.map((key, index) => (
-    <td key = { index }>{ key }</td>
-  ))
+  const tableHeader = keys.map((key, index) => <td key={index}>{key}</td>);
 
   return (
-    <table className = "polls-table">
+    <table className="polls-table">
       <thead>
         <tr>
-          <th colSpan = { keys.length }>POLLS TABLE</th>
+          <th colSpan={keys.length}>POLLS TABLE</th>
         </tr>
-        <tr>
-          { tableHeader }
-        </tr>
+        <tr>{tableHeader}</tr>
       </thead>
       <tbody>
-        <TableRows keys = { keys } data = { data }/>
+        <TableRows keys={keys} data={data} />
       </tbody>
     </table>
-  )
+  );
 }
