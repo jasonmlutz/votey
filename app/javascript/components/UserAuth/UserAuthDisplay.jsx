@@ -15,7 +15,7 @@ export default function UserAuthDisplay({ auth_type }) {
 
   return (
     <div className="auth-display flex-container-column">
-      <div className="auth-display-title">{welcomeMessage}</div>;
+      <div className="auth-display-title">{welcomeMessage}</div>
       <AuthInputForm auth_type={auth_type} source={source} />
       <div className="redirect-footer flex-container-row">
         <div>{redirectMessage}</div>

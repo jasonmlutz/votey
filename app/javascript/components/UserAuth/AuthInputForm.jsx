@@ -37,7 +37,7 @@ export default function AuthInputForm({ auth_type, source }) {
             {auth_type.toUpperCase()}
           </button>
         </form>
-        <ul className="auth-error-ul">{errorListItems}</ul>;
+        <ul className="auth-error-ul">{errorListItems}</ul>
       </>
     );
   }
@@ -71,7 +71,7 @@ export default function AuthInputForm({ auth_type, source }) {
         } else if (data.status == "422") {
           data.json().then((errors) => setErrors(errors));
         } else if (data.status == "500") {
-          this.onValidationError(["password and/or username incorrect"]);
+          setErrors(["password and/or username incorrect"]);
         } else {
           throw new Error("network and/or server error");
         }
