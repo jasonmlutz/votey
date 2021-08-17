@@ -44,7 +44,13 @@ export default function AuthInputForm({ auth_type, source }) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    databaseQuery();
+    if (!username || !password) {
+      alert("username and/or password missing");
+    } else if (password.length < 6 && auth_type === "register") {
+      alert("password must be at least six characters");
+    } else {
+      databaseQuery();
+    }
   }
 
   function databaseQuery() {
