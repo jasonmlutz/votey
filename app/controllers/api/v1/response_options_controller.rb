@@ -1,5 +1,6 @@
 class Api::V1::ResponseOptionsController < ApplicationController
   before_action :set_question, only: [:index, :create]
+  before_action :set_response_option, only: [:destroy]
 
   # GET /response_options
   # GET /response_options.json
@@ -19,6 +20,14 @@ class Api::V1::ResponseOptionsController < ApplicationController
     end
   end
 
+  def destroy
+    if @response_option && @response_option.destroy
+      render json: {message: "response option deleted"}
+    else
+      render json: {message: "destroy not successful"}
+    end
+  end
+
   private
     def response_option_params
       params.permit(:text)
@@ -26,5 +35,9 @@ class Api::V1::ResponseOptionsController < ApplicationController
     
     def set_question
       @question = Question.find(params[:question_id])
+    end
+
+    def set_response_option
+      @response_option = ResponseOption.find_by(id: params[:id])
     end
 end

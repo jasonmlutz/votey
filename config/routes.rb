@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       end
 
       resources :answers, only: [:show]
+
+      resources :response_options, only: [:destroy]
     end
   end
 
