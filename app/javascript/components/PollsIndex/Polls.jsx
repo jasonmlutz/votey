@@ -9,7 +9,7 @@ export default function Polls(props) {
   const [data, setData] = useState([]);
   const [mounted, setMountStatus] = useState(false);
 
-  const url = "api/v1/polls/";
+  const url = "/api/v1/polls/";
 
   useEffect(() => {
     if (mounted == false) {
