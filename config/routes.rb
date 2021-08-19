@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         resources :response_options, only: [:create, :show]
       end
 
-      resources :responses, only: [:create, :show] do
+      resources :responses, only: [:create, :show, :destroy] do
         resources :answers, only: [:create]
       end
 
