@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     end
     
     namespace :v1 do
-      resources :answers, only: [:show]
+      resources :answers, only: [:show, :destroy]
 
       resources :polls, only: [:show, :index, :create, :destroy] do
         resources :questions, only: [:create, :show]
