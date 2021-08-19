@@ -5,26 +5,25 @@ Rails.application.routes.draw do
     end
     
     namespace :v1 do
-      resources :users, only: [:index, :create, :show]
-      delete 'users/:id', to: 'users#destroy'
+      resources :answers, only: [:show]
 
-      resource :session, only: [:create, :show]
-      delete 'session/', to: 'sessions#destroy'
-
-      resources :polls, only: [:show, :index, :create] do
+      resources :polls, only: [:show, :index, :create, :destroy] do
         resources :questions, only: [:create, :show]
       end
 
-      resources :questions, only: [:show] do
+      resources :questions, only: [:show, :destroy] do
         resources :response_options, only: [:create, :show]
       end
+
       resources :responses, only: [:create, :show] do
         resources :answers, only: [:create]
       end
 
-      resources :answers, only: [:show]
-
       resources :response_options, only: [:destroy]
+
+      resource :session, only: [:create, :show, :destroy]
+      
+      resources :users, only: [:index, :create, :show, :destroy]
     end
   end
 
