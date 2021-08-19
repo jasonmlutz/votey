@@ -32,13 +32,14 @@ class Api::V1::UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-
-    render json: { notice: 'User was successfully removed.' }
+    if @user && @user.destroy
+      render json: {message: "user object destroyed"}
+    else
+      render json: {message: "user object NOT destroyed"}
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def filteredUsers
       User.all.map { |user| user.protect }
     end
@@ -47,7 +48,6 @@ class Api::V1::UsersController < ApplicationController
       @user = User.find_by(id: params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def user_params
       params.permit(:username, :password)
     end
