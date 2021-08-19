@@ -1,5 +1,6 @@
 class Api::V1::QuestionsController < ApplicationController
   before_action :set_poll, only: [:index, :create]
+  before_action :set_question, only: [:destroy]
 
   # GET /questions
   # GET /questions.json
@@ -19,11 +20,24 @@ class Api::V1::QuestionsController < ApplicationController
     end
   end
 
+  def destroy
+    if @question && @question.destroy
+      render json: {message: "question object destroyed"}
+    else
+      render json: {message: "question object NOT destroyed"}
+    end
+  end
+
   private
     def question_params
       params.permit(:title)
     end
+
     def set_poll
       @poll = Poll.find(params[:poll_id])
+    end
+
+    def set_question
+      @question = Question.find_by(id: params[:id])
     end
 end
