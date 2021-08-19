@@ -1,5 +1,5 @@
 class Api::V1::PollsController < ApplicationController
-  before_action :set_poll, only: [:show]
+  before_action :set_poll, only: [:show, :destroy]
 
   # GET /polls
   # GET /polls.json
@@ -27,6 +27,15 @@ class Api::V1::PollsController < ApplicationController
       render json: @poll
     else
       render json: @poll.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /polls/:poll_id
+  def destroy
+    if @poll && @poll.destroy
+      render json: {message: "poll deleted"}
+    else
+      render json: {message: "unable to destroy poll"}
     end
   end
 

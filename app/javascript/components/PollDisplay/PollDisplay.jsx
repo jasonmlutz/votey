@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, Link } from "react-router-dom";
 import PollHeader from "./PollHeader";
-import RespondentSelector from "./RespondentSelector";
 import QuestionsContainer from "./QuestionsContainer";
 
 import Modal from "../Modals/Modal";
@@ -14,7 +13,7 @@ export default function PollDisplay({ pollID }) {
   const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
 
-  const { answers, setAnswers } = useContext(RadioInputContext);
+  const { answers } = useContext(RadioInputContext);
   const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
@@ -100,17 +99,19 @@ export default function PollDisplay({ pollID }) {
   }
 
   function setRespondentDisplay() {
+    var respondentDisplay = "";
     if (currentUser && currentUser.username) {
-      var respondentDisplay = "Respondent: " + currentUser.username;
+      respondentDisplay = "Respondent: " + currentUser.username;
     } else {
-      var respondentDisplay = "login required";
+      respondentDisplay = "login required";
     }
     return respondentDisplay;
   }
 
   function setFooterDisplay() {
+    var footerDisplay;
     if (currentUser && currentUser.username) {
-      var footerDisplay = (
+      footerDisplay = (
         <button
           className="poll-submit-btn submit-btn"
           form="main-poll-form"
@@ -120,7 +121,7 @@ export default function PollDisplay({ pollID }) {
         </button>
       );
     } else {
-      var footerDisplay = (
+      footerDisplay = (
         <div>
           <div className="footer-display">Login required to submit form!</div>
           <Link
@@ -140,7 +141,7 @@ export default function PollDisplay({ pollID }) {
   function buildRequiredQuestionsArray() {
     const questions = data.catalog.QUESTIONS;
     var requiredQuestionsArray = [];
-    questions.forEach((question, index) => {
+    questions.forEach((question) => {
       if (question.required) requiredQuestionsArray.push(`${question.id}`);
     });
     return requiredQuestionsArray;
@@ -169,19 +170,24 @@ export default function PollDisplay({ pollID }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const requiredQuestionsArray = buildRequiredQuestionsArray();
-    const completionStatus = subsetChecker(
-      Object.keys(answers),
-      requiredQuestionsArray
-    );
-    if (completionStatus) {
-      pushResponse();
+    if (currentUser && currentUser.username) {
+      setRespondentID(currentUser.id);
+      const requiredQuestionsArray = buildRequiredQuestionsArray();
+      const completionStatus = subsetChecker(
+        Object.keys(answers),
+        requiredQuestionsArray
+      );
+      if (completionStatus) {
+        pushResponse();
+      } else {
+        const unfinishedRequiredQuestionArray =
+          buildUnfinishedRequiredQuestionArray();
+        highlightQuestions(requiredQuestionsArray, "black");
+        highlightQuestions(unfinishedRequiredQuestionArray, "red");
+        alert("at least one required question is not complete!");
+      }
     } else {
-      const unfinishedRequiredQuestionArray =
-        buildUnfinishedRequiredQuestionArray();
-      highlightQuestions(requiredQuestionsArray, "black");
-      highlightQuestions(unfinishedRequiredQuestionArray, "red");
-      alert("at least one required question is not complete!");
+      alert("you must be logged in to submit this form");
     }
   }
 

@@ -1,5 +1,5 @@
 class Api::V1::ResponsesController < ApplicationController
-  before_action :set_response, only: [:show]
+  before_action :set_response, only: [:show, :destroy]
 
   # GET /responses/:id
   def show
@@ -20,6 +20,14 @@ class Api::V1::ResponsesController < ApplicationController
       render json: @response
     else
       render json: @response.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    if @response && @response.destroy
+      render json: {message: "response object destroyed"}
+    else
+      render json: {message: "response object NOT destroyed"}
     end
   end
 
