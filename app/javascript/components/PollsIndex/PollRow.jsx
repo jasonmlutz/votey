@@ -15,7 +15,9 @@ PollRow.propTypes = {
 
 function pollTableDisplay(key, data) {
   var output, title, path, author, count, description, name;
-  const poll = data[0];
+  const poll = data.POLL;
+  const author = data.AUTHOR;
+  const count = data.COUNT;
 
   function handleDelete() {
     const url = "/api/v1/polls/" + poll.id;
@@ -46,13 +48,11 @@ function pollTableDisplay(key, data) {
       output = description;
       break;
     case "author":
-      author = data[1];
       name = author.username;
       path = `users/${author.id}`;
       output = <Link to={path}>{name}</Link>;
       break;
     case "responses":
-      count = data[2];
       output = count;
       break;
     case "delete":
