@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PollsTable from "./PollsTable";
 import PollCreateLink from "./PollCreateLink";
 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
 export default function Polls() {
-  const keys = ["title", "description", "author", "responses"];
+  var keys = ["title", "description", "author", "responses"];
+
+  const { currentUser } = useContext(CurrentUserContext);
+  if (currentUser && currentUser.admin) {
+    keys.push("delete");
+  }
 
   const [data, setData] = useState({ catalog: [], mounted: false });
 
