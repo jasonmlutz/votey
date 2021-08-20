@@ -1,63 +1,64 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { PollDeleteContext } from "./PollDeleteContext";
 
 export default function PollRow({ keys, data }) {
-  return keys.map((key, index) => (
-    <td key={index}>{pollTableDisplay(key, data)}</td>
-  ));
-}
-
-function pollTableDisplay(key, data) {
-  var output, title, path, description, name;
+  const { setPollDelete } = useContext(PollDeleteContext);
   const poll = data.POLL;
   const author = data.AUTHOR;
   const count = data.COUNT;
 
   function handleDelete() {
     const url = "/api/v1/polls/" + poll.id;
-    // console.log("deleting", url);
 
     fetch(url, {
       method: "delete",
     })
       .then((data) => {
         if (data.ok) {
+          setPollDelete(true);
           return data.json();
         } else {
           throw new Error("server and/or network error");
         }
       })
-      .then((message) => console.log(message))
+
       .catch((err) => console.error("unknown error", err));
   }
 
-  switch (key) {
-    case "title":
-      title = poll.title;
-      path = `/polls/${poll.id}`;
-      output = <Link to={path}>{title}</Link>;
-      break;
-    case "description":
-      description = poll.description;
-      output = description;
-      break;
-    case "author":
-      name = author.username;
-      path = `users/${author.id}`;
-      output = <Link to={path}>{name}</Link>;
-      break;
-    case "responses":
-      output = count;
-      break;
-    case "delete":
-      output = (
-        <button className="delete-btn" onClick={handleDelete}>
-          X
-        </button>
-      );
-      break;
-    default:
-      output = "error";
+  function pollTableDisplay(key) {
+    var output, title, path, description, name;
+
+    switch (key) {
+      case "title":
+        title = poll.title;
+        path = `/polls/${poll.id}`;
+        output = <Link to={path}>{title}</Link>;
+        break;
+      case "description":
+        description = poll.description;
+        output = description;
+        break;
+      case "author":
+        name = author.username;
+        path = `users/${author.id}`;
+        output = <Link to={path}>{name}</Link>;
+        break;
+      case "responses":
+        output = count;
+        break;
+      case "delete":
+        output = (
+          <button className="delete-btn" onClick={handleDelete}>
+            X
+          </button>
+        );
+        break;
+      default:
+        output = "error";
+    }
+    return output;
   }
-  return output;
+
+  return keys.map((key, index) => <td key={index}>{pollTableDisplay(key)}</td>);
 }

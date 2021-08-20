@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import PollsTable from "./PollsTable";
 import PollCreateLink from "./PollCreateLink";
 
+import { PollDeleteProvider } from "./PollDeleteContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function Polls() {
@@ -34,10 +35,10 @@ export default function Polls() {
 
   if (data.catalog.length) {
     return (
-      <div className="polls-index">
+      <PollDeleteProvider className="polls-index">
         <PollsTable keys={keys} data={data.catalog} />
         <PollCreateLink />
-      </div>
+      </PollDeleteProvider>
     );
   } else {
     if (data.mounted) {
