@@ -6,10 +6,10 @@ import { PollDeleteContext } from "./PollDeleteContext";
 export default function PollsTable({ keys }) {
   const [data, setData] = useState({ catalog: [], mounted: false });
 
-  const { pollDelete } = useContext(PollDeleteContext);
+  const { pollDelete, setPollDelete } = useContext(PollDeleteContext);
 
   useEffect(() => {
-    if (!data.mounted && !pollDelete) {
+    if (!data.mounted || pollDelete) {
       const url = "/api/v1/polls/";
       fetch(url)
         .then((data) => {
@@ -20,6 +20,7 @@ export default function PollsTable({ keys }) {
         })
         .then((catalog) => {
           setData({ catalog: catalog, mounted: true });
+          setPollDelete(false);
         })
         .catch((err) => console.error("unknown error ") + err);
     }
