@@ -2,17 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import TableRows from "./TableRows";
 
 import { PollDeleteContext } from "./PollDeleteContext";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function PollsTable({ keys }) {
   const [data, setData] = useState({ catalog: [], mounted: false });
 
   const { pollDelete } = useContext(PollDeleteContext);
-
-  const { currentUser } = useContext(CurrentUserContext);
-  if (currentUser && currentUser.admin) {
-    keys.push("delete");
-  }
 
   useEffect(() => {
     if (!data.mounted && !pollDelete) {
