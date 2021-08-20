@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function RespondentDisplay({ responseID, respondents }) {
   const [value, setValue] = useState(String(responseID));
@@ -19,16 +20,12 @@ export default function RespondentDisplay({ responseID, respondents }) {
     setValue(value);
   }
 
-  function handleClick() {
-    console.log("navigating", value);
-  }
-
   var responseNavigatorButton = null;
   if (value !== responseID) {
     responseNavigatorButton = (
-      <button className="small-btn" onClick={handleClick}>
+      <Link className="small-btn" to={"/responses/" + value}>
         GO
-      </button>
+      </Link>
     );
   }
 
