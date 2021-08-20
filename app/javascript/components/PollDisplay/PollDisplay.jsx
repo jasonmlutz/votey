@@ -10,7 +10,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function PollDisplay({ pollID }) {
   const [data, setData] = useState({ catalog: {}, mounted: false });
-  const [respondentID, setRespondentID] = useState(null);
+  // const [respondentID, setRespondentID] = useState(null);
   const [response, setResponse] = useState({});
 
   const { answers } = useContext(RadioInputContext);
@@ -171,7 +171,6 @@ export default function PollDisplay({ pollID }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (currentUser && currentUser.username) {
-      setRespondentID(currentUser.id);
       const requiredQuestionsArray = buildRequiredQuestionsArray();
       const completionStatus = subsetChecker(
         Object.keys(answers),
@@ -195,7 +194,7 @@ export default function PollDisplay({ pollID }) {
     const response_url = "/api/v1/responses";
     const response_values = {
       poll_id: pollID,
-      respondent_id: respondentID,
+      respondent_id: currentUser.id,
     };
     fetch(response_url, {
       method: "post",
