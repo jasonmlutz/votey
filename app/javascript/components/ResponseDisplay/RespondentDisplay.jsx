@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 
-export default function RespondentDisplay({ respondent, respondents }) {
+export default function RespondentDisplay({
+  responseID,
+  respondent,
+  respondents,
+}) {
   const respondent_id = respondent.id;
 
-  const [value, setValue] = useState(respondent_id);
+  const [value, setValue] = useState(String(responseID));
 
   const selectOptions = Object.keys(respondents).map(
     (siblingResponseID, index) => {
       var siblingRespondent = respondents[siblingResponseID];
       return (
-        <option value={siblingRespondent.id} key={index}>
+        <option value={siblingResponseID} key={index}>
           {siblingRespondent.username.toUpperCase()}
         </option>
       );
@@ -19,6 +23,19 @@ export default function RespondentDisplay({ respondent, respondents }) {
   function handleChange(e) {
     const value = e.target.value;
     setValue(value);
+  }
+
+  function handleClick() {
+    console.log("navigating", value);
+  }
+
+  var responseNavigatorButton = null;
+  if (value !== responseID) {
+    responseNavigatorButton = (
+      <button className="small-btn" onClick={handleClick}>
+        GO
+      </button>
+    );
   }
 
   return (
@@ -33,6 +50,7 @@ export default function RespondentDisplay({ respondent, respondents }) {
         >
           {selectOptions}
         </select>
+        {responseNavigatorButton}
       </label>
     </div>
   );

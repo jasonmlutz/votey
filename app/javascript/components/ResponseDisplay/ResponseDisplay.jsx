@@ -29,6 +29,7 @@ export default function ResponseDisplay({ response_id }) {
       <div className="response-display">
         <PollHeader poll={data.catalog.POLL} author={data.catalog.AUTHOR} />
         <RespondentDisplay
+          responseID={response_id}
           respondent={data.catalog.RESPONDENT}
           respondents={data.catalog.RESPONDENTS}
         />

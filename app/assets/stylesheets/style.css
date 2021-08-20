@@ -10,11 +10,33 @@
 
 /* RESET */
 
-html, body, header, nav, h1, a,
-ul, li, strong, main, button, i,
-section, img, div, h2, p, form,
-fieldset, label, input, textarea,
-span, article, footer, time, small {
+html,
+body,
+header,
+nav,
+h1,
+a,
+ul,
+li,
+strong,
+main,
+button,
+i,
+section,
+img,
+div,
+h2,
+p,
+form,
+fieldset,
+label,
+input,
+textarea,
+span,
+article,
+footer,
+time,
+small {
   margin: 0;
   padding: 0;
   border: 0;
@@ -28,7 +50,8 @@ span, article, footer, time, small {
   background: transparent;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
@@ -103,19 +126,19 @@ a {
   position: fixed;
   top: 0;
   left: 0;
-  width:100%;
+  width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-main {
-  position:fixed;
+  position: fixed;
   background: white;
   width: 80%;
   height: auto;
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: var(--black);
 }
 
@@ -161,29 +184,41 @@ a {
 
 /* PLACEHOLDER INPUT TEXT */
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
   opacity: 0.5; /* Firefox */
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
   color: white;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+::-ms-input-placeholder {
+  /* Microsoft Edge */
   color: white;
 }
 
 /* TABLES */
 
-thead {color:green;}
-tbody {color:blue;}
-tfoot {color:red;}
+thead {
+  color: green;
+}
+tbody {
+  color: blue;
+}
+tfoot {
+  color: red;
+}
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid black;
 }
-td, th{
+td,
+th {
   padding: 5px;
 }
 
@@ -192,6 +227,15 @@ td, th{
 }
 
 /* BUTTONS */
+
+.small-btn {
+  background-color: white;
+  border: 2px solid var(--black);
+  text-align: center;
+  cursor: pointer;
+  padding: 2px;
+  margin: 2px 10px;
+}
 
 .submit-btn {
   background-color: var(--red);
@@ -238,7 +282,8 @@ td, th{
   color: var(--black);
 }
 
-.new-response-option-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.new-response-option-input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: var(--black);
   opacity: 0.5; /* Firefox */
 }
@@ -262,7 +307,6 @@ td, th{
 .new-poll-display > * {
   padding: 5px;
   margin: 5px;
-
 }
 
 .auth-input-form > *,
@@ -271,7 +315,7 @@ td, th{
   margin: 5px;
 }
 
-.auth-display-title.
+.auth-display-title,
 .new-poll-title {
   border: none;
   color: white;
