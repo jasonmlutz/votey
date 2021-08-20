@@ -1,20 +1,57 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TableRows from "./TableRows";
 
-export default function PollsTable({ data, keys }) {
+import { PollDeleteContext } from "./PollDeleteContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
+export default function PollsTable({ keys }) {
+  const [data, setData] = useState({ catalog: [], mounted: false });
+
+  const { pollDelete } = useContext(PollDeleteContext);
+
+  const { currentUser } = useContext(CurrentUserContext);
+  if (currentUser && currentUser.admin) {
+    keys.push("delete");
+  }
+
+  useEffect(() => {
+    if (!data.mounted && !pollDelete) {
+      const url = "/api/v1/polls/";
+      fetch(url)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          }
+          throw new Error("network and/or server error");
+        })
+        .then((catalog) => {
+          setData({ catalog: catalog, mounted: true });
+        })
+        .catch((err) => console.error("unknown error ") + err);
+    }
+  });
+
   const tableHeader = keys.map((key, index) => <td key={index}>{key}</td>);
 
-  return (
-    <table className="polls-table">
-      <thead>
-        <tr>
-          <th colSpan={keys.length}>POLLS TABLE</th>
-        </tr>
-        <tr>{tableHeader}</tr>
-      </thead>
-      <tbody>
-        <TableRows keys={keys} data={data} />
-      </tbody>
-    </table>
-  );
+  if (data.catalog.length) {
+    return (
+      <table className="polls-table">
+        <thead>
+          <tr>
+            <th colSpan={keys.length}>POLLS TABLE</th>
+          </tr>
+          <tr>{tableHeader}</tr>
+        </thead>
+        <tbody>
+          <TableRows keys={keys} data={data.catalog} />
+        </tbody>
+      </table>
+    );
+  } else {
+    if (data.mounted) {
+      return <h2>No poll data to display!</h2>;
+    } else {
+      return <h2>Loading ...</h2>;
+    }
+  }
 }
