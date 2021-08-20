@@ -52,9 +52,12 @@ class Api::V1::PollsController < ApplicationController
       catalog = []
       polls = Poll.all
       polls.each do |poll|
-        author = poll.author
-        count = poll.responses.count
-        catalog << [poll, author, count]
+        poll_data = {
+          "AUTHOR": poll.author.protect,
+          "POLL": poll,
+          "COUNT": poll.responses.count
+        }
+        catalog << poll_data
       end
 
       return catalog
