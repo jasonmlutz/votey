@@ -19,8 +19,8 @@ export default function PollsTable({ keys }) {
           throw new Error("network and/or server error");
         })
         .then((catalog) => {
-          setData({ catalog: catalog, mounted: true });
           setPollDelete(false);
+          setData({ catalog: catalog, mounted: true });
         })
         .catch((err) => console.error("unknown error ") + err);
     }
