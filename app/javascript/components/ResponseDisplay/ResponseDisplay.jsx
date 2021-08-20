@@ -5,8 +5,8 @@ import RespondentDisplay from "./RespondentDisplay";
 const AnswerContext = createContext();
 
 export default function ResponseDisplay({ response_id }) {
-  const [response, setResponse] = useState({ data: {}, mounted: false });
-  const [poll, setPoll] = useState({ data: {}, mounted: false });
+  const [response, setResponse] = useState({ catalog: {}, mounted: false });
+  const [poll, setPoll] = useState({ catalog: {}, mounted: false });
 
   useEffect(() => {
     if (!response.mounted) {
@@ -18,17 +18,17 @@ export default function ResponseDisplay({ response_id }) {
           }
           throw new Error("network and/or server error");
         })
-        .then((data) => {
-          setResponse({ data: data, mounted: true });
+        .then((catalog) => {
+          setResponse({ catalog: catalog, mounted: true });
         })
         .catch((err) => console.error("unknown error: ", err));
     } else if (
-      response.data &&
-      response.data.RESPONSE &&
-      response.data.RESPONSE.poll_id &&
+      response.catalog &&
+      response.catalog.RESPONSE &&
+      response.catalog.RESPONSE.poll_id &&
       !poll.mounted
     ) {
-      const poll_id = response.data.RESPONSE.poll_id;
+      const poll_id = response.catalog.RESPONSE.poll_id;
       const poll_url = `/api/v1/polls/${poll_id}`;
       fetch(poll_url)
         .then((data) => {
@@ -37,28 +37,31 @@ export default function ResponseDisplay({ response_id }) {
           }
           throw new Error("network and/or server error");
         })
-        .then((data) => {
-          setPoll({ data: data, mounted: true });
+        .then((catalog) => {
+          setPoll({ catalog: catalog, mounted: true });
         })
         .catch((err) => console.error("unknown error: ", err));
     }
   });
 
-  if (Object.keys(response.data).length && Object.keys(poll.data).length) {
+  if (
+    Object.keys(response.catalog).length &&
+    Object.keys(poll.catalog).length
+  ) {
     return (
       <div className="response-display">
-        <PollHeader poll={poll.data.POLL} author={poll.data.AUTHOR} />
-        <RespondentDisplay respondent={response.data.RESPONDENT} />
-        <AnswerContext.Provider value={response.data.ANSWERS}>
+        <PollHeader poll={poll.catalog.POLL} author={poll.catalog.AUTHOR} />
+        <RespondentDisplay respondent={response.catalog.RESPONDENT} />
+        <AnswerContext.Provider value={response.catalog.ANSWERS}>
           <QuestionsContainer
-            questions={poll.data.QUESTIONS}
-            response_options={poll.data.RESPONSE_OPTIONS}
+            questions={poll.catalog.QUESTIONS}
+            response_options={poll.catalog.RESPONSE_OPTIONS}
           />
         </AnswerContext.Provider>
       </div>
     );
   } else {
-    if (response.mounted && Object.keys(response.data).length == 0) {
+    if (response.mounted && Object.keys(response.catalog).length == 0) {
       setTimeout(function () {
         window.location.replace("/polls");
       }, 5000);
