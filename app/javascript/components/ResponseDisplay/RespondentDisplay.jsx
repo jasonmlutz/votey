@@ -1,13 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
-export default function RespondentDisplay({ respondent }) {
+export default function RespondentDisplay({ respondent, respondents }) {
   const respondent_id = respondent.id;
-  const path = `/users/${respondent_id}`;
-  const name = respondent.username;
+
+  const [value, setValue] = useState(respondent_id);
+
+  const selectOptions = Object.keys(respondents).map(
+    (siblingResponseID, index) => {
+      var siblingRespondent = respondents[siblingResponseID];
+      return (
+        <option value={siblingRespondent.id} key={index}>
+          {siblingRespondent.username.toUpperCase()}
+        </option>
+      );
+    }
+  );
+
+  function handleChange(e) {
+    const value = e.target.value;
+    setValue(value);
+  }
+
   return (
-    <div className="respondent-display">
-      Respondent: <Link to={path}>{name}</Link>
+    <div className="respondent-selector">
+      <label>
+        Respondent:
+        <select
+          name="respondent"
+          id="respondnet"
+          onChange={handleChange}
+          value={value}
+        >
+          {selectOptions}
+        </select>
+      </label>
     </div>
   );
 }
