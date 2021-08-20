@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   namespace :api do
+    namespace :v3 do
+      resources :responses, only: [:show]
+    end
+
     namespace :v2 do
       resources :polls, only: [:show]
     end
