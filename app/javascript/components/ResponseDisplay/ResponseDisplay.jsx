@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PollHeader from "./PollHeader";
 const AnswerContext = createContext();
 
 export default function ResponseDisplay({ response_id }) {
@@ -70,47 +71,6 @@ export default function ResponseDisplay({ response_id }) {
       return <h2>Loading!</h2>;
     }
   }
-}
-
-function PollHeader(props) {
-  const poll = props.poll;
-  const title = poll.title;
-  const poll_id = poll.id;
-  const description = poll.description;
-
-  const author = props.author;
-  const author_username = author.username;
-  const author_id = author.id;
-
-  return (
-    <div className="poll-header">
-      <PollTitle title={title} poll_id={poll_id} />
-      <PollAuthor author_username={author_username} author_id={author_id} />
-      <PollDescription description={description} />
-    </div>
-  );
-}
-
-function PollTitle(props) {
-  const path = `/polls/${props.poll_id}`;
-  return (
-    <div className="poll-title">
-      <Link to={path}>{props.title}</Link>
-    </div>
-  );
-}
-
-function PollAuthor(props) {
-  const path = `/users/${props.author_id}`;
-  return (
-    <div className="poll-author">
-      by <Link to={path}>{props.author_username}</Link>
-    </div>
-  );
-}
-
-function PollDescription(props) {
-  return <div className="poll-description">{props.description}</div>;
 }
 
 function RespondentDisplay(props) {
