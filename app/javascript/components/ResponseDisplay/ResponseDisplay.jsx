@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PollHeader from "./PollHeader";
+import RespondentDisplay from "./RespondentDisplay";
 const AnswerContext = createContext();
 
 export default function ResponseDisplay({ response_id }) {
@@ -71,18 +72,6 @@ export default function ResponseDisplay({ response_id }) {
       return <h2>Loading!</h2>;
     }
   }
-}
-
-function RespondentDisplay(props) {
-  const respondent = props.respondent;
-  const respondent_id = respondent.id;
-  const path = `/users/${respondent_id}`;
-  const name = respondent.username;
-  return (
-    <div className="respondent-display">
-      Respondent: <Link to={path}>{name}</Link>
-    </div>
-  );
 }
 
 function QuestionsContainer(props) {
