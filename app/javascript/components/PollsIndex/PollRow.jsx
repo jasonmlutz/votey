@@ -19,7 +19,20 @@ function pollTableDisplay(key, data) {
 
   function handleDelete() {
     const url = "/api/v1/polls/" + poll.id;
-    console.log("deleting", url);
+    // console.log("deleting", url);
+
+    fetch(url, {
+      method: "delete",
+    })
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        } else {
+          throw new Error("server and/or network error");
+        }
+      })
+      .then((message) => console.log(message))
+      .catch((err) => console.error("unknown error", err));
   }
 
   switch (key) {
