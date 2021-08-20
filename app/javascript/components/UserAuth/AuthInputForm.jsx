@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import AuthInputText from "./AuthInputText";
@@ -20,7 +19,7 @@ export default function AuthInputForm({ auth_type, source }) {
 
   var verifyPasswordInput = null;
   if (auth_type === "register") {
-    var verifyPasswordInput = (
+    verifyPasswordInput = (
       <AuthInputText name="passwordVerify" onInputChange={setPasswordVerify} />
     );
   }
@@ -96,8 +95,3 @@ export default function AuthInputForm({ auth_type, source }) {
       .catch((err) => console.error("unknown error", err));
   }
 }
-
-AuthInputForm.propTypes = {
-  source: PropTypes.string.isRequired,
-  auth_type: PropTypes.oneOf(["register", "login"]),
-};

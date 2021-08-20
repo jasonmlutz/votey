@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 
 export default function AuthInputText({ name, onInputChange }) {
   const [value, setValue] = useState("");
@@ -24,8 +23,3 @@ export default function AuthInputText({ name, onInputChange }) {
     />
   );
 }
-
-AuthInputText.propTypes = {
-  name: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-};

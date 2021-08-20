@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 
 export default function PollRow({ keys, data }) {
   return keys.map((key, index) => (
@@ -8,13 +7,8 @@ export default function PollRow({ keys, data }) {
   ));
 }
 
-PollRow.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
 function pollTableDisplay(key, data) {
-  var output, title, path, author, count, description, name;
+  var output, title, path, description, name;
   const poll = data.POLL;
   const author = data.AUTHOR;
   const count = data.COUNT;

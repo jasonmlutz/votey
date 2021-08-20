@@ -1,6 +1,5 @@
 import React from "react";
 import TableRows from "./TableRows";
-import PropTypes from "prop-types";
 
 export default function PollsTable({ data, keys }) {
   const tableHeader = keys.map((key, index) => <td key={index}>{key}</td>);
@@ -19,8 +18,3 @@ export default function PollsTable({ data, keys }) {
     </table>
   );
 }
-
-PollsTable.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-};

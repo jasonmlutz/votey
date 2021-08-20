@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import AuthInputForm from "./AuthInputForm";
 
@@ -31,7 +30,3 @@ export default function UserAuthDisplay({ auth_type }) {
     </div>
   );
 }
-
-UserAuthDisplay.propTypes = {
-  auth_type: PropTypes.oneOf(["register", "login"]),
-};

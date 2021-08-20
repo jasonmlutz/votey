@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 export default function Modal({
@@ -26,13 +25,3 @@ export default function Modal({
     </div>
   );
 }
-
-Modal.propTypes = {
-  show: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
-  source: PropTypes.string.isRequired,
-  options: PropTypes.shape({
-    path: PropTypes.string,
-    linkText: PropTypes.string,
-  }),
-};

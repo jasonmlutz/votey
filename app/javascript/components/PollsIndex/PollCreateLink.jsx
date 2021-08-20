@@ -2,13 +2,14 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-export default function PollCreateLink(props) {
+export default function PollCreateLink() {
   const { currentUser } = useContext(CurrentUserContext);
 
+  var buttonDisplay;
   if (currentUser && currentUser.username) {
-    var buttonDisplay = <Link to="/polls/new">Create Poll</Link>;
+    buttonDisplay = <Link to="/polls/new">Create Poll</Link>;
   } else {
-    var buttonDisplay = (
+    buttonDisplay = (
       <Link
         to={{
           pathname: "/session/new",
