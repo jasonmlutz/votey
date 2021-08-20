@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 export default function RespondentDisplay({ responseID, respondents }) {
   const [value, setValue] = useState(String(responseID));
+  const [redirect, setRedirect] = useState(false);
 
   const selectOptions = Object.keys(respondents).map(
     (siblingResponseID, index) => {
@@ -20,29 +21,38 @@ export default function RespondentDisplay({ responseID, respondents }) {
     setValue(value);
   }
 
+  function handleClick(e) {
+    setRedirect(true);
+  }
+
   var responseNavigatorButton = null;
   if (value !== responseID) {
     responseNavigatorButton = (
-      <Link className="small-btn" to={"/responses/" + value}>
+      <button className="small-btn" onClick={handleClick}>
         GO
-      </Link>
+      </button>
     );
   }
 
-  return (
-    <div className="respondent-selector">
-      <label>
-        Respondent:
-        <select
-          name="respondent"
-          id="respondnet"
-          onChange={handleChange}
-          value={value}
-        >
-          {selectOptions}
-        </select>
-        {responseNavigatorButton}
-      </label>
-    </div>
-  );
+  if (redirect) {
+    window.location.replace("/responses/" + value);
+    return null;
+  } else {
+    return (
+      <div className="respondent-selector">
+        <label>
+          Respondent:
+          <select
+            name="respondent"
+            id="respondnet"
+            onChange={handleChange}
+            value={value}
+          >
+            {selectOptions}
+          </select>
+          {responseNavigatorButton}
+        </label>
+      </div>
+    );
+  }
 }
