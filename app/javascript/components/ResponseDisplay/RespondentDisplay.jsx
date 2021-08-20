@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 
-export default function RespondentDisplay({
-  responseID,
-  respondent,
-  respondents,
-}) {
-  const respondent_id = respondent.id;
-
+export default function RespondentDisplay({ responseID, respondents }) {
   const [value, setValue] = useState(String(responseID));
 
   const selectOptions = Object.keys(respondents).map(

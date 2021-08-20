@@ -30,7 +30,6 @@ export default function ResponseDisplay({ response_id }) {
         <PollHeader poll={data.catalog.POLL} author={data.catalog.AUTHOR} />
         <RespondentDisplay
           responseID={response_id}
-          respondent={data.catalog.RESPONDENT}
           respondents={data.catalog.RESPONDENTS}
         />
         <AnswerContext.Provider value={data.catalog.ANSWERS}>
