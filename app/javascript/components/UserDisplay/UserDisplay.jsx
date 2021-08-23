@@ -17,8 +17,6 @@ export default function UserDisplay({ user_id }) {
 
   if (isAdmin) {
     userIndexDisplay = <Users isAdmin={isAdmin} />;
-  } else {
-    userIndexDisplay = "you are not admin and/or not viewing yourself!";
   }
 
   useEffect(() => {
