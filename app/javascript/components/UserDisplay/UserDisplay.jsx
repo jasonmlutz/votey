@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import Users from "../UserIndex/Users";
 
 export default function UserDisplay({ user_id }) {
   const url = `/api/v1/users/${user_id}`;
@@ -15,7 +16,7 @@ export default function UserDisplay({ user_id }) {
   var userIndexDisplay = null;
 
   if (isAdmin) {
-    userIndexDisplay = "you are admin viewing yourself!";
+    userIndexDisplay = <Users isAdmin={isAdmin} />;
   } else {
     userIndexDisplay = "you are not admin and/or not viewing yourself!";
   }
