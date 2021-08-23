@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import Users from "./UserIndex/Users";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Home() {
-  return null;
+  const { currentUser } = useContext(CurrentUserContext);
+  const isAdmin = currentUser && currentUser.admin;
+  return <Users isAdmin={isAdmin} />;
 }
