@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserDeleteContext } from "./UserDeleteContext";
 
-export function UserRow({ user, keys }) {
+export default function UserRow({ user, keys }) {
   const { setUserDelete } = useContext(UserDeleteContext);
   return keys.map((key, index) => (
     <td key={index}>{userTableDisplay(key, user)}</td>
