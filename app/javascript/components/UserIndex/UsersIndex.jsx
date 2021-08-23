@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { UserDeleteContext } from "./UserDeleteContext";
+import UserRow from "./UserRow";
 
 export function UsersIndex({ keys }) {
   const [users, setUsers] = useState({ data: {}, mounted: false });
+  const { userDelete, setUserDelete } = useContext(UserDeleteContext);
 
   useEffect(() => {
     const url = "/api/v1/users";
-    if (!users.mounted) {
+    if (!users.mounted || userDelete) {
       fetch(url)
         .then((data) => {
           if (data.ok) {
@@ -15,6 +17,7 @@ export function UsersIndex({ keys }) {
           throw new Error("network and/or server error");
         })
         .then((data) => {
+          setUserDelete(false);
           setUsers({ data: data, mounted: true });
         })
         .catch((err) => console.error("unknown error: ", err));
@@ -25,7 +28,11 @@ export function UsersIndex({ keys }) {
     const tableHeader = keys.map((key, index) => <td key={index}>{key}</td>);
 
     const tableRows = users.data.map((user, index) => {
-      return <tr key={index}>{userRow(user, keys)}</tr>;
+      return (
+        <tr key={index}>
+          <UserRow user={user} keys={keys} />
+        </tr>
+      );
     });
 
     return (
@@ -45,27 +52,5 @@ export function UsersIndex({ keys }) {
     } else {
       return <h2>Loading ...</h2>;
     }
-  }
-
-  function userRow(user, keys) {
-    return keys.map((key, index) => (
-      <td key={index}>{userTableDisplay(key, user)}</td>
-    ));
-  }
-
-  function userTableDisplay(key, user) {
-    var output;
-    switch (key) {
-      case "username":
-        var path = `/users/${user.id}`;
-        output = <Link to={path}>{user.username}</Link>;
-        break;
-      case "admin":
-        output = user.admin.toString();
-        break;
-      default:
-        output = user[key];
-    }
-    return output;
   }
 }
