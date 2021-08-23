@@ -59,10 +59,7 @@ export default function ResponseDisplay({ response_id }) {
   }
 }
 
-function QuestionsContainer(props) {
-  // props: questions, response_options
-  const questions = props.questions;
-  const response_options = props.response_options;
+function QuestionsContainer({ questions, response_options }) {
   const questionDisplayListItems = questions.map((question, index) => (
     <QuestionDisplay
       key={index}
@@ -74,16 +71,11 @@ function QuestionsContainer(props) {
   return <ul className="questions-container">{questionDisplayListItems}</ul>;
 }
 
-function QuestionDisplay(props) {
-  // props: key, question, response_option
-  // pass the associated answer object
-  const question = props.question;
-
+function QuestionDisplay({ question, response_options }) {
   const title = question.title;
   const required = question.required;
   const displayTitle = title + (required ? " *required*" : "");
 
-  const response_options = props.response_options;
   const { answers } = useContext(AnswerContext);
   const question_id = question.id;
   const selected_response_option = answers[question_id];
@@ -99,7 +91,7 @@ function QuestionDisplay(props) {
 
   return (
     <li className="question-display-li">
-      <QuestionTitle title={displayTitle} />
+      <div className="question-title">{displayTitle}</div>
       <ResponseOptionsContainer
         response_options={response_options}
         selected_response_option_id={selected_response_option_id}
@@ -108,20 +100,15 @@ function QuestionDisplay(props) {
   );
 }
 
-function QuestionTitle(props) {
-  // props: title
-  return <div className="question-title">{props.title}</div>;
-}
-
-function ResponseOptionsContainer(props) {
-  // props: response_options, selected_response_option_id
-  const response_options = props.response_options;
-  const selected_id = props.selected_response_option_id;
+function ResponseOptionsContainer({
+  response_options,
+  selected_response_option_id,
+}) {
   const responseOptionListItems = response_options.map(
     (response_option, index) => {
       // if a question was unanswered, then selected_id is null, so all
       // of these will be false; i.e., no responseOption will be highlighted!
-      const selected = response_option.id == selected_id;
+      const selected = response_option.id == selected_response_option_id;
       return (
         <ResponseOptionDisplay
           key={index}
@@ -139,11 +126,7 @@ function ResponseOptionsContainer(props) {
   );
 }
 
-function ResponseOptionDisplay(props) {
-  // props key, response_option, selected
-  const response_option = props.response_option;
-  const selected = props.selected;
-
+function ResponseOptionDisplay({ response_option, selected }) {
   if (selected) {
     return <li className="selected">{response_option.text}</li>;
   } else {
