@@ -159,4 +159,9 @@ ApplicationRecord.transaction do
     parent_question_id: 6,
     text: "i think it is in fact required"
   )
+
+  User.create(username: 'kim', password: 'password', admin: 'f')
+  User.create(username: 'kaylee', password: 'password', admin: 'f')
+  User.create(username: 'logan', password: 'password', admin: 'f')
+  User.create(username: 'dudley', password: 'password', admin: 'f')
 end
