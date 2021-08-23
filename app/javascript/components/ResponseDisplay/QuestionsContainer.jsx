@@ -51,13 +51,7 @@ function ResponseOptionsContainer({
       // if a question was unanswered, then selected_id is null, so all
       // of these will be false; i.e., no responseOption will be highlighted!
       const selected = response_option.id == selected_response_option_id;
-      return (
-        <ResponseOptionDisplay
-          key={index}
-          response_option={response_option}
-          selected={selected}
-        />
-      );
+      return responseOptionDisplay(index, response_option, selected);
     }
   );
 
@@ -66,12 +60,16 @@ function ResponseOptionsContainer({
       {responseOptionListItems}
     </ol>
   );
-}
 
-function ResponseOptionDisplay({ response_option, selected }) {
-  if (selected) {
-    return <li className="selected">{response_option.text}</li>;
-  } else {
-    return <li>{response_option.text}</li>;
+  function responseOptionDisplay(key, response_option, selected) {
+    if (selected) {
+      return (
+        <li key={key} className="selected">
+          {response_option.text}
+        </li>
+      );
+    } else {
+      return <li key={key}>{response_option.text}</li>;
+    }
   }
 }
