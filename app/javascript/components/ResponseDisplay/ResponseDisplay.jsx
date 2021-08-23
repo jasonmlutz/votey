@@ -31,9 +31,13 @@ export default function ResponseDisplay({ response_id }) {
     }
   });
 
-  var deleteResponse = "not admin!";
+  var deleteResponse = null;
   if (currentUser && currentUser.admin) {
-    deleteResponse = "you are admin!";
+    deleteResponse = (
+      <button className="submit-btn" onClick={handleDelete}>
+        delete this response
+      </button>
+    );
   }
 
   if (Object.keys(data.catalog).length) {
@@ -65,5 +69,26 @@ export default function ResponseDisplay({ response_id }) {
     } else {
       return <h2>Loading!</h2>;
     }
+  }
+
+  function handleDelete() {
+    const url = "/api/v1/responses/" + response_id;
+
+    fetch(url, {
+      method: "delete",
+    })
+      .then((data) => {
+        if (data.ok) {
+          return data.json();
+        } else {
+          throw new Error("server and/or network error");
+        }
+      })
+      .then(() => {
+        alert("response deleted! redirecting to polls index");
+        window.location.replace("/polls");
+      })
+
+      .catch((err) => console.error("unknown error", err));
   }
 }
