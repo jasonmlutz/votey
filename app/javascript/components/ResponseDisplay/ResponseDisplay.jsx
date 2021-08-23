@@ -1,11 +1,12 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PollHeader from "./PollHeader";
 import RespondentDisplay from "./RespondentDisplay";
-const AnswerContext = createContext();
+import { AnswerContext } from "./AnswerContext";
 
 export default function ResponseDisplay({ response_id }) {
   const [data, setData] = useState({ catalog: {}, mounted: false });
+  const { setAnswers } = useContext(AnswerContext);
 
   useEffect(() => {
     if (!data.mounted) {
@@ -19,6 +20,9 @@ export default function ResponseDisplay({ response_id }) {
         })
         .then((catalog) => {
           setData({ catalog: catalog, mounted: true });
+          if (catalog.ANSWERS) {
+            setAnswers(catalog.ANSWERS);
+          }
         })
         .catch((err) => console.error("unknown error: ", err));
     }
@@ -32,12 +36,10 @@ export default function ResponseDisplay({ response_id }) {
           responseID={response_id}
           respondents={data.catalog.RESPONDENTS}
         />
-        <AnswerContext.Provider value={data.catalog.ANSWERS}>
-          <QuestionsContainer
-            questions={data.catalog.QUESTIONS}
-            response_options={data.catalog.RESPONSE_OPTIONS}
-          />
-        </AnswerContext.Provider>
+        <QuestionsContainer
+          questions={data.catalog.QUESTIONS}
+          response_options={data.catalog.RESPONSE_OPTIONS}
+        />
       </div>
     );
   } else {
@@ -82,7 +84,7 @@ function QuestionDisplay(props) {
   const displayTitle = title + (required ? " *required*" : "");
 
   const response_options = props.response_options;
-  const answers = useContext(AnswerContext);
+  const { answers } = useContext(AnswerContext);
   const question_id = question.id;
   const selected_response_option = answers[question_id];
   //
