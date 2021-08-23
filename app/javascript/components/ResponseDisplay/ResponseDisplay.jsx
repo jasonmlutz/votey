@@ -4,10 +4,12 @@ import PollHeader from "./PollHeader";
 import RespondentDisplay from "./RespondentDisplay";
 import QuestionsContainer from "./QuestionsContainer";
 import { AnswerContext } from "./AnswerContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function ResponseDisplay({ response_id }) {
   const [data, setData] = useState({ catalog: {}, mounted: false });
   const { setAnswers } = useContext(AnswerContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   useEffect(() => {
     if (!data.mounted) {
@@ -29,6 +31,11 @@ export default function ResponseDisplay({ response_id }) {
     }
   });
 
+  var deleteResponse = "not admin!";
+  if (currentUser && currentUser.admin) {
+    deleteResponse = "you are admin!";
+  }
+
   if (Object.keys(data.catalog).length) {
     return (
       <div className="response-display">
@@ -41,6 +48,7 @@ export default function ResponseDisplay({ response_id }) {
           questions={data.catalog.QUESTIONS}
           response_options={data.catalog.RESPONSE_OPTIONS}
         />
+        {deleteResponse}
       </div>
     );
   } else {
