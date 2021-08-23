@@ -22,7 +22,23 @@ export function UsersIndex({ keys }) {
   });
 
   if (users.data.length > 0) {
-    return <UsersTable keys={keys} data={users.data} />;
+    const tableHeader = keys.map((key, index) => <td key={index}>{key}</td>);
+
+    const tableRows = users.data.map((user, index) => {
+      return <tr key={index}>{userRow(user, keys)}</tr>;
+    });
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th colSpan={keys.length}>USERS TABLE</th>
+          </tr>
+          <tr>{tableHeader}</tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    );
   } else {
     if (users.mounted) {
       return <h2>No users to display!</h2>;
@@ -30,62 +46,26 @@ export function UsersIndex({ keys }) {
       return <h2>Loading ...</h2>;
     }
   }
-}
 
-function UsersTable({ data, keys }) {
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th colSpan={keys.length}>USERS TABLE</th>
-        </tr>
-        <tr>
-          <TableHeader keys={keys} />
-        </tr>
-      </thead>
-      <TableBody keys={keys} data={data} />
-    </table>
-  );
-}
-
-function TableHeader({ keys }) {
-  return keys.map((key, index) => <td key={index}>{key}</td>);
-}
-
-function TableBody({ keys, data }) {
-  return (
-    <tbody>
-      <TableRows keys={keys} data={data} />
-    </tbody>
-  );
-}
-
-function TableRows({ keys, data }) {
-  return data.map((user, index) => (
-    <tr key={index}>
-      <UserRow keys={keys} user={user} />
-    </tr>
-  ));
-}
-
-function UserRow({ user, keys }) {
-  return keys.map((key, index) => (
-    <td key={index}>{userTableDisplay(key, user)}</td>
-  ));
-}
-
-function userTableDisplay(key, user) {
-  var output;
-  switch (key) {
-    case "username":
-      var path = `/users/${user.id}`;
-      output = <Link to={path}>{user.username}</Link>;
-      break;
-    case "admin":
-      output = user.admin.toString();
-      break;
-    default:
-      output = user[key];
+  function userRow(user, keys) {
+    return keys.map((key, index) => (
+      <td key={index}>{userTableDisplay(key, user)}</td>
+    ));
   }
-  return output;
+
+  function userTableDisplay(key, user) {
+    var output;
+    switch (key) {
+      case "username":
+        var path = `/users/${user.id}`;
+        output = <Link to={path}>{user.username}</Link>;
+        break;
+      case "admin":
+        output = user.admin.toString();
+        break;
+      default:
+        output = user[key];
+    }
+    return output;
+  }
 }
