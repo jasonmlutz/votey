@@ -32,10 +32,7 @@ export function UsersIndex({ keys }) {
   }
 }
 
-function UsersTable(props) {
-  // props: data, keys
-  const data = props.data;
-  const keys = props.keys;
+function UsersTable({ data, keys }) {
   return (
     <table>
       <thead>
@@ -51,16 +48,11 @@ function UsersTable(props) {
   );
 }
 
-function TableHeader(props) {
-  // props: keys
-  const keys = props.keys;
+function TableHeader({ keys }) {
   return keys.map((key, index) => <td key={index}>{key}</td>);
 }
 
-function TableBody(props) {
-  // props: keys, data
-  const keys = props.keys;
-  const data = props.data;
+function TableBody({ keys, data }) {
   return (
     <tbody>
       <TableRows keys={keys} data={data} />
@@ -68,11 +60,7 @@ function TableBody(props) {
   );
 }
 
-function TableRows(props) {
-  // props: keys, data
-  const keys = props.keys;
-  const data = props.data;
-
+function TableRows({ keys, data }) {
   return data.map((user, index) => (
     <tr key={index}>
       <UserRow keys={keys} user={user} />
@@ -80,10 +68,7 @@ function TableRows(props) {
   ));
 }
 
-function UserRow(props) {
-  // props: user, keys
-  const keys = props.keys;
-  const user = props.user;
+function UserRow({ user, keys }) {
   return keys.map((key, index) => (
     <td key={index}>{userTableDisplay(key, user)}</td>
   ));
@@ -93,7 +78,7 @@ function userTableDisplay(key, user) {
   var output;
   switch (key) {
     case "username":
-      const path = `/users/${user.id}`;
+      var path = `/users/${user.id}`;
       output = <Link to={path}>{user.username}</Link>;
       break;
     case "admin":
