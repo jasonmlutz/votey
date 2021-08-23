@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function UserDisplay({ user_id }) {
   const url = `/api/v1/users/${user_id}`;
 
   const [data, setData] = useState({ catalog: {}, mounted: false });
+  const { currentUser } = useContext(CurrentUserContext);
+
+  const isAdmin =
+    currentUser && currentUser.admin && currentUser.id === parseInt(user_id);
+
+  var userIndexDisplay = null;
+
+  if (isAdmin) {
+    userIndexDisplay = "you are admin viewing yourself!";
+  } else {
+    userIndexDisplay = "you are not admin and/or not viewing yourself!";
+  }
 
   useEffect(() => {
     if (!data.mounted) {
@@ -30,6 +44,7 @@ export default function UserDisplay({ user_id }) {
           polls={data.catalog.POLLS}
           responses={data.catalog.RESPONSE_DATA}
         />
+        {userIndexDisplay}
       </div>
     );
   } else {
