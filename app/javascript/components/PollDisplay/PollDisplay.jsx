@@ -61,6 +61,7 @@ export default function PollDisplay({ pollID }) {
             <QuestionsContainer
               questions={data.catalog.QUESTIONS}
               responseOptions={data.catalog.RESPONSE_OPTIONS}
+              parent_poll_id={pollID}
             />
             {setFooterDisplay()}
           </form>
