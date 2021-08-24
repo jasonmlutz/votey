@@ -4,7 +4,9 @@ import ResponseOptionsContainer from "./ResponseOptionsContainer";
 export default function QuestionDisplay({ question, responseOptions }) {
   const title = question.title;
   const isRequired = question.required;
-  const displayTitle = title + (isRequired ? " *required*" : "");
+
+  const displayTitle =
+    title + (isRequired && responseOptions.length ? " *required*" : "");
 
   var responseOptionsInfo;
   if (responseOptions.length) {
@@ -12,11 +14,7 @@ export default function QuestionDisplay({ question, responseOptions }) {
       <ResponseOptionsContainer responseOptions={responseOptions} />
     );
   } else {
-    var noResponseOptionsText = "No response options to display!";
-    noResponseOptionsText += isRequired
-      ? " Moreover, this question is required!"
-      : null;
-    responseOptionsInfo = <div>{noResponseOptionsText}</div>;
+    responseOptionsInfo = <div>{"No response options to display!"}</div>;
   }
 
   return (

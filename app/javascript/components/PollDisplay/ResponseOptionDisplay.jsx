@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { RadioInputContext } from "./RadioInputContext";
+import { RadioInputContext } from "./PollDisplayContexts";
 
 export default function ResponseOptionDisplay({ responseOption }) {
-  const { answers, setAnswers } = useContext(RadioInputContext);
+  const { setAnswers } = useContext(RadioInputContext);
 
   const parentQuestionID = responseOption.parent_question_id;
   const responseOptionID = responseOption.id;

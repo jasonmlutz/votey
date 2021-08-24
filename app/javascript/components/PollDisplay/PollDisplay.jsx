@@ -5,7 +5,7 @@ import QuestionsContainer from "./QuestionsContainer";
 
 import Modal from "../Modals/Modal";
 
-import { RadioInputContext } from "./RadioInputContext";
+import { RadioInputContext } from "./PollDisplayContexts";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function PollDisplay({ pollID }) {
@@ -140,9 +140,11 @@ export default function PollDisplay({ pollID }) {
 
   function buildRequiredQuestionsArray() {
     const questions = data.catalog.QUESTIONS;
+    const responseOptions = data.catalog.RESPONSE_OPTIONS;
     var requiredQuestionsArray = [];
     questions.forEach((question) => {
-      if (question.required) requiredQuestionsArray.push(`${question.id}`);
+      if (question.required && responseOptions[question.id].length)
+        requiredQuestionsArray.push(`${question.id}`);
     });
     return requiredQuestionsArray;
   }
