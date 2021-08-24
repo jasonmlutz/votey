@@ -1,8 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-export default function AuthButton({ displayLogout, setDisplayLogout }) {
+export default function AuthButton({ displayLogout }) {
   const { setCurrentUser } = useContext(CurrentUserContext);
 
   const handleLogoutClick = () => {
