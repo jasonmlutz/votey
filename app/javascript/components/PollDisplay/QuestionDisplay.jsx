@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ResponseOptionsContainer from "./ResponseOptionsContainer";
 
 export default function QuestionDisplay({ question, responseOptions }) {
@@ -14,7 +15,19 @@ export default function QuestionDisplay({ question, responseOptions }) {
       <ResponseOptionsContainer responseOptions={responseOptions} />
     );
   } else {
-    responseOptionsInfo = <div>{"No response options to display!"}</div>;
+    var responseOptionsInfoMessage = "No response options to display!";
+    responseOptionsInfoMessage += isRequired
+      ? " This question is required! If you are the author of this poll, "
+      : null;
+    const updatePollPath =
+      "/polls/" + question.parent_poll_id + "/questions/new";
+    const updatePollLink = <Link to={updatePollPath}>please update it!</Link>;
+    responseOptionsInfo = (
+      <div>
+        {responseOptionsInfoMessage}
+        {updatePollLink}
+      </div>
+    );
   }
 
   return (

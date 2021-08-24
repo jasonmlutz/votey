@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AnswerContext } from "./AnswerContext";
 import ResponseOptionsContainer from "./ResponseOptionsContainer";
 
 export default function QuestionDisplay({ question, response_options }) {
   const title = question.title;
-  const required = question.required;
+  const isRequired = question.required;
   const displayTitle =
-    title + (required && response_options.length ? " *required*" : "");
+    title + (isRequired && response_options.length ? " *required*" : "");
 
   const { answers } = useContext(AnswerContext);
   const question_id = question.id;
@@ -30,7 +31,19 @@ export default function QuestionDisplay({ question, response_options }) {
       />
     );
   } else {
-    responseOptionsInfo = <div>{"No response options to display!"}</div>;
+    var responseOptionsInfoMessage = "No response options to display!";
+    responseOptionsInfoMessage += isRequired
+      ? " This question is required! If you are the author of this poll, "
+      : null;
+    const updatePollPath =
+      "/polls/" + question.parent_poll_id + "/questions/new";
+    const updatePollLink = <Link to={updatePollPath}>please update it!</Link>;
+    responseOptionsInfo = (
+      <div>
+        {responseOptionsInfoMessage}
+        {updatePollLink}
+      </div>
+    );
   }
 
   return (
