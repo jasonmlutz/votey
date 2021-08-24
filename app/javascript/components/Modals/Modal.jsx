@@ -21,6 +21,8 @@ export default function Modal({
         >
           {options.linkText}
         </Link>
+        <p>or</p>
+        <Link to="/">Return to Home</Link>
       </div>
     </div>
   );
