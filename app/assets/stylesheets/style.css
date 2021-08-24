@@ -238,19 +238,18 @@ th {
   border-radius: 8px;
 }
 
-.small-btn {
-  padding: 2px;
-  margin: 2px 10px;
-}
-
 .submit-btn:hover {
   background-color: var(--yellow);
   color: var(--black);
 }
 
-.new-response-option-submit-btn,
-.new-question-submit-btn {
-  padding: 5px;
+.small-btn {
+  padding: 2px;
+  margin: 2px 10px;
+}
+
+.medium-btn {
+  padding: 10px;
 }
 
 .nav-link {

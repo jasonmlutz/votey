@@ -56,11 +56,7 @@ export default function NewResponseOptionForm(props) {
             onChange={(e) => setResponseOptionText(e.target.value)}
           ></input>
         </label>
-        <button
-          className="new-response-option-submit-btn submit-btn"
-          type="submit"
-          form={formID}
-        >
+        <button className="submit-btn medium-btn" type="submit" form={formID}>
           Submit
         </button>
       </form>

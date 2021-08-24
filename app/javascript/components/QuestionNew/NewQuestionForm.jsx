@@ -58,7 +58,7 @@ export default function NewQuestionForm(props) {
           ></input>
         </label>
         <button
-          className="new-question-submit-btn submit-btn"
+          className="submit-btn medium-btn"
           type="submit"
           form="new-question-form"
         >
