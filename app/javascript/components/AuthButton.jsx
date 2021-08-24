@@ -37,11 +37,16 @@ export default function AuthButton({ displayLogout, setDisplayLogout }) {
         pathname: "/session/new",
         state: { source: "/" },
       }}
+      className="nav-link"
     >
       Log In
     </Link>
   );
-  const logoutLink = <a onClick={handleLogoutClick}>Log Out</a>;
+  const logoutLink = (
+    <a onClick={handleLogoutClick} className="nav-link">
+      Log Out
+    </a>
+  );
   const displayedButton = displayLogout ? logoutLink : loginLink;
 
   return displayedButton;

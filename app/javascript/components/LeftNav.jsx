@@ -8,8 +8,12 @@ class LeftNav extends React.Component {
         <img src="/assets/triangle.jpg" alt="triangle logo" className="logo" />
         <nav className="left-nav-links">
           <div className="flex-container-row">
-            <Link to="/">Home</Link>
-            <Link to="/polls">Polls</Link>
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+            <Link className="nav-link" to="/polls">
+              Polls
+            </Link>
           </div>
         </nav>
       </nav>
