@@ -7,10 +7,15 @@ export default function PollCreateLink() {
 
   var buttonDisplay;
   if (currentUser && currentUser.username) {
-    buttonDisplay = <Link to="/polls/new">Create Poll</Link>;
+    buttonDisplay = (
+      <Link className="submit-btn square-btn" to="/polls/new">
+        Create Poll
+      </Link>
+    );
   } else {
     buttonDisplay = (
       <Link
+        className="submit-btn square-btn "
         to={{
           pathname: "/session/new",
           state: { source: "/polls/new" },
@@ -21,7 +26,5 @@ export default function PollCreateLink() {
     );
   }
 
-  return (
-    <footer className="nav-link flex-container-row">{buttonDisplay}</footer>
-  );
+  return <footer className="flex-container-row">{buttonDisplay}</footer>;
 }

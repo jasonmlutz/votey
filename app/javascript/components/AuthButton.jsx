@@ -37,13 +37,13 @@ export default function AuthButton({ displayLogout }) {
         pathname: "/session/new",
         state: { source: "/" },
       }}
-      className="nav-link"
+      className="submit-btn square-btn"
     >
       Log In
     </Link>
   );
   const logoutLink = (
-    <a onClick={handleLogoutClick} className="nav-link">
+    <a onClick={handleLogoutClick} className="submit-btn square-btn">
       Log Out
     </a>
   );

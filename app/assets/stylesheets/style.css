@@ -252,18 +252,10 @@ th {
   padding: 10px;
 }
 
-.nav-link {
-  margin: 20px;
-}
-
-.nav-link a {
-  background-color: var(--red);
-  border: 2px solid var(--black);
+.square-btn {
   text-align: center;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  margin: 10px;
+  margin: 5px;
+  border-radius: 0px;
 }
 
 /* INPUTS */
