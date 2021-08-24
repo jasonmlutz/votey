@@ -31,13 +31,18 @@ export default function QuestionDisplay({ question, response_options }) {
       />
     );
   } else {
-    var responseOptionsInfoMessage = "No response options to display!";
+    var responseOptionsInfoMessage = "No response options to display";
     responseOptionsInfoMessage += isRequired
-      ? " This question is required! If you are the author of this poll, "
-      : null;
+      ? ", but his question is required!"
+      : "!";
     const updatePollPath =
       "/polls/" + question.parent_poll_id + "/questions/new";
-    const updatePollLink = <Link to={updatePollPath}>please update it!</Link>;
+    const updatePollLink = (
+      <div>
+        {" If you are the author of this poll, "}
+        <Link to={updatePollPath}>please update it!</Link>
+      </div>
+    );
     responseOptionsInfo = (
       <div>
         {responseOptionsInfoMessage}
