@@ -36,13 +36,16 @@ export default function UserDisplay({ user_id }) {
   });
 
   if (Object.keys(data.catalog).length) {
+    const username = data.catalog.USER.username;
+    const polls = data.catalog.POLLS;
+    const responses = data.catalog.RESPONSE_DATA;
     return (
       <div className="user-display">
-        <UserHeader username={data.catalog.USER.username} />
-        <Activities
-          polls={data.catalog.POLLS}
-          responses={data.catalog.RESPONSE_DATA}
-        />
+        <div className="user-header">All about {username}!</div>
+        <div className="activities-container">
+          <ActivityContainer type="polls" data={polls} />
+          <ActivityContainer type="responses" data={responses} />
+        </div>
         {userIndexDisplay}
       </div>
     );
@@ -63,43 +66,25 @@ export default function UserDisplay({ user_id }) {
   }
 }
 
-function UserHeader({ username }) {
-  return <div className="user-header">All about {username}!</div>;
-}
-
-function Activities({ polls, responses }) {
-  return (
-    <>
-      <ActivityContainer type="polls" data={polls} />
-      <ActivityContainer type="responses" data={responses} />
-    </>
-  );
-}
-
 function ActivityContainer({ type, data }) {
-  return (
-    <div className="activity-container">
-      <ActivityHeader type={type} />
-      <ActivityList type={type} data={data} />
-    </div>
-  );
-}
-
-function ActivityHeader({ type }) {
   const message = type == "polls" ? "Polls Authored" : "Responses Submitted";
-  return <div className="activity-header">{message}</div>;
-}
 
-function ActivityList({ type, data }) {
   const activityListItems = data.map((item, index) => (
     <ActivityListItem key={index} item={item} type={type} />
   ));
 
+  var activityList;
   if (activityListItems.length) {
-    return <ol className="activity-list">{activityListItems}</ol>;
+    activityList = <ol className="activity-list">{activityListItems}</ol>;
   } else {
-    return <h2>none!</h2>;
+    activityList = <h2>none!</h2>;
   }
+  return (
+    <div className="activity-container">
+      <div className="activity-header">{message}</div>
+      {activityList}
+    </div>
+  );
 }
 
 function ActivityListItem({ item, type }) {
