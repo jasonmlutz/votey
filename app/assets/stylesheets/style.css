@@ -228,16 +228,6 @@ th {
 }
 
 /* BUTTONS */
-
-.small-btn {
-  background-color: white;
-  border: 2px solid var(--black);
-  text-align: center;
-  cursor: pointer;
-  padding: 2px;
-  margin: 2px 10px;
-}
-
 .submit-btn {
   background-color: var(--red);
   border: 2px solid var(--black);
@@ -246,6 +236,11 @@ th {
   padding: 10px;
   cursor: pointer;
   border-radius: 8px;
+}
+
+.small-btn {
+  padding: 2px;
+  margin: 2px 10px;
 }
 
 .submit-btn:hover {

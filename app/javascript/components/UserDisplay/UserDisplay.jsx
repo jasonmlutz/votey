@@ -42,7 +42,7 @@ export default function UserDisplay({ user_id }) {
     return (
       <div className="user-display">
         <div className="user-header">All about {username}!</div>
-        <div className="activities-container">
+        <div className="activities-container flex-container-row">
           <ActivityContainer type="polls" data={polls} />
           <ActivityContainer type="responses" data={responses} />
         </div>

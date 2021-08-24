@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
 
 export default function RespondentDisplay({ responseID, respondents }) {
   const [value, setValue] = useState(String(responseID));
@@ -21,14 +20,14 @@ export default function RespondentDisplay({ responseID, respondents }) {
     setValue(value);
   }
 
-  function handleClick(e) {
+  function handleClick() {
     setRedirect(true);
   }
 
   var responseNavigatorButton = null;
   if (value !== responseID) {
     responseNavigatorButton = (
-      <button className="small-btn" onClick={handleClick}>
+      <button className="submit-btn small-btn" onClick={handleClick}>
         GO
       </button>
     );
