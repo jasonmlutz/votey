@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 import PollFieldInput from "./PollFieldInput";
@@ -6,11 +6,9 @@ import Modal from "../Modals/Modal";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-export default function PollNew(props) {
-  // props: empty
+export default function PollNew() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [author_id, setAuthorID] = useState("");
   const [pollSubmitted, setPollSubmitStatus] = useState(false);
   const [poll_id, setPollID] = useState(null);
 
@@ -22,7 +20,8 @@ export default function PollNew(props) {
   function onFormSubmit(e) {
     e.preventDefault();
 
-    setAuthorID(currentUser && currentUser.username ? currentUser.id : null);
+    const author_id =
+      currentUser && currentUser.username ? currentUser.id : null;
 
     if (title && author_id) {
       const values = {
