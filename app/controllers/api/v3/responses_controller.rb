@@ -14,6 +14,7 @@ class Api::V3::ResponsesController < ApplicationController
   private
     def build_catalog(response)
       catalog = {}
+      catalog[:RESPONSE] = response
       catalog[:RESPONDENT] = response.respondent.protect
       catalog[:ANSWERS] = {}
       response.answers.each do |answer|

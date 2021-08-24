@@ -51,6 +51,7 @@ export default function ResponseDisplay({ response_id }) {
         <QuestionsContainer
           questions={data.catalog.QUESTIONS}
           response_options={data.catalog.RESPONSE_OPTIONS}
+          parent_poll_id={data.catalog.RESPONSE.poll_id}
         />
         {deleteResponse}
       </div>
