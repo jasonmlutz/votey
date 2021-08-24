@@ -183,11 +183,17 @@ a {
   color: var(--black);
 }
 
-/* PLACEHOLDER INPUT TEXT */
+/* PLACEHOLDER & INPUT TEXT */
 
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: white;
+  opacity: 0.5; /* Firefox */
+}
+
+.input-text-dark::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--black);
   opacity: 0.5; /* Firefox */
 }
 
@@ -199,6 +205,19 @@ a {
 ::-ms-input-placeholder {
   /* Microsoft Edge */
   color: white;
+}
+
+.input-text {
+  border: 2px var(--red) solid;
+  color: white;
+}
+
+.input-text-dark {
+  color: var(--black);
+}
+
+.input-with-label {
+  margin: 0 5px;
 }
 
 /* TABLES */
@@ -256,28 +275,6 @@ th {
   text-align: center;
   margin: 5px;
   border-radius: 0px;
-}
-
-/* INPUTS */
-
-.input-text {
-  border: 2px var(--red) solid;
-  color: white;
-}
-
-.new-response-option-input {
-  color: var(--black);
-}
-
-.new-response-option-input::placeholder {
-  /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: var(--black);
-  opacity: 0.5; /* Firefox */
-}
-
-.new-response-option-input,
-.new-question-title-input {
-  margin: 0 5px;
 }
 
 /* USER AUTH */

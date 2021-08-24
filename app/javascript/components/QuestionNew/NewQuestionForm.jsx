@@ -49,7 +49,7 @@ export default function NewQuestionForm(props) {
         <label className="question-title">
           Add new question:
           <input
-            className="new-question-title-input input-text"
+            className="input-text input-with-label"
             name="title"
             type="text"
             placeholder="... enter question text ..."

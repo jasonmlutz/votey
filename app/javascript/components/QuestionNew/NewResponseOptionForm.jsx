@@ -48,7 +48,7 @@ export default function NewResponseOptionForm(props) {
         <label className="response-option">
           Add new response option:
           <input
-            className="new-response-option-input input-text"
+            className="input-text input-text-dark input-with-label"
             name="text"
             type="text"
             placeholder="... enter response option text ..."
