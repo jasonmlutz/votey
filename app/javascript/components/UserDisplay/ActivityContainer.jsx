@@ -10,13 +10,13 @@ export default function ActivityContainer({ type, data }) {
 
   var activityList;
   if (activityListItems.length) {
-    activityList = <ol className="activity-list">{activityListItems}</ol>;
+    activityList = <ol className="">{activityListItems}</ol>;
   } else {
     activityList = <h2>none!</h2>;
   }
   return (
-    <div className="activity-container">
-      <div className="activity-header">{message}</div>
+    <div className="sub-container">
+      <div className="">{message}</div>
       {activityList}
     </div>
   );

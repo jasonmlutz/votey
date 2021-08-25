@@ -41,13 +41,15 @@ export default function UserDisplay({ user_id }) {
     const polls = data.catalog.POLLS;
     const responses = data.catalog.RESPONSE_DATA;
     return (
-      <div className="user-display">
-        <div className="user-header">All about {username}!</div>
-        <div className="activities-container flex-container-row">
+      <div className="container container-wide">
+        <div className="sub-container title text-center">
+          All about {username}!
+        </div>
+        <div className="">
           <ActivityContainer type="polls" data={polls} />
           <ActivityContainer type="responses" data={responses} />
         </div>
-        {userIndexDisplay}
+        <div className="sub-container">{userIndexDisplay}</div>
       </div>
     );
   } else {
