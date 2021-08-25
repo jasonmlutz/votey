@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import ActivityContainer from "./ActivityContainer";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Users from "../UserIndex/Users";
@@ -64,39 +65,4 @@ export default function UserDisplay({ user_id }) {
       return <h2>Loading ...</h2>;
     }
   }
-}
-
-function ActivityContainer({ type, data }) {
-  const message = type == "polls" ? "Polls Authored" : "Responses Submitted";
-
-  const activityListItems = data.map((item, index) => (
-    <ActivityListItem key={index} item={item} type={type} />
-  ));
-
-  var activityList;
-  if (activityListItems.length) {
-    activityList = <ol className="activity-list">{activityListItems}</ol>;
-  } else {
-    activityList = <h2>none!</h2>;
-  }
-  return (
-    <div className="activity-container">
-      <div className="activity-header">{message}</div>
-      {activityList}
-    </div>
-  );
-}
-
-function ActivityListItem({ item, type }) {
-  // type expectations:
-  // polls -> item is a Poll object
-  // responses -> item is an array [response object, associated poll object]
-  const path =
-    type == "polls" ? `/polls/${item.id}` : `/responses/${item[0].id}`;
-  const text = type == "polls" ? `${item.title}` : `${item[1].title}`;
-  return (
-    <li>
-      <Link to={path}>{text}</Link>
-    </li>
-  );
 }
