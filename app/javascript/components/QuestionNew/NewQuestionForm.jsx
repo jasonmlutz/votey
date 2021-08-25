@@ -46,7 +46,7 @@ export default function NewQuestionForm(props) {
         onSubmit={(e) => handleFormSubmit(e)}
         className="new-question-form"
       >
-        <label className="question-title">
+        <label className="text-center">
           Add new question:
           <input
             className="input-text input-with-label"

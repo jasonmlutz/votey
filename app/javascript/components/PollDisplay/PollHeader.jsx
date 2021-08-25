@@ -10,12 +10,12 @@ export default function PollHeader({ poll, author }) {
   const path = `/users/${author_id}`;
 
   return (
-    <div className="poll-header">
-      <div className="poll-title">{title}</div>
-      <div className="poll-author">
+    <div className="sub-container text-center">
+      <div className="title">{title}</div>
+      <div className="text-emph">
         by <Link to={path}>{name}</Link>
       </div>
-      <div className="poll-description">{description}</div>
+      <div className="buffer8">{description}</div>
     </div>
   );
 }

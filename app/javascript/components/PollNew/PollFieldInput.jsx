@@ -11,7 +11,7 @@ export default function PollFieldInput({ name, passData }) {
     <label>
       {name.toUpperCase() + ": "}
       <input
-        className="poll-field-input input-text"
+        className="input-text"
         name={name}
         type="text"
         placeholder={name}

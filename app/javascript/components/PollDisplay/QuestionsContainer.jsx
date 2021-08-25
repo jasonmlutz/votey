@@ -27,7 +27,7 @@ export default function QuestionsContainer({
   );
 
   if (questions.length) {
-    return <ul className="questions-container">{questionDisplayListItems}</ul>;
+    return <ul className="">{questionDisplayListItems}</ul>;
   } else {
     return noQuestionsMessage;
   }

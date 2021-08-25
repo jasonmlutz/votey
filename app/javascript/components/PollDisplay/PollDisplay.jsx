@@ -52,12 +52,12 @@ export default function PollDisplay({ pollID }) {
         <>
           <Modal {...modalProps} />
           <form
-            className="poll-display"
+            className="container container-wide"
             id="main-poll-form"
             onSubmit={handleSubmit}
           >
             <PollHeader poll={data.catalog.POLL} author={data.catalog.AUTHOR} />
-            <div className="respondent-display">{setRespondentDisplay()}</div>
+            <div className="text-light">{setRespondentDisplay()}</div>
             <QuestionsContainer
               questions={data.catalog.QUESTIONS}
               responseOptions={data.catalog.RESPONSE_OPTIONS}
@@ -124,7 +124,7 @@ export default function PollDisplay({ pollID }) {
     } else {
       footerDisplay = (
         <div>
-          <div className="footer-display">Login required to submit form!</div>
+          <div className="text-light">Login required to submit form!</div>
           <Link
             to={{
               pathname: "/session/new",

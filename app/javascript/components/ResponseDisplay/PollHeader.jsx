@@ -10,14 +10,14 @@ export default function PollHeader({ poll, author }) {
   const author_id = author.id;
 
   return (
-    <div className="poll-header">
-      <div className="poll-title">
+    <div className="sub-container text-center">
+      <div className="title">
         <Link to={"/polls/" + poll_id}>{title}</Link>
       </div>
-      <div className="poll-author">
+      <div className="text-emph">
         by <Link to={"/users/" + author_id}>{author_username}</Link>
       </div>
-      <div className="poll-description">{description}</div>
+      <div className="buffer8">{description}</div>
     </div>
   );
 }

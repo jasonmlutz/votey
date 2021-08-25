@@ -8,7 +8,7 @@ export default function SiblingQuestionContainer(props) {
 
   const title = question.title;
   return (
-    <li className="question-display-li">
+    <li className="sub-container">
       <div className="question-title">{question.title}</div>
       <ResponseOptionsContainer
         responseOptions={responseOptions}

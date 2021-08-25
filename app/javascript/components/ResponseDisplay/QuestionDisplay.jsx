@@ -52,8 +52,8 @@ export default function QuestionDisplay({ question, response_options }) {
   }
 
   return (
-    <li className="question-display-li">
-      <div className="question-title">{displayTitle}</div>
+    <li className="sub-container">
+      <div className="text-center">{displayTitle}</div>
       {responseOptionsInfo}
     </li>
   );

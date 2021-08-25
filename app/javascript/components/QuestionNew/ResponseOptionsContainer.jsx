@@ -12,7 +12,7 @@ export default function ResponseOptionsContainer(props) {
   ));
 
   return (
-    <div className="response-options-container">
+    <div className="text-left buffer8">
       <ol>{responseOptionsList}</ol>
       <NewResponseOptionForm parentQuestionID={parentQuestionID} />
     </div>

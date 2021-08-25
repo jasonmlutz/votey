@@ -16,7 +16,7 @@ export default function ResponseOptionDisplay({ responseOption }) {
   }
 
   return (
-    <label>
+    <label className="buffer2 display-block">
       <input
         type="radio"
         className="response-option select-option"

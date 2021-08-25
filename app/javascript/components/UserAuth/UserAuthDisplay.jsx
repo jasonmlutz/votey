@@ -13,12 +13,13 @@ export default function UserAuthDisplay({ auth_type }) {
   const welcomeMessage = auth_type == "login" ? "Welcome back!" : "Register!";
 
   return (
-    <div className="auth-display flex-container-column">
-      <div className="auth-display-title">{welcomeMessage}</div>
+    <div className="container container-narrow flex-container-column">
+      <div className="title text-light">{welcomeMessage}</div>
       <AuthInputForm auth_type={auth_type} source={source} />
-      <div className="redirect-footer flex-container-row">
-        <div>{redirectMessage}</div>
+      <div className="text-light flex-container-row">
+        <div className="buffer4">{redirectMessage}</div>
         <Link
+          className="buffer4"
           to={{
             pathname: redirectPath,
             state: { source: source },

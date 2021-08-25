@@ -42,7 +42,7 @@ export default function ResponseDisplay({ response_id }) {
 
   if (Object.keys(data.catalog).length) {
     return (
-      <div className="response-display">
+      <div className="container container-wide">
         <PollHeader poll={data.catalog.POLL} author={data.catalog.AUTHOR} />
         <RespondentDisplay
           responseID={response_id}

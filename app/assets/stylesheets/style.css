@@ -90,10 +90,6 @@ input[type="submit"] {
 }
 
 /* LAYOUT */
-.current-user-display {
-  color: var(--black);
-  margin: 5px;
-}
 
 body {
   background-color: var(--light);
@@ -114,10 +110,8 @@ body {
   justify-content: center;
 }
 
-a {
-  cursor: pointer;
-  text-decoration: underline;
-  color: blue;
+.flex-space-between {
+  justify-content: space-between;
 }
 
 /* MODAL */
@@ -156,33 +150,6 @@ a {
   height: 100px;
   width: 100px;
 }
-
-/* HEADER */
-.main-nav {
-  justify-content: space-between;
-}
-.left-nav-links div {
-  height: 100px;
-  margin: 0 5px;
-}
-
-.right-nav a.nav-link,
-.left-nav-links a.nav-link {
-  background-color: var(--red);
-  border: 2px solid var(--black);
-  text-align: center;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  margin: 2px;
-}
-
-.right-nav a.nav-link:hover,
-.left-nav-links a.nav-link:hover {
-  background-color: var(--yellow);
-  color: var(--black);
-}
-
 /* PLACEHOLDER & INPUT TEXT */
 
 ::placeholder {
@@ -210,6 +177,8 @@ a {
 .input-text {
   border: 2px var(--red) solid;
   color: white;
+  padding: 5px;
+  margin: 5px;
 }
 
 .input-text-dark {
@@ -218,6 +187,11 @@ a {
 
 .input-with-label {
   margin: 0 5px;
+}
+
+input[type="radio"] {
+  display: inline;
+  margin: 2px;
 }
 
 /* TABLES */
@@ -246,7 +220,13 @@ th {
   margin: 10px;
 }
 
-/* BUTTONS */
+/* LINKS & BUTTONS */
+a {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
 .submit-btn {
   background-color: var(--red);
   border: 2px solid var(--black);
@@ -277,140 +257,78 @@ th {
   border-radius: 0px;
 }
 
-/* USER AUTH */
-.auth-display,
-.new-poll-display {
+/* CONTAINERS */
+.container {
   border: none;
   border-radius: 8px;
-  width: 275px;
   margin: 20px auto;
   background-color: var(--gray);
+  padding: 10px;
+  color: var(--white);
 }
 
-.auth-display > *,
-.new-poll-display > * {
+.container-narrow {
+  width: 275px;
+}
+
+.container-wide {
+  width: 70%;
+}
+
+.sub-container {
+  background-color: var(--light);
+  color: var(--black);
+  border-radius: 4px;
   padding: 5px;
   margin: 5px;
 }
 
-.auth-input-form > *,
-.new-poll-form > * {
-  padding: 5px;
-  margin: 5px;
+/* BUFFERS MARGINS PADDING */
+
+.buffer8 {
+  margin: 8px;
+  padding: 8px;
 }
 
-.auth-display-title,
-.new-poll-title {
+.buffer4 {
+  margin: 4px;
+  padding: 4px;
+}
+
+.buffer2 {
+  margin: 2px;
+  padding: 2px;
+}
+
+/* FONTS AND COLORS */
+
+.title {
   border: none;
-  color: white;
   font-size: 24px;
 }
 
-/* @media all and (max-width: 400) {
- [class*='auth-'] {
-   width: 100%;
- }
-} */
-
-/* POLL DISPLAY */
-/* RESPONSE DISPLAY */
-
-.poll-display,
-.response-display {
-  border: none;
-  border-radius: 8px;
-  width: 70%;
-  margin: 20px auto;
-  background-color: var(--gray);
-  color: var(--white);
-  padding: 10px;
+.text-center {
+  text-align: center;
 }
 
-.poll-display > *,
-.response-display > * {
-  /* padding: 5px; */
-  margin: 5px;
+.text-light {
+  color: white;
 }
 
-.response-options-container {
-  margin: 8px;
-  padding: 8px;
+.text-left {
   text-align: left;
 }
+
+.text-emph {
+  font-style: italic;
+}
+
+/* LISTS */
 
 .ol-lower-alpha {
   list-style-type: lower-alpha;
 }
 
-.response-option-li {
-  margin: 4px 0;
-  padding: 2px;
-}
-
-.response-option-li:hover {
-  background-color: var(--gray);
-  color: var(--yellow);
-}
-
-.poll-header,
-.question-display-li {
-  background-color: var(--light);
-  color: var(--black);
-  border-radius: 4px;
-}
-
-.question-title,
-label.response-option {
-  margin: 8px;
-  padding: 8px;
-}
-
-.question-display-li {
-  text-align: center;
-  /* margin: 10px 0; */
-}
-
-.poll-header {
-  text-align: center;
-  padding: 5px 0;
-}
-
-.poll-title {
-  border: none;
-  font-size: 24px;
-}
-
-.poll-author {
-  font-style: italic;
-}
-
-.poll-description {
-  margin: 8px;
-}
-
-.radio-container input[type="radio"] {
-  display: inline;
-  margin: 2px;
-}
-
-.radio-container label {
-  display: block;
-  padding: 2px;
-}
-
 li.selected {
   border: 2px solid green;
-}
-
-.redirect-footer > * {
-  margin: 4px;
-}
-
-#user-message {
-  color: var(--black);
-}
-
-.respondent-display,
-.footer-display {
-  color: white;
 }

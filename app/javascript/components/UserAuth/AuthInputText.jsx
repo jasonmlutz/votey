@@ -14,7 +14,7 @@ export default function AuthInputText({ name, onInputChange }) {
   const placeholder = name;
   return (
     <input
-      className="auth-input-text input-text"
+      className="input-text"
       name={name}
       type={type}
       placeholder={placeholder}

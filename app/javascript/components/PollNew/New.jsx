@@ -70,12 +70,12 @@ export default function PollNew() {
           message="Login required to create form."
           source="/polls/new"
         />
-        <div className="new-poll-display flex-container-column">
-          <div className="new-poll-title">New Poll!</div>
+        <div className="container container-wide flex-container-column">
+          <div className="title text-light">New Poll!</div>
           <form
             id="new-poll-form"
             onSubmit={(e) => onFormSubmit(e)}
-            className="new-poll-form flex-container-column"
+            className="flex-container-column"
           >
             <PollFieldInput name="title" passData={setTitle} />
             <PollFieldInput name="description" passData={setDescription} />

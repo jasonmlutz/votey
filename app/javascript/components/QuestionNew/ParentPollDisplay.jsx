@@ -65,9 +65,9 @@ export default function ParentPollDisplay({ pollID }) {
           message="You must be logged in as the author of this form to make changes."
           source={`/polls/${pollID}/questions/new`}
         />
-        <div className="parent-poll-display poll-display">
+        <div className="parent-poll-display container container-wide">
           <ParentPollHeader {...headerProps} />
-          <ul className="questions-container">{siblingQuestions}</ul>
+          <ul className="">{siblingQuestions}</ul>
           <NewQuestionForm parentPollID={pollID} />
         </div>
       </div>

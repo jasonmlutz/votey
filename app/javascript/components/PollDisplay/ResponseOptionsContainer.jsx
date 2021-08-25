@@ -8,9 +8,5 @@ export default function ResponseOptionsContainer({ responseOptions }) {
     )
   );
 
-  return (
-    <div className="response-options-container radio-container">
-      {responseOptionListItems}
-    </div>
-  );
+  return <div className="text-left buffer8">{responseOptionListItems}</div>;
 }

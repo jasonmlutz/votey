@@ -14,7 +14,7 @@ export default function ResponseOptionsContainer({
   );
 
   return (
-    <ol className="response-options-container ol-lower-alpha">
+    <ol className="text-left buffer8 ol-lower-alpha">
       {responseOptionListItems}
     </ol>
   );
