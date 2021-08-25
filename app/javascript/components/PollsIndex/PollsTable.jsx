@@ -30,17 +30,21 @@ export default function PollsTable({ keys }) {
 
   if (data.catalog.length) {
     return (
-      <table className="polls-table">
-        <thead>
-          <tr>
-            <th colSpan={keys.length}>POLLS TABLE</th>
-          </tr>
-          <tr>{tableHeader}</tr>
-        </thead>
-        <tbody>
-          <TableRows keys={keys} data={data.catalog} />
-        </tbody>
-      </table>
+      <div className="container container wide">
+        <div className="sub-container">
+          <div className="title text-center buffer8">Polls Table</div>
+        </div>
+        <div className="sub-container flex-container-row">
+          <table className="buffer8">
+            <thead>
+              <tr>{tableHeader}</tr>
+            </thead>
+            <tbody>
+              <TableRows keys={keys} data={data.catalog} />
+            </tbody>
+          </table>
+        </div>
+      </div>
     );
   } else {
     if (data.mounted) {
