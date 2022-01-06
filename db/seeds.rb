@@ -128,40 +128,4 @@ ApplicationRecord.transaction do
     question_id: 4,
     response_option_id: 12
   )
-  Poll.create(
-    author_id: 1,
-    title: "Required question test poll",
-    description: "Testing the `required` question flag; see issue 22"
-  ) # id: 3
-  Question.create(
-    parent_poll_id: 3,
-    title: "This question is required. Correct?",
-    required: 't'
-  ) # id: 5
-  ResponseOption.create(
-    parent_question_id: 5,
-    text: "it is indeed required."
-  )
-  ResponseOption.create(
-    parent_question_id: 5,
-    text: "it is NOT required"
-  )
-  Question.create(
-    parent_poll_id: 3,
-    title: "This question NOT is required. Correct?",
-    required: 'f'
-  ) #id: 6
-  ResponseOption.create(
-    parent_question_id: 6,
-    text: "not required. that's right!"
-  )
-  ResponseOption.create(
-    parent_question_id: 6,
-    text: "i think it is in fact required"
-  )
-
-  User.create(username: 'kim', password: 'password', admin: 'f')
-  User.create(username: 'kaylee', password: 'password', admin: 'f')
-  User.create(username: 'logan', password: 'password', admin: 'f')
-  User.create(username: 'dudley', password: 'password', admin: 'f')
 end
